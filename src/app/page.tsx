@@ -32,7 +32,7 @@ const page = () => {
         </div>
       </Card>
       <div className="w-full sm:w-1/2 lg:w-1/2 h-screen">
-        <div className="flex items-center justify-center text-center text-3xl font-bold ">
+        <div className="flex items-center justify-center text-center text-3xl font-bold mb-5">
           <div className="mr-1">
             <Image
               className="mx-auto"
@@ -60,8 +60,12 @@ const page = () => {
                 <Input id="email" placeholder="Enter your email" />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email">Password*</Label>
-                <Input id="email" placeholder="Enter your email" />
+                <Label htmlFor="password">Password*</Label>
+                <Input
+                  id="password"
+                  placeholder="Enter your password"
+                  type="password"
+                />
                 <span className="text-sm text-muted-foreground">
                   Must be at least 8 characters.
                 </span>
@@ -69,9 +73,12 @@ const page = () => {
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
-            <Button className="w-full block mb-3">Mark all as read</Button>
+            <Button className="w-full block mb-3">Get started</Button>
             <Button className="w-full mb-8" variant="outline">
-              <FcGoogle style={{ width: "25px", height: "50px" }} />
+              <FcGoogle
+                className="inline mr-2"
+                style={{ width: "25px", height: "50px" }}
+              />
               Sign up with Google
             </Button>
 
@@ -84,9 +91,9 @@ const page = () => {
           </CardFooter>
         </Card>
 
-        <div className="w-full sm:w-1/2 lg:w-1/2 flex flex-col mt-8 mx-auto">
+        <div className="w-full flex flex-col mt-2">
           <div className="flex justify-between  w-full">
-            <p className="text-sm">© 2024 Zorpvideo</p>
+            <p className="text-sm lg:mx-8">© 2024 Zorpvideo</p>
             <div className="flex items-end justify-end text-sm space-x-1 text-blue-800">
               <Link href={"/"}>Term & Condition</Link>
               <span className="text-bold text-white">|</span>
