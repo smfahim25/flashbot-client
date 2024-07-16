@@ -2,13 +2,10 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FiPlus } from "react-icons/fi";
-import { IoIosPeople } from "react-icons/io";
 import { TfiImport } from "react-icons/tfi";
-import { LuFilter } from "react-icons/lu";
-import { PiExport } from "react-icons/pi";
-import { IoSearchOutline } from "react-icons/io5";
-import { EmployeeTable } from "@/components/employee-table";
 import { columns } from "../columns/columns";
+import { Card } from "@/components/ui/card";
+import { EmployeeTable } from "@/components/executors-table";
 interface Executor {
   id: number;
   first_name: string;
@@ -94,8 +91,8 @@ export default function page() {
     },
   ];
   return (
-    <div className="h-full">
-      <div className="flex-1 space-y-4 bg-gray-50  p-4 pt-6 md:p-8">
+    <ScrollArea className="h-full">
+      <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
         <div className="flex justify-between items-center">
           <div>
             <h6 className="font-semibold text-2xl leading-10">Executors</h6>
@@ -103,14 +100,14 @@ export default function page() {
           </div>
           <div className="">
             <Button
-              className="mr-4 text-[16px] bg-[#FFE6FC] text-pink-500
+              className="mr-4 text-[16px] bg-[#FFE6FC] hover:bg-[#f4c4ef] text-pink-500
 "
             >
               {" "}
               <span className="px-2">
                 <TfiImport size={18} />
               </span>
-              Add Executors
+              Import Executors
             </Button>
             <Button className="text-[16px]">
               <span className="px-2">
@@ -121,58 +118,19 @@ export default function page() {
           </div>
         </div>
 
-        <div className="bg-white w-full rounded-xl p-4 mt-5">
-          <div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center ">
-                <span className="bg-pink-500 text-white p-2 rounded-lg mr-2">
-                  <IoIosPeople size={18} />
-                </span>
-                All Executors
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center border-2 p-2 rounded-sm ">
-                  <span className="mr-2">
-                    <IoSearchOutline size={18} />
-                  </span>
-                  <input
-                    type="text"
-                    name="search"
-                    id="search"
-                    className="focus:outline-none"
-                    placeholder="Search anything here"
-                  />
-                </div>
-                <div className="flex items-center border-2 p-2 rounded-sm">
-                  <span>
-                    <LuFilter />
-                  </span>
-                  Filter
-                </div>
-                <div>
-                  <Button variant={"secondary"}>
-                    {" "}
-                    <span className="px-2">
-                      <PiExport size={18} />
-                    </span>
-                    Add Executors
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <EmployeeTable
-                searchKey="country"
-                pageNo={page}
-                columns={columns}
-                totalUsers={totalUsers}
-                data={employee}
-                pageCount={pageCount}
-              />
-            </div>
-          </div>
+        <div className=" w-full rounded-xl p-4 mt-5">
+          <Card className="mt-4 border-none">
+            <EmployeeTable
+              searchKey="country"
+              pageNo={page}
+              columns={columns}
+              totalUsers={totalUsers}
+              data={employee}
+              pageCount={pageCount}
+            />
+          </Card>
         </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 }

@@ -8,9 +8,8 @@ import {
 import { BsDot } from "react-icons/bs";
 
 export function Notification() {
-  
   return (
-    <Accordion type="single"  className="space-y-8">
+    <Accordion collapsible type="single" className="space-y-8">
       <AccordionItem value="1" className="border-b-2 py-4">
         <AccordionTrigger className="flex items-center w-full ">
           <Avatar className="h-9 w-9">
@@ -24,13 +23,15 @@ export function Notification() {
             <p className="text-sm text-muted-foreground">
               Yesterday at 11:42 PM
             </p>
-          </div> 
+          </div>
           <div className="ml-auto font-medium text-3xl">
             <BsDot />
           </div>
         </AccordionTrigger>
         <AccordionContent className="p-4">
-         Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, nobis. Sapiente similique eum ratione culpa, temporibus repellat facere illum sunt!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore,
+          nobis. Sapiente similique eum ratione culpa, temporibus repellat
+          facere illum sunt!
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="2" className="border-b-2 py-4">
@@ -46,13 +47,15 @@ export function Notification() {
             <p className="text-sm text-muted-foreground">
               Yesterday at 11:42 PM
             </p>
-          </div> 
+          </div>
           <div className="ml-auto font-medium text-3xl">
             <BsDot />
           </div>
         </AccordionTrigger>
         <AccordionContent className="p-4">
-         Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, nobis. Sapiente similique eum ratione culpa, temporibus repellat facere illum sunt!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore,
+          nobis. Sapiente similique eum ratione culpa, temporibus repellat
+          facere illum sunt!
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="3" className="border-b-2 py-4">
@@ -68,19 +71,17 @@ export function Notification() {
             <p className="text-sm text-muted-foreground">
               Yesterday at 11:42 PM
             </p>
-          </div> 
+          </div>
           <div className="ml-auto font-medium text-3xl">
             <BsDot />
           </div>
         </AccordionTrigger>
         <AccordionContent className="p-4">
-         Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, nobis. Sapiente similique eum ratione culpa, temporibus repellat facere illum sunt!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore,
+          nobis. Sapiente similique eum ratione culpa, temporibus repellat
+          facere illum sunt!
         </AccordionContent>
       </AccordionItem>
-     
-  
     </Accordion>
   );
 }
-
-
