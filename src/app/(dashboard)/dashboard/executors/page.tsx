@@ -10,6 +10,7 @@ interface Executor {
   id: number;
   first_name: string;
   last_name: string;
+  name:string;
   email: string;
   phone: string;
   gender: string;
@@ -47,6 +48,7 @@ export default function page() {
       city: "Springfield",
       state: "IL",
       country: "USA",
+      name:"",
       zipcode: "62701",
       longitude: -89.65,
       latitude: 39.7817,
@@ -56,6 +58,7 @@ export default function page() {
     {
       id: 2,
       first_name: "Jane",
+      name:"",
       last_name: "Smith",
       email: "jane.smith@example.com",
       phone: "+1-202-555-0145",
@@ -78,6 +81,7 @@ export default function page() {
       email: "alice.johnson@example.com",
       phone: "+1-202-555-0198",
       gender: "Female",
+      name:"",
       date_of_birth: "1990-01-05",
       street: "789 Pine St",
       city: "Columbus",

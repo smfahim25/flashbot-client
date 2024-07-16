@@ -7,7 +7,10 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { LuSettings2 } from "react-icons/lu";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -15,8 +18,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "./ui/button";
+} from "./ui/table";
+import {
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+} from "@radix-ui/react-icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -24,16 +31,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
-import { Input } from "./ui/input";
-import { LuSettings2 } from "react-icons/lu";
-import { PiExport } from "react-icons/pi";
-import { IoIosPeople } from "react-icons/io";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,8 +44,7 @@ interface DataTableProps<TData, TValue> {
     [key: string]: string | string[] | undefined;
   };
 }
-
-export function EmployeeTable<TData, TValue>({
+export function DashboardTable<TData, TValue>({
   columns,
   data,
   searchKey,
@@ -66,43 +62,22 @@ export function EmployeeTable<TData, TValue>({
     manualFiltering: true,
   });
 
-  // Handle server-side pagination
-
   return (
     <>
-      <div  className="flex items-center justify-between mb-3">
-        <div className="flex items-center ">
-          <span className="bg-pink-500 text-white p-2 rounded-lg mr-2">
-            <IoIosPeople size={18} />
-          </span>
-          All Executors
-        </div>
-        <div className="flex">
-          <Input
-            placeholder={`Search ${searchKey}...`}
-            value={
-              (table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn(searchKey)?.setFilterValue(event.target.value)
-            }
-            className="w-full md:max-w-sm mb-2 mr-6"
-          />
-          <Button variant={"ghost"} className="border-2">
-            <LuSettings2 className="mr-2" />
-            Filter
-          </Button>
-          <div>
-            <Button variant={"secondary"} className="ml-4">
-              <span className="px-2">
-                <PiExport size={18} />
-              </span>
-              Add Executors
-            </Button>
-          </div>
-        </div>
+      <div className="flex">
+        <Input
+          placeholder={`Search ${searchKey}...`}
+          value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn(searchKey)?.setFilterValue(event.target.value)
+          }
+          className="w-full md:max-w-sm mb-2 mr-6"
+        />
+        <Button variant={"ghost"}>
+          <LuSettings2 className="mr-2" />
+          Filter
+        </Button>
       </div>
-
       <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
         <Table className="relative">
           <TableHeader>
@@ -154,7 +129,6 @@ export function EmployeeTable<TData, TValue>({
         </Table>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-
       <div className="flex flex-col items-center justify-end gap-2 space-x-2 py-4 sm:flex-row">
         <div className="flex w-full items-center justify-between">
           <div className="flex-1 text-sm text-muted-foreground">
