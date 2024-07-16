@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Toggle } from "@/components/ui/toggle"; // Adjust the import path based on your project structure
 import { useTheme } from "next-themes";
 
@@ -7,10 +8,19 @@ type CompProps = {};
 
 export default function ThemeToggle({}: CompProps) {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggleChange = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
+
+  if (!mounted) {
+    return null; // Render nothing until mounted on the client
+  }
 
   return (
     <div className="flex items-center justify-between space-x-2 p-4 lg:mt-20">
@@ -31,4 +41,3 @@ export default function ThemeToggle({}: CompProps) {
     </div>
   );
 }
-

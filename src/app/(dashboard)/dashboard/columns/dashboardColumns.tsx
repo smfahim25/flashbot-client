@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Employee, } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<Employee>[] = [
+export const dashboardColumns: ColumnDef<Employee>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -32,10 +32,10 @@ export const columns: ColumnDef<Employee>[] = [
     accessorKey: 'country',
     header: 'COUNTRY'
   },
-  {
-    accessorKey: 'email',
-    header: 'EMAIL'
-  },
+//   {
+//     accessorKey: 'email',
+//     header: 'EMAIL'
+//   },
   {
     accessorKey: 'job',
     header: 'COMPANY'
@@ -44,10 +44,7 @@ export const columns: ColumnDef<Employee>[] = [
     accessorKey: 'gender',
     header: 'GENDER'
   },
-  {
-    id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />
-  }
+ 
  
 ];
 

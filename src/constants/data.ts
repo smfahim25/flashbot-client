@@ -2,7 +2,7 @@ import { NavItem } from '@/types';
 
 export type User = {
   id: number;
-  name: string;
+  first_name: string;
   company: string;
   role: string;
   verified: boolean;
@@ -11,7 +11,7 @@ export type User = {
 export const users: User[] = [
   {
     id: 1,
-    name: 'Candice Schiner',
+    first_name: 'Candice Schiner',
     company: 'Dell',
     role: 'Frontend Developer',
     verified: false,
@@ -19,7 +19,7 @@ export const users: User[] = [
   },
   {
     id: 2,
-    name: 'John Doe',
+    first_name: 'John Doe',
     company: 'TechCorp',
     role: 'Backend Developer',
     verified: true,
@@ -27,7 +27,7 @@ export const users: User[] = [
   },
   {
     id: 3,
-    name: 'Alice Johnson',
+    first_name: 'Alice Johnson',
     company: 'WebTech',
     role: 'UI Designer',
     verified: true,
@@ -35,7 +35,7 @@ export const users: User[] = [
   },
   {
     id: 4,
-    name: 'David Smith',
+    first_name: 'David Smith',
     company: 'Innovate Inc.',
     role: 'Fullstack Developer',
     verified: false,
@@ -43,7 +43,7 @@ export const users: User[] = [
   },
   {
     id: 5,
-    name: 'Emma Wilson',
+    first_name: 'Emma Wilson',
     company: 'TechGuru',
     role: 'Product Manager',
     verified: true,
@@ -51,7 +51,7 @@ export const users: User[] = [
   },
   {
     id: 6,
-    name: 'James Brown',
+    first_name: 'James Brown',
     company: 'CodeGenius',
     role: 'QA Engineer',
     verified: false,
@@ -59,7 +59,7 @@ export const users: User[] = [
   },
   {
     id: 7,
-    name: 'Laura White',
+    first_name: 'Laura White',
     company: 'SoftWorks',
     role: 'UX Designer',
     verified: true,
@@ -67,7 +67,7 @@ export const users: User[] = [
   },
   {
     id: 8,
-    name: 'Michael Lee',
+    first_name: 'Michael Lee',
     company: 'DevCraft',
     role: 'DevOps Engineer',
     verified: false,
@@ -75,7 +75,7 @@ export const users: User[] = [
   },
   {
     id: 9,
-    name: 'Olivia Green',
+    first_name: 'Olivia Green',
     company: 'WebSolutions',
     role: 'Frontend Developer',
     verified: true,
@@ -83,7 +83,7 @@ export const users: User[] = [
   },
   {
     id: 10,
-    name: 'Robert Taylor',
+    first_name: 'Robert Taylor',
     company: 'DataTech',
     role: 'Data Analyst',
     verified: false,
