@@ -32,10 +32,10 @@ export const Modal: React.FC<ModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogTitle className='text-2xl'>{title}</DialogTitle>
+          <DialogDescription className='mt-4'>{description}</DialogDescription>
         </DialogHeader>
-        <div>{children}</div>
+        <div className='mt-4'>{children}</div>
       </DialogContent>
     </Dialog>
   );

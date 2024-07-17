@@ -97,7 +97,7 @@ export function EmployeeTable<TData, TValue>({
               <span className="px-2">
                 <PiExport size={18} />
               </span>
-              Add Executors
+              Export Executors
             </Button>
           </div>
         </div>
