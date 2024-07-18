@@ -16,28 +16,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { LuSettings2 } from "react-icons/lu";
 import { PiExport } from "react-icons/pi";
 import { IoIosPeople } from "react-icons/io";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useState } from "react";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps<Executor, TValue> {
+  columns: ColumnDef<Executor, TValue>[];
+  data: Executor[];
   searchKey: string;
   pageNo: number;
   totalUsers: number;
@@ -48,13 +56,18 @@ interface DataTableProps<TData, TValue> {
   };
 }
 
-export function EmployeeTable<TData, TValue>({
+const jakarta = Plus_Jakarta_Sans({
+  weight: "600",
+  subsets: ["vietnamese"],
+});
+
+export function EmployeeTable<Executor, TValue>({
   columns,
   data,
   searchKey,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<Executor, TValue>) {
   const table = useReactTable({
     data,
     columns,
@@ -65,7 +78,7 @@ export function EmployeeTable<TData, TValue>({
     manualPagination: true,
     manualFiltering: true,
   });
-
+  const [show, setShow] = useState(false);
   // Handle server-side pagination
 
   return (
@@ -75,7 +88,9 @@ export function EmployeeTable<TData, TValue>({
           <span className="bg-[#FE0FE2] text-white p-2 rounded-lg mr-2">
             <IoIosPeople size={18} />
           </span>
-          All Executors
+          <span className={`${jakarta.className} text-[14px]`}>
+            All Executors
+          </span>
         </div>
         <div className="flex">
           <Input
@@ -88,10 +103,76 @@ export function EmployeeTable<TData, TValue>({
             }
             className="w-full md:max-w-sm mb-2 mr-6"
           />
-          <Button variant={"ghost"} className="border-2">
-            <LuSettings2 className="mr-2" />
-            Filter
-          </Button>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"ghost"}
+                className="border-2"
+                onClick={() => setShow(true)}
+              >
+                <LuSettings2 className="mr-2" />
+                Filter
+              </Button>
+            </PopoverTrigger>
+            {show && (
+              <div className="absolute z-50 w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 top-28">
+                <div className="mb-5">
+                  <Select>
+                    <label>Strategy</label>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent></SelectContent>
+                  </Select>
+                </div>
+                <div className="mb-5">
+                  <Select>
+                    <label>Time Frame</label>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent></SelectContent>
+                  </Select>
+                </div>
+                <div className="mb-5">
+                  <Select>
+                    <label>Close Mode</label>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent></SelectContent>
+                  </Select>
+                </div>
+                <div className="mb-5">
+                  <Select>
+                    <label>Quantity Mode</label>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent></SelectContent>
+                  </Select>
+                </div>
+                <div className="mb-5">
+                  <Select>
+                    <label>Start Mode</label>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent></SelectContent>
+                  </Select>
+                </div>
+                <Button
+                  variant={"secondary"}
+                  className="w-full"
+                  onClick={() => setShow(false)}
+                >
+                  Apply
+                </Button>
+              </div>
+            )}
+          </Popover>
+
           <div>
             <Button variant={"secondary"} className="ml-4">
               <span className="px-2">

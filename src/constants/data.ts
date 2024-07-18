@@ -1,4 +1,4 @@
-import { NavItem } from '@/types';
+import { NavItem } from "@/types";
 
 export type User = {
   id: number;
@@ -11,84 +11,84 @@ export type User = {
 export const users: User[] = [
   {
     id: 1,
-    first_name: 'Candice Schiner',
-    company: 'Dell',
-    role: 'Frontend Developer',
+    first_name: "Candice Schiner",
+    company: "Dell",
+    role: "Frontend Developer",
     verified: false,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 2,
-    first_name: 'John Doe',
-    company: 'TechCorp',
-    role: 'Backend Developer',
+    first_name: "John Doe",
+    company: "TechCorp",
+    role: "Backend Developer",
     verified: true,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 3,
-    first_name: 'Alice Johnson',
-    company: 'WebTech',
-    role: 'UI Designer',
+    first_name: "Alice Johnson",
+    company: "WebTech",
+    role: "UI Designer",
     verified: true,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 4,
-    first_name: 'David Smith',
-    company: 'Innovate Inc.',
-    role: 'Fullstack Developer',
+    first_name: "David Smith",
+    company: "Innovate Inc.",
+    role: "Fullstack Developer",
     verified: false,
-    status: 'Inactive'
+    status: "Inactive",
   },
   {
     id: 5,
-    first_name: 'Emma Wilson',
-    company: 'TechGuru',
-    role: 'Product Manager',
+    first_name: "Emma Wilson",
+    company: "TechGuru",
+    role: "Product Manager",
     verified: true,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 6,
-    first_name: 'James Brown',
-    company: 'CodeGenius',
-    role: 'QA Engineer',
+    first_name: "James Brown",
+    company: "CodeGenius",
+    role: "QA Engineer",
     verified: false,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 7,
-    first_name: 'Laura White',
-    company: 'SoftWorks',
-    role: 'UX Designer',
+    first_name: "Laura White",
+    company: "SoftWorks",
+    role: "UX Designer",
     verified: true,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 8,
-    first_name: 'Michael Lee',
-    company: 'DevCraft',
-    role: 'DevOps Engineer',
+    first_name: "Michael Lee",
+    company: "DevCraft",
+    role: "DevOps Engineer",
     verified: false,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 9,
-    first_name: 'Olivia Green',
-    company: 'WebSolutions',
-    role: 'Frontend Developer',
+    first_name: "Olivia Green",
+    company: "WebSolutions",
+    role: "Frontend Developer",
     verified: true,
-    status: 'Active'
+    status: "Active",
   },
   {
     id: 10,
-    first_name: 'Robert Taylor',
-    company: 'DataTech',
-    role: 'Data Analyst',
+    first_name: "Robert Taylor",
+    company: "DataTech",
+    role: "Data Analyst",
     verified: false,
-    status: 'Active'
-  }
+    status: "Active",
+  },
 ];
 
 export type Employee = {
@@ -109,67 +109,75 @@ export type Employee = {
   job: string;
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
-
+export type Executor = {
+  id: number;
+  name: string;
+  tp: string;
+  status: string;
+  ticker: string;
+  size: string; // Consider using a proper date type if possible
+  startposition: string;
+};
 export const navItems: NavItem[] = [
   {
-    title: 'Dashboard',
-    href: '/dashboard',
-    icon: 'dashboard',
-    label: 'Dashboard'
+    title: "Dashboard",
+    href: "/dashboard",
+    icon: "dashboard",
+    label: "Dashboard",
   },
   {
-    title: 'Statistics',
-    href: '/dashboard/statistics',
-    icon: 'post',
-    label: 'statistics'
+    title: "Statistics",
+    href: "/dashboard/statistics",
+    icon: "post",
+    label: "statistics",
   },
   {
-    title: 'Executors',
-    href: '/dashboard/executors',
-    icon: 'user',
-    label: 'Executors'
+    title: "Executors",
+    href: "/dashboard/executors",
+    icon: "user",
+    label: "Executors",
   },
 
   {
-    title: 'Backtest',
-    href: '/dashboard/table',
-    icon: 'reset',
-    label: 'Backtest'
+    title: "Backtest",
+    href: "/dashboard/table",
+    icon: "reset",
+    label: "Backtest",
   },
   {
-    title: 'Live Executions',
-    href: '/dashboard/table',
-    icon: 'live',
-    label: 'table'
+    title: "Live Executions",
+    href: "/dashboard/table",
+    icon: "live",
+    label: "table",
   },
   {
-    title: 'Table',
-    href: '/dashboard/table',
-    icon: 'table',
-    label: 'table'
+    title: "Table",
+    href: "/dashboard/table",
+    icon: "table",
+    label: "table",
   },
   {
-    title: 'Search By',
-    href: '/dashboard/kanban',
-    icon: 'search',
-    label: 'kanban'
+    title: "Search By",
+    href: "/dashboard/kanban",
+    icon: "search",
+    label: "kanban",
   },
   {
-    title: 'AI',
-    href: '/dashboard/kanban',
-    icon: 'kanban',
-    label: 'kanban'
+    title: "AI",
+    href: "/dashboard/kanban",
+    icon: "kanban",
+    label: "kanban",
   },
   {
-    title: 'Strategy Builder',
-    href: '/',
-    icon: 'reader',
-    label: 'login'
+    title: "Strategy Builder",
+    href: "/",
+    icon: "reader",
+    label: "login",
   },
   {
-    title: 'Trading View',
-    href: '/',
-    icon: 'barchart',
-    label: 'login'
-  }
+    title: "Trading View",
+    href: "/",
+    icon: "barchart",
+    label: "login",
+  },
 ];

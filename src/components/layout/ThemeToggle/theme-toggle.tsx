@@ -23,7 +23,7 @@ export default function ThemeToggle({}: CompProps) {
   }
 
   return (
-    <div className="flex items-center justify-between space-x-2 p-4">
+    <div className="flex items-center justify-between space-x-2 p-4 lg:mt-28">
       <span className="text-gray-500">
         {theme === "dark" ? "Light" : "Dark"}
       </span>

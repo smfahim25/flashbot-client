@@ -6,9 +6,10 @@ import { DataTable } from "@/components/ui/data-table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { users } from "@/constants/data";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { columns } from "./columns/columns";
+import { columns } from "./executors/executorsColumn";
 import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
-import { dashboardColumns } from "./columns/dashboardColumns";
+import { dashboardColumns } from "./dashboardSection/dashboardColumns";
+import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 interface Executor {
   id: number;
@@ -29,6 +30,14 @@ interface Executor {
   job: string;
   profile_picture?: string | null;
 }
+const lexend = Lexend({
+  weight: "600",
+  subsets: ["vietnamese"],
+});
+const jakarta = Plus_Jakarta_Sans({
+  weight: "600",
+  subsets: ["vietnamese"],
+});
 
 export default function page() {
   const totalUsers = 20;
@@ -136,52 +145,59 @@ export default function page() {
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
+        <h6
+          className={`font-semibold text-[24px] leading-10 ${lexend.className}`}
+        >
+          Dashboard
+        </h6>
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Total Profits
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">$45,231.89</div>
+              <div className="text-[24px] font-[700] font-inter">
+                $45,231.89
+              </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Executors
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">55</div>
+              <div className="text-[24px] font-[700] font-inter">55</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Executions
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">12</div>
+              <div className="text-[24px] font-[700] font-inter">12</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Backtests
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">489</div>
+              <div className="text-[24px] font-[700] font-inter">489</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Binance Status
               </CardTitle>
             </CardHeader>
@@ -200,7 +216,9 @@ export default function page() {
                 <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
-                Live Notification
+                <span className={`${jakarta.className} text-[14px]`}>
+                  Live Notification
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent>

@@ -3,33 +3,29 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FiPlus } from "react-icons/fi";
 import { TfiImport } from "react-icons/tfi";
-import { columns } from "../columns/columns";
+import { columns } from "./executorsColumn";
 import { Card } from "@/components/ui/card";
-import { EmployeeTable } from "@/components/executors-table";
+import { EmployeeTable } from "../../../../components/executors/executors-table";
+import { Lexend } from "next/font/google";
 interface Executor {
   id: number;
-  first_name: string;
-  last_name: string;
   name: string;
-  email: string;
-  phone: string;
-  gender: string;
-  date_of_birth: string; // Consider using a proper date type if possible
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  longitude?: number; // Optional field
-  latitude?: number; // Optional field
-  job: string;
-  profile_picture?: string | null;
+  tp: string;
+  status: string;
+  ticker: string;
+  size: string; // Consider using a proper date type if possible
+  startposition: string;
+  strategy: string;
 }
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
   { title: "Executors", link: "/dashboard/executors" },
 ];
+const lexend = Lexend({
+  weight: "600",
+  subsets: ["vietnamese"],
+});
 export default function page() {
   const totalUsers = 20;
   const pageLimit = 10;
@@ -38,60 +34,33 @@ export default function page() {
   const employee: Executor[] = [
     {
       id: 1,
-      first_name: "John",
-      last_name: "Doe",
-      email: "john.doe@example.com",
-      phone: "+1-202-555-0123",
-      gender: "Male",
-      date_of_birth: "1980-04-25",
-      street: "123 Main St",
-      city: "Springfield",
-      state: "IL",
-      country: "USA",
-      name: "",
-      zipcode: "62701",
-      longitude: -89.65,
-      latitude: 39.7817,
-      job: "Software Developer",
-      profile_picture: null,
+      name: "RSI Testing",
+      ticker: "1000BONKUSDT",
+      size: "1USDT",
+      tp: "1:-1",
+      startposition: "LONG",
+      status: "Pause",
+      strategy: "RSI Testing",
     },
     {
       id: 2,
-      first_name: "Jane",
-      name: "",
-      last_name: "Smith",
-      email: "jane.smith@example.com",
-      phone: "+1-202-555-0145",
-      gender: "Female",
-      date_of_birth: "1985-07-14",
-      street: "456 Oak St",
-      city: "Madison",
-      state: "WI",
-      country: "USA",
-      zipcode: "53703",
-      longitude: -89.3838,
-      latitude: 43.0731,
-      job: "Project Manager",
-      profile_picture: "https://example.com/profile/jane.jpg",
+      name: "KRP Testing",
+      ticker: "1000BONKUSDT",
+      size: "1USDT",
+      tp: "1:-1",
+      startposition: "LONG",
+      status: "Pause",
+      strategy: "RSI Testing",
     },
     {
       id: 3,
-      first_name: "Alice",
-      last_name: "Johnson",
-      email: "alice.johnson@example.com",
-      phone: "+1-202-555-0198",
-      gender: "Female",
-      name: "",
-      date_of_birth: "1990-01-05",
-      street: "789 Pine St",
-      city: "Columbus",
-      state: "OH",
-      country: "USA",
-      zipcode: "43215",
-      longitude: -82.9988,
-      latitude: 39.9612,
-      job: "Data Analyst",
-      profile_picture: "https://example.com/profile/alice.jpg",
+      name: "ZEP Testing",
+      ticker: "1000BONKUSDT",
+      size: "1USDT",
+      tp: "1:-1",
+      startposition: "LONG",
+      status: "Pause",
+      strategy: "RSI Testing",
     },
   ];
   return (
@@ -99,7 +68,11 @@ export default function page() {
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
         <div className="flex justify-between items-center">
           <div>
-            <h6 className="font-semibold text-2xl leading-10">Executors</h6>
+            <h6
+              className={`font-semibold text-[24px] leading-10 ${lexend.className}`}
+            >
+              Executors
+            </h6>
             <Breadcrumbs items={breadcrumbItems} />
           </div>
           <div className="">
@@ -125,7 +98,7 @@ export default function page() {
         <div className=" w-full rounded-xl p-4 mt-5">
           <Card className="mt-4 border-none">
             <EmployeeTable
-              searchKey="country"
+              searchKey="size"
               pageNo={page}
               columns={columns}
               totalUsers={totalUsers}
