@@ -50,11 +50,11 @@ export function DashboardNav({
                       href={item.disabled ? "/" : item.href}
                       className={cn(
                         `flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-[#FE0FE2] hover:text-white ${
-                          isMinimized && "w-[45px]"
+                          isMinimized && !isMobileNav && "w-[45px]"
                         }`,
                         path === item.href
                           ? `bg-[#FE0FE2] text-white ${
-                              isMinimized && "w-[45px]"
+                              isMinimized && !isMobileNav && "w-[45px]"
                             }`
                           : "transparent text-gray-500",
                         item.disabled && "cursor-not-allowed opacity-80"

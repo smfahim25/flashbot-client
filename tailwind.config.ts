@@ -1,12 +1,13 @@
-import type { Config } from "tailwindcss"
+import { Plus_Jakarta_Sans } from "next/font/google";
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -18,6 +19,11 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        satoshi: ["Satoshi", "sans-serif"],
+        inter: ["Inter"],
+        jakarta: ["var(--font-plus-jakarta-sans)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -75,6 +81,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

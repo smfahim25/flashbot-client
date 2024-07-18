@@ -29,7 +29,7 @@ const page = () => {
             height="120"
             alt="Flash Bot Logo"
           />
-          <h1 className="text-3xl font-bold">FlashBot</h1>
+          <h1 className="text-3xl font-bold font-inter">FlashBot</h1>
         </div>
       </Card>
       <div className="w-full sm:w-1/2 lg:w-1/2 h-screen">
@@ -43,7 +43,7 @@ const page = () => {
               alt="Flash Bot Logo"
             />
           </div>
-          <div>FlashBot</div>
+          <div className="font-inter">FlashBot</div>
         </div>
         <Card className="mx-auto p-4" style={{ width: "500px" }}>
           <CardHeader className=" text-center">
@@ -51,7 +51,9 @@ const page = () => {
               <IoKeyOutline />
             </div>
 
-            <CardTitle>Forgot password?</CardTitle>
+            <CardTitle className="font-inter text-[30px]">
+              Forgot password?
+            </CardTitle>
             <CardDescription>
               No worries, we’ll send you reset instructions.
             </CardDescription>
