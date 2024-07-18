@@ -1,3 +1,8 @@
+"use client";
+import { useState } from "react";
+// import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,7 +17,9 @@ import { Label } from "@/components/ui/label";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+
 import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
 
 const jakarta = Plus_Jakarta_Sans({
   weight: "500",
@@ -20,6 +27,28 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 const page = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await signIn("credentials", {
+      redirect: false,
+      username: email,
+      password,
+    });
+
+    if (result.error) {
+      setError(result.error);
+      console.log(result.error);
+    } else {
+      // Redirect to the homepage or another page after successful login
+      // router.push("/");
+      console.log(result);
+    }
+  };
   return (
     <div className="flex flex-wrap justify-center items-center h-screen p-1">
       <Card
@@ -63,7 +92,8 @@ const page = () => {
                 <Label htmlFor="email" className="font-inter">
                   Email*
                 </Label>
-                <Input id="email" placeholder="Enter your email" />
+                <Input id="email" placeholder="Enter your email" value={email}
+              onChange={(e) => setEmail(e.target.value)}/>
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password" className="font-inter">
@@ -73,12 +103,14 @@ const page = () => {
                   id="password"
                   placeholder="Enter your password"
                   type="password"
+                  value={password}
+              onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
-            <Button className="w-full block mb-3 font-inter">Login</Button>
+            <Button onClick={handleSubmit} className="w-full block mb-3 font-inter">Login</Button>
             <Button className="w-full mb-8" variant="outline">
               <FcGoogle
                 className="inline mr-2 font-inter"
