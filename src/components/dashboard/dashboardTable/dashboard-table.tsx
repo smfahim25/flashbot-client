@@ -7,10 +7,10 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 import { LuSettings2 } from "react-icons/lu";
-import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table";
+} from "../../ui/table";
 import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
@@ -30,7 +30,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../../ui/select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

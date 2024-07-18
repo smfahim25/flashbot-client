@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { users } from "@/constants/data";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { columns } from "./columns/columns";
-import { DashboardTable } from "@/components/dashboard-table";
+import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
 import { dashboardColumns } from "./columns/dashboardColumns";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 interface Executor {
@@ -197,7 +197,7 @@ export default function page() {
           <Card className="col-span-4 md:col-span-3">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-pink-500 text-white text-lg rounded p-1 mr-2">
+                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
                 Live Notification
@@ -213,7 +213,7 @@ export default function page() {
           <Card className="col-span-4 md:col-span-3">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-pink-500 text-white text-lg rounded p-1 mr-2">
+                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
                 Executors
@@ -233,7 +233,7 @@ export default function page() {
           <Card className="col-span-4 md:col-span-3">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-pink-500 text-white text-lg rounded p-1 mr-2">
+                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
                 Backtests

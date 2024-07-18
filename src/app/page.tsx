@@ -66,9 +66,6 @@ const page = () => {
                   placeholder="Enter your password"
                   type="password"
                 />
-                <span className="text-sm text-muted-foreground">
-                  Must be at least 8 characters.
-                </span>
               </div>
             </form>
           </CardContent>
@@ -107,4 +104,3 @@ const page = () => {
 };
 
 export default page;
-

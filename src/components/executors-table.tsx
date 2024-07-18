@@ -70,9 +70,9 @@ export function EmployeeTable<TData, TValue>({
 
   return (
     <>
-      <div  className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center ">
-          <span className="bg-pink-500 text-white p-2 rounded-lg mr-2">
+          <span className="bg-[#FE0FE2] text-white p-2 rounded-lg mr-2">
             <IoIosPeople size={18} />
           </span>
           All Executors
