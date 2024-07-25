@@ -151,7 +151,7 @@ export default function Page() {
       const token = localStorage.getItem("token");
       if (!token) {
         // Redirect to login if token doesn't exist
-        router.push("/login");
+        router.push("/auth/login");
       }
     };
     // Set an interval to check the token every 5 seconds
