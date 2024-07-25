@@ -17,10 +17,10 @@ export function Notification() {
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
           <div className="ml-4 space-y-1 text-start">
-            <p className="text-sm font-medium leading-none">
+            <p className=" font-medium leading-none font-inter text-[14px]">
               Ray Arnold left 6 comments on Isla Nublar SOC2 compliance report
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className=" text-muted-foreground font-inter text-[14px]">
               Yesterday at 11:42 PM
             </p>
           </div>
@@ -41,10 +41,10 @@ export function Notification() {
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
           <div className="ml-4 space-y-1 text-start">
-            <p className="text-sm font-medium leading-none">
+            <p className="font-inter text-[14px] font-medium leading-none">
               Ray Arnold left 6 comments on Isla Nublar SOC2 compliance report
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="font-inter text-[14px] text-muted-foreground">
               Yesterday at 11:42 PM
             </p>
           </div>
@@ -65,10 +65,10 @@ export function Notification() {
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
           <div className="ml-4 space-y-1 text-start">
-            <p className="text-sm font-medium leading-none">
+            <p className="font-inter text-[14px] text-sm font-medium leading-none">
               Ray Arnold left 6 comments on Isla Nublar SOC2 compliance report
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="font-inter text-[14px] text-muted-foreground">
               Yesterday at 11:42 PM
             </p>
           </div>

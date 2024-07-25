@@ -1,3 +1,4 @@
+"use client";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Notification } from "@/components/notification";
 import { Badge } from "@/components/ui/badge";
@@ -6,9 +7,12 @@ import { DataTable } from "@/components/ui/data-table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { users } from "@/constants/data";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { columns } from "./columns/columns";
-import { DashboardTable } from "@/components/dashboard-table";
-import { dashboardColumns } from "./columns/dashboardColumns";
+import { columns } from "./executors/executorsColumn";
+import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
+import { dashboardColumns } from "./dashboardSection/dashboardColumns";
+import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 interface Executor {
   id: number;
@@ -29,12 +33,22 @@ interface Executor {
   job: string;
   profile_picture?: string | null;
 }
+const lexend = Lexend({
+  weight: "600",
+  subsets: ["vietnamese"],
+});
+const jakarta = Plus_Jakarta_Sans({
+  weight: "600",
+  subsets: ["vietnamese"],
+});
 
-export default function page() {
+export default function Page() {
   const totalUsers = 20;
   const pageLimit = 10;
   const page = 1;
   const pageCount = Math.ceil(totalUsers / pageLimit);
+  const router = useRouter();
+
   const employee: Executor[] = [
     {
       id: 1,
@@ -132,61 +146,83 @@ export default function page() {
       profile_picture: "https://example.com/profile/alice.jpg",
     },
   ];
+  useEffect(() => {
+    const checkToken = () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // Redirect to login if token doesn't exist
+        router.push("/auth/login");
+      }
+    };
+    // Set an interval to check the token every 5 seconds
+    const intervalId = setInterval(checkToken, 2000);
 
+    checkToken();
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [router]);
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
+        <h6
+          className={`font-semibold text-[24px] leading-10 ${lexend.className}`}
+        >
+          Dashboard
+        </h6>
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Total Profits
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">$45,231.89</div>
+              <div className="text-[24px] font-[700] font-inter">
+                $45,231.89
+              </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Executors
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">55</div>
+              <div className="text-[24px] font-[700] font-inter">55</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Executions
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">12</div>
+              <div className="text-[24px] font-[700] font-inter">12</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Backtests
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold ">489</div>
+              <div className="text-[24px] font-[700] font-inter">489</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal text-muted-foreground">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Binance Status
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge className="bg-green-100 text-green-500 hover:bg-green-100">
+              <Badge className="bg-green-100 text-green-500 hover:bg-green-100 dark:bg-[#00470B]">
                 Connected
               </Badge>
             </CardContent>
@@ -197,10 +233,12 @@ export default function page() {
           <Card className="col-span-4 md:col-span-3">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-pink-500 text-white text-lg rounded p-1 mr-2">
+                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
-                Live Notification
+                <span className={`jakarta.className} text-[14px]`}>
+                  Live Notification
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -213,7 +251,7 @@ export default function page() {
           <Card className="col-span-4 md:col-span-3">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-pink-500 text-white text-lg rounded p-1 mr-2">
+                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
                 Executors
@@ -233,7 +271,7 @@ export default function page() {
           <Card className="col-span-4 md:col-span-3">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-pink-500 text-white text-lg rounded p-1 mr-2">
+                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
                 Backtests

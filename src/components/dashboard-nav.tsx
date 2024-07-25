@@ -34,7 +34,7 @@ export function DashboardNav({
     return null;
   }
 
-  console.log("isActive", isMobileNav, isMinimized);
+  // console.log("isActive", isMobileNav, isMinimized);
 
   return (
     <>
@@ -49,9 +49,13 @@ export function DashboardNav({
                     <Link
                       href={item.disabled ? "/" : item.href}
                       className={cn(
-                        "flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-pink-500 hover:text-white",
+                        `flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-[#FE0FE2] hover:text-white ${
+                          isMinimized && !isMobileNav && "w-[45px]"
+                        }`,
                         path === item.href
-                          ? "bg-pink-500 text-white"
+                          ? `bg-[#FE0FE2] text-white ${
+                              isMinimized && !isMobileNav && "w-[45px]"
+                            }`
                           : "transparent text-gray-500",
                         item.disabled && "cursor-not-allowed opacity-80"
                       )}
@@ -86,4 +90,3 @@ export function DashboardNav({
     </>
   );
 }
-

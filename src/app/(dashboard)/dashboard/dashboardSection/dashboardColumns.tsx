@@ -1,12 +1,11 @@
 "use client";
-import { CellAction } from "@/components/ui/cellaction";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Employee, } from "@/constants/data";
+import { Employee } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const dashboardColumns: ColumnDef<Employee>[] = [
   {
-    id: 'select',
+    id: "select",
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
@@ -22,29 +21,26 @@ export const dashboardColumns: ColumnDef<Employee>[] = [
       />
     ),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: false,
   },
   {
-    accessorKey: 'first_name',
-    header: 'NAME'
+    accessorKey: "first_name",
+    header: "NAME",
   },
   {
-    accessorKey: 'country',
-    header: 'COUNTRY'
+    accessorKey: "country",
+    header: "COUNTRY",
   },
-//   {
-//     accessorKey: 'email',
-//     header: 'EMAIL'
-//   },
+  //   {
+  //     accessorKey: 'email',
+  //     header: 'EMAIL'
+  //   },
   {
-    accessorKey: 'job',
-    header: 'COMPANY'
+    accessorKey: "job",
+    header: "COMPANY",
   },
   {
-    accessorKey: 'gender',
-    header: 'GENDER'
+    accessorKey: "gender",
+    header: "GENDER",
   },
- 
- 
 ];
-

@@ -20,13 +20,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
-import { Employee } from "@/constants/data";
+import { Executor } from "@/constants/data";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CellActionProps {
-  data: Employee;
+  data: Executor;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

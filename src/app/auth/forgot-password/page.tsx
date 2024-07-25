@@ -16,10 +16,10 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 const page = () => {
   return (
-    <div className="flex flex-wrap justify-center items-center h-screen p-1">
+    <div className="flex flex-wrap justify-evenly items-center h-screen p-1">
       <Card
         className="w-full sm:w-1/2 lg:w-1/2 m-2 backgr bg-[url('/imgs/back-img.png')] bg-contain bg-no-repeat bg-center relative"
-        style={{ width: "550px", minHeight: "660px" }}
+        style={{ width: "550px", minHeight: "630px" }}
       >
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
           <Image
@@ -29,29 +29,31 @@ const page = () => {
             height="120"
             alt="Flash Bot Logo"
           />
-          <h1 className="text-3xl font-bold">FlashBot</h1>
+          <h1 className="text-3xl font-bold font-inter">FlashBot</h1>
         </div>
       </Card>
-      <div className="w-full sm:w-1/2 lg:w-1/2 h-screen">
-        <div className="flex items-center justify-center text-center text-3xl font-bold mb-14">
+      <div>
+        <div className="flex items-center justify-center text-center text-xl font-bold mb-20">
           <div className="mr-1">
             <Image
               className="mx-auto"
               src="/imgs/logo.png"
-              width="80"
-              height="80"
+              width="40"
+              height="40"
               alt="Flash Bot Logo"
             />
           </div>
-          <div>FlashBot</div>
+          <div className="font-inter">FlashBot</div>
         </div>
-        <Card className="mx-auto p-4" style={{ width: "500px" }}>
+        <Card className="mx-auto p-4 mb-10" style={{ width: "500px" }}>
           <CardHeader className=" text-center">
             <div className="border rounded-lg mx-auto p-4 mb-2">
               <IoKeyOutline />
             </div>
 
-            <CardTitle>Forgot password?</CardTitle>
+            <CardTitle className="font-inter text-[30px]">
+              Forgot password?
+            </CardTitle>
             <CardDescription>
               No worries, we’ll send you reset instructions.
             </CardDescription>
@@ -77,10 +79,10 @@ const page = () => {
             </span>
           </CardFooter>
         </Card>
-        <div className="w-full flex flex-col mt-28">
-          <div className="flex justify-between  w-full">
+        <div className="">
+          <div className="flex justify-between">
             <p className="text-sm lg:mx-8">© 2024 Zorpvideo</p>
-            <div className="flex items-end justify-end text-sm space-x-1 text-blue-800">
+            <div className="flex items-end justify-end text-sm space-x-1 text-[#FE0FE2] dark:text-[#54A6FF]">
               <Link href={"/"}>Term & Condition</Link>
               <span className="text-bold text-white">|</span>
               <Link href={"/"}>Privacy & Policy</Link>
