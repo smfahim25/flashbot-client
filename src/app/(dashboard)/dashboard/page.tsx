@@ -147,10 +147,20 @@ export default function Page() {
     },
   ];
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/auth/login");
-    }
+    const checkToken = () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // Redirect to login if token doesn't exist
+        router.push("/login");
+      }
+    };
+    // Set an interval to check the token every 5 seconds
+    const intervalId = setInterval(checkToken, 2000);
+
+    checkToken();
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [router]);
   return (
     <ScrollArea className="h-full">
