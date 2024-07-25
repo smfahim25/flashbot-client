@@ -150,7 +150,7 @@ const Page = () => {
             <p className={`text-sm lg:mx-8 ${jakarta.className}`}>
               © 2024 Zorpvideo
             </p>
-            <div className="flex items-end justify-end text-sm space-x-1 text-blue-800 dark:text-[#54A6FF]">
+            <div className="flex items-end justify-end text-sm space-x-1 text-[#FE0FE2] dark:text-[#54A6FF]">
               <Link href={"/"} className={jakarta.className}>
                 Term & Condition
               </Link>
