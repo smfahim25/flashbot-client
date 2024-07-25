@@ -1,3 +1,4 @@
+"use client";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Notification } from "@/components/notification";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +11,8 @@ import { columns } from "./executors/executorsColumn";
 import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
 import { dashboardColumns } from "./dashboardSection/dashboardColumns";
 import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 interface Executor {
   id: number;
@@ -39,11 +42,13 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ["vietnamese"],
 });
 
-export default function page() {
+export default function Page() {
   const totalUsers = 20;
   const pageLimit = 10;
   const page = 1;
   const pageCount = Math.ceil(totalUsers / pageLimit);
+  const router = useRouter();
+
   const employee: Executor[] = [
     {
       id: 1,
@@ -141,7 +146,12 @@ export default function page() {
       profile_picture: "https://example.com/profile/alice.jpg",
     },
   ];
-
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [router]);
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">

@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
-// import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 
@@ -26,29 +23,31 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ["vietnamese"],
 });
 
-const page = () => {
+const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await signIn("credentials", {
-      redirect: false,
-      username: email,
-      password,
-    });
-
-    if (result.error) {
-      setError(result.error);
-      console.log(result.error);
-    } else {
-      // Redirect to the homepage or another page after successful login
-      // router.push("/");
-      console.log(result);
+    const formData = new FormData();
+    formData.append("username", email);
+    formData.append("password", password);
+    const res = await fetch(
+      "https://flashbot-staging-bb3v6.ondigitalocean.app/v1/auth/token",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const user = await res.json();
+    if (user) {
+      localStorage.setItem("token", user?.access_token);
+      router.push("/dashboard");
     }
   };
+
   return (
     <div className="flex flex-wrap justify-center items-center h-screen p-1">
       <Card
@@ -87,13 +86,20 @@ const page = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="grid w-full items-center gap-4">
+            <form
+              className="grid w-full items-center gap-4"
+              onSubmit={handleSubmit}
+            >
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email" className="font-inter">
                   Email*
                 </Label>
-                <Input id="email" placeholder="Enter your email" value={email}
-              onChange={(e) => setEmail(e.target.value)}/>
+                <Input
+                  id="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password" className="font-inter">
@@ -104,13 +110,15 @@ const page = () => {
                   placeholder="Enter your password"
                   type="password"
                   value={password}
-              onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              <Button type="submit" className="w-full block mb-3 font-inter">
+                Login
+              </Button>
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
-            <Button onClick={handleSubmit} className="w-full block mb-3 font-inter">Login</Button>
             <Button className="w-full mb-8" variant="outline">
               <FcGoogle
                 className="inline mr-2 font-inter"
@@ -118,7 +126,6 @@ const page = () => {
               />
               Login with Google
             </Button>
-
             <span className="text-sm font-inter">
               Don&apos;t have an account?{" "}
               <Link
@@ -131,9 +138,8 @@ const page = () => {
             </span>
           </CardFooter>
         </Card>
-
         <div className="w-full flex flex-col mt-12">
-          <div className="flex justify-between  w-full">
+          <div className="flex justify-between w-full">
             <p className={`text-sm lg:mx-8 ${jakarta.className}`}>
               © 2024 Zorpvideo
             </p>
@@ -153,4 +159,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
