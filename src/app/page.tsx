@@ -51,7 +51,7 @@ const page = () => {
           <div className="font-inter">FlashBot</div>
         </div>
 
-        <Card className="mx-auto p-4" style={{ width: "500px" }}>
+        <Card className="mx-auto p-4 mb-10" style={{ width: "500px" }}>
           <CardHeader>
             <CardTitle className="font-inter font-[600] text-[36px]">
               Sign up
@@ -110,7 +110,7 @@ const page = () => {
             </span>
           </CardFooter>
         </Card>
-        <div className="w-full flex flex-col mt-2">
+        <div>
           <div className="flex justify-between  w-full">
             <p className={`text-sm lg:mx-8 ${jakarta.className}`}>
               © 2024 Zorpvideo
