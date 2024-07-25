@@ -41,7 +41,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface DataTableProps<Executor, TValue> {
   columns: ColumnDef<Executor, TValue>[];
@@ -79,6 +79,18 @@ export function EmployeeTable<Executor, TValue>({
     manualFiltering: true,
   });
   const [show, setShow] = useState(false);
+  const btnRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const closeMenu = (e: MouseEvent) => {
+      if (btnRef.current && !btnRef.current.contains(e.target as HTMLElement)) {
+        setShow(false);
+      }
+    };
+
+    document.body.addEventListener("mousedown", closeMenu);
+
+    return () => document.body.removeEventListener("mousedown", closeMenu);
+  }, []);
   // Handle server-side pagination
 
   return (
@@ -116,7 +128,10 @@ export function EmployeeTable<Executor, TValue>({
               </Button>
             </PopoverTrigger>
             {show && (
-              <div className="absolute z-50 w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 top-28">
+              <div
+                ref={btnRef}
+                className="absolute z-50 w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 top-28"
+              >
                 <div className="mb-5">
                   <Select>
                     <label>Strategy</label>
@@ -164,7 +179,7 @@ export function EmployeeTable<Executor, TValue>({
                 </div>
                 <Button
                   variant={"secondary"}
-                  className="w-full"
+                  className="w-full dark:text-[#FE0FE2] dark:bg-[#700162]"
                   onClick={() => setShow(false)}
                 >
                   Apply

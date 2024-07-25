@@ -222,7 +222,7 @@ export default function Page() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge className="bg-green-100 text-green-500 hover:bg-green-100">
+              <Badge className="bg-green-100 text-green-500 hover:bg-green-100 dark:bg-[#00470B]">
                 Connected
               </Badge>
             </CardContent>

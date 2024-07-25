@@ -6,7 +6,7 @@ import { TfiImport } from "react-icons/tfi";
 import { columns } from "./executorsColumn";
 import { Card } from "@/components/ui/card";
 import { EmployeeTable } from "../../../../components/executors/executors-table";
-import { Lexend } from "next/font/google";
+import { Lexend, Manrope } from "next/font/google";
 interface Executor {
   id: number;
   name: string;
@@ -24,6 +24,10 @@ const breadcrumbItems = [
 ];
 const lexend = Lexend({
   weight: "600",
+  subsets: ["vietnamese"],
+});
+const manarop = Manrope({
+  weight: "700",
   subsets: ["vietnamese"],
 });
 export default function page() {
@@ -78,19 +82,19 @@ export default function page() {
           <div className="">
             <Button
               className="mr-4 text-[16px] bg-[#FFE6FC] hover:bg-[#f4c4ef] text-[#FE0FE2]
-"
+dark:bg-[#3D0135]"
             >
               {" "}
               <span className="px-2">
                 <TfiImport size={18} />
               </span>
-              Import Executors
+              <span className={manarop.className}> Import Executors</span>
             </Button>
             <Button className="text-[16px]">
               <span className="px-2">
                 <FiPlus />
               </span>
-              Add Executors
+              <span className={manarop.className}> Add Executors</span>
             </Button>
           </div>
         </div>

@@ -24,7 +24,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 const Page = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
@@ -32,7 +32,7 @@ const Page = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("username", email);
+    formData.append("username", username);
     formData.append("password", password);
     const res = await fetch(
       "https://flashbot-staging-bb3v6.ondigitalocean.app/v1/auth/token",
@@ -49,10 +49,10 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center items-center h-screen p-1">
+    <div className="flex flex-wrap justify-around items-center h-fit p-1">
       <Card
-        className="h-screen w-full sm:w-1/2 lg:w-1/2 m-2 backgr bg-[url('/imgs/back-img.png')] bg-contain bg-no-repeat bg-center relative"
-        style={{ width: "550px", minHeight: "660px" }}
+        className=" w-full sm:w-1/2 lg:w-1/2 m-2 backgr bg-[url('/imgs/back-img.png')] bg-contain bg-no-repeat bg-center relative"
+        style={{ width: "550px", minHeight: "550px" }}
       >
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
           <Image
@@ -65,14 +65,14 @@ const Page = () => {
           <h1 className="text-3xl font-bold font-inter">FlashBot</h1>
         </div>
       </Card>
-      <div className="w-full sm:w-1/2 lg:w-1/2 h-screen">
-        <div className="flex items-center justify-center text-center text-3xl font-bold mb-14">
+      <div>
+        <div className="flex items-center justify-center text-center text-xl font-bold mb-5">
           <div className="mr-1">
             <Image
               className="mx-auto"
               src="/imgs/logo.png"
-              width="80"
-              height="80"
+              width="45"
+              height="40"
               alt="Flash Bot Logo"
             />
           </div>
@@ -92,13 +92,13 @@ const Page = () => {
             >
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email" className="font-inter">
-                  Email*
+                  Username*
                 </Label>
                 <Input
-                  id="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="username"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -113,6 +113,13 @@ const Page = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              <Link
+                href={"/auth/forgot-password"}
+                style={{ color: "#2DD2CE" }}
+                className="font-inter"
+              >
+                forgot password?
+              </Link>
               <Button type="submit" className="w-full block mb-3 font-inter">
                 Login
               </Button>
@@ -138,12 +145,12 @@ const Page = () => {
             </span>
           </CardFooter>
         </Card>
-        <div className="w-full flex flex-col mt-12">
+        <div className="w-full flex flex-col mt-2">
           <div className="flex justify-between w-full">
             <p className={`text-sm lg:mx-8 ${jakarta.className}`}>
               © 2024 Zorpvideo
             </p>
-            <div className="flex items-end justify-end text-sm space-x-1 text-blue-800">
+            <div className="flex items-end justify-end text-sm space-x-1 text-blue-800 dark:text-[#54A6FF]">
               <Link href={"/"} className={jakarta.className}>
                 Term & Condition
               </Link>
