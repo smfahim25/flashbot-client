@@ -236,7 +236,7 @@ export default function Page() {
                 <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
-                <span className={`${jakarta.className} text-[14px]`}>
+                <span className={`jakarta.className} text-[14px]`}>
                   Live Notification
                 </span>
               </CardTitle>
