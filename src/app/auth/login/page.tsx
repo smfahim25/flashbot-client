@@ -49,10 +49,10 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-wrap justify-around items-center h-fit p-1">
+    <div className="flex flex-wrap justify-evenly items-center h-fit p-1">
       <Card
         className=" w-full sm:w-1/2 lg:w-1/2 m-2 backgr bg-[url('/imgs/back-img.png')] bg-contain bg-no-repeat bg-center relative"
-        style={{ width: "550px", minHeight: "550px" }}
+        style={{ width: "550px", minHeight: "630px" }}
       >
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
           <Image
@@ -78,86 +78,93 @@ const Page = () => {
           </div>
           <div className="font-inter">FlashBot</div>
         </div>
-        <Card className="mx-auto p-4" style={{ width: "500px" }}>
-          <CardHeader>
-            <CardTitle className="font-inter text-[36px]">Login</CardTitle>
-            <CardDescription className="font-inter text-[16px]">
-              Welcome! to Flashbot
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form
-              className="grid w-full items-center gap-4"
-              onSubmit={handleSubmit}
-            >
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email" className="font-inter">
-                  Username*
-                </Label>
-                <Input
-                  id="username"
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
+        <div className="flex flex-col justify-evenly">
+          <div>
+            <Card className="mx-auto p-4 mb-10" style={{ width: "500px" }}>
+              <CardHeader>
+                <CardTitle className="font-inter text-[36px]">Login</CardTitle>
+                <CardDescription className="font-inter text-[16px]">
+                  Welcome! to Flashbot
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form
+                  className="grid w-full items-center gap-4"
+                  onSubmit={handleSubmit}
+                >
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="email" className="font-inter">
+                      Username*
+                    </Label>
+                    <Input
+                      id="username"
+                      placeholder="Enter your username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="password" className="font-inter">
+                      Password*
+                    </Label>
+                    <Input
+                      id="password"
+                      placeholder="Enter your password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                  <Link
+                    href={"/auth/forgot-password"}
+                    style={{ color: "#2DD2CE" }}
+                    className="font-inter"
+                  >
+                    forgot password?
+                  </Link>
+                  <Button
+                    type="submit"
+                    className="w-full block mb-3 font-inter"
+                  >
+                    Login
+                  </Button>
+                </form>
+              </CardContent>
+              <CardFooter className="flex flex-col space-y-2">
+                <Button className="w-full mb-8" variant="outline">
+                  <FcGoogle
+                    className="inline mr-2 font-inter"
+                    style={{ width: "25px", height: "50px" }}
+                  />
+                  Login with Google
+                </Button>
+                <span className="text-sm font-inter">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    href={"/"}
+                    style={{ color: "#2DD2CE" }}
+                    className="font-inter"
+                  >
+                    Sign UP
+                  </Link>
+                </span>
+              </CardFooter>
+            </Card>
+          </div>
+          <div>
+            <div className="flex justify-between w-full">
+              <p className={`text-sm lg:mx-8 ${jakarta.className}`}>
+                © 2024 Zorpvideo
+              </p>
+              <div className="flex items-end justify-end text-sm space-x-1 text-[#FE0FE2] dark:text-[#54A6FF]">
+                <Link href={"/"} className={jakarta.className}>
+                  Term & Condition
+                </Link>
+                <span className="text-bold text-white">|</span>
+                <Link href={"/"} className={jakarta.className}>
+                  Privacy & Policy
+                </Link>
               </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="password" className="font-inter">
-                  Password*
-                </Label>
-                <Input
-                  id="password"
-                  placeholder="Enter your password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <Link
-                href={"/auth/forgot-password"}
-                style={{ color: "#2DD2CE" }}
-                className="font-inter"
-              >
-                forgot password?
-              </Link>
-              <Button type="submit" className="w-full block mb-3 font-inter">
-                Login
-              </Button>
-            </form>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-2">
-            <Button className="w-full mb-8" variant="outline">
-              <FcGoogle
-                className="inline mr-2 font-inter"
-                style={{ width: "25px", height: "50px" }}
-              />
-              Login with Google
-            </Button>
-            <span className="text-sm font-inter">
-              Don&apos;t have an account?{" "}
-              <Link
-                href={"/"}
-                style={{ color: "#2DD2CE" }}
-                className="font-inter"
-              >
-                Sign UP
-              </Link>
-            </span>
-          </CardFooter>
-        </Card>
-        <div className="w-full flex flex-col mt-2">
-          <div className="flex justify-between w-full">
-            <p className={`text-sm lg:mx-8 ${jakarta.className}`}>
-              © 2024 Zorpvideo
-            </p>
-            <div className="flex items-end justify-end text-sm space-x-1 text-[#FE0FE2] dark:text-[#54A6FF]">
-              <Link href={"/"} className={jakarta.className}>
-                Term & Condition
-              </Link>
-              <span className="text-bold text-white">|</span>
-              <Link href={"/"} className={jakarta.className}>
-                Privacy & Policy
-              </Link>
             </div>
           </div>
         </div>

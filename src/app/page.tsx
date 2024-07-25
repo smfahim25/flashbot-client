@@ -20,10 +20,10 @@ const jakarta = Plus_Jakarta_Sans({
 });
 const page = () => {
   return (
-    <div className="flex flex-wrap justify-around items-center h-fit p-1">
+    <div className="flex flex-wrap justify-evenly items-center h-fit p-1">
       <Card
         className="w-full sm:w-1/2 lg:w-1/2 m-2 backgr bg-[url('/imgs/back-img.png')] bg-contain bg-no-repeat bg-center relative font-inter"
-        style={{ width: "550px", minHeight: "550px" }}
+        style={{ width: "550px", minHeight: "630px" }}
       >
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
           <Image
