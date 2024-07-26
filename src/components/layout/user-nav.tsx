@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "../../AuthContext/AuthContext";
+import Image from "next/image";
 export function UserNav() {
   const { logout } = useAuth();
   return (
@@ -28,36 +29,63 @@ export function UserNav() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {/* {session.user?.name} */} MR.XXX
-            </p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {/* {session.user?.email} */} MR.XXX
-            </p>
+          <div className="flex items-center space-y-1">
+            <div className="mr-2">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="/imgs/logo.png" />
+              </Avatar>
+            </div>
+            <div>
+              <p className="text-sm font-medium leading-none">MR.XXX</p>
+              <p className="text-xs font-medium leading-none text-muted-foreground">
+                edxample@gmail.com
+              </p>
+            </div>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            <div className="flex items-center">
+              <span className="mr-2">
+                <Image
+                  src="/imgs/profile.svg"
+                  alt="profile"
+                  width={16}
+                  height={16}
+                />
+              </span>
+              <span>View Profile</span>
+            </div>
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            <div className="flex items-center">
+              <span className="mr-2">
+                <Image
+                  src="/imgs/setting.svg"
+                  alt="profile"
+                  width={16}
+                  height={16}
+                />
+              </span>
+              <span>Settings</span>
+            </div>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        {/* <DropdownMenuItem onClick={() => signOut()}> */}
         <DropdownMenuItem onClick={logout}>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          <div className="flex items-center">
+            <span className="mr-2">
+              <Image
+                src="/imgs/logout.svg"
+                alt="profile"
+                width={16}
+                height={16}
+              />
+            </span>
+            <span>Log out</span>
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
