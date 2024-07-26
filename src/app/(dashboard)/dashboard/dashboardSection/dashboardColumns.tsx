@@ -5,42 +5,22 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export const dashboardColumns: ColumnDef<Employee>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
+    id: "rowNumber",
+    header: "No",
+    cell: ({ row }) => row.index + 1,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "first_name",
-    header: "NAME",
+    accessorKey: "name",
+    header: "Name",
   },
   {
-    accessorKey: "country",
-    header: "COUNTRY",
-  },
-  //   {
-  //     accessorKey: 'email',
-  //     header: 'EMAIL'
-  //   },
-  {
-    accessorKey: "job",
-    header: "COMPANY",
+    accessorKey: "price",
+    header: "Price",
   },
   {
-    accessorKey: "gender",
-    header: "GENDER",
+    accessorKey: "day",
+    header: "24h%",
   },
 ];

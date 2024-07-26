@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { users } from "@/constants/data";
+import { Employee, users } from "@/constants/data";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { columns } from "./executors/executorsColumn";
 import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
@@ -13,6 +13,7 @@ import { dashboardColumns } from "./dashboardSection/dashboardColumns";
 import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 interface Executor {
   id: number;
@@ -45,11 +46,9 @@ const jakarta = Plus_Jakarta_Sans({
 export default function Page() {
   const totalUsers = 20;
   const pageLimit = 10;
-  const page = 1;
   const pageCount = Math.ceil(totalUsers / pageLimit);
   const router = useRouter();
-
-  const employee: Executor[] = [
+  const employee: Employee[] = [
     {
       id: 1,
       first_name: "John",
@@ -62,17 +61,19 @@ export default function Page() {
       city: "Springfield",
       state: "IL",
       country: "USA",
-      name: "",
+      name: "bitcoin",
       zipcode: "62701",
       longitude: -89.65,
       latitude: 39.7817,
       job: "Software Developer",
       profile_picture: null,
+      price: "$167",
+      day: "+6.04%",
     },
     {
       id: 2,
       first_name: "Jane",
-      name: "",
+      name: "bitcoin",
       last_name: "Smith",
       email: "jane.smith@example.com",
       phone: "+1-202-555-0145",
@@ -87,6 +88,8 @@ export default function Page() {
       latitude: 43.0731,
       job: "Project Manager",
       profile_picture: "https://example.com/profile/jane.jpg",
+      price: "$1965",
+      day: "+6.04%",
     },
     {
       id: 3,
@@ -95,7 +98,7 @@ export default function Page() {
       email: "alice.johnson@example.com",
       phone: "+1-202-555-0198",
       gender: "Female",
-      name: "",
+      name: "bitcoin",
       date_of_birth: "1990-01-05",
       street: "789 Pine St",
       city: "Columbus",
@@ -106,6 +109,8 @@ export default function Page() {
       latitude: 39.9612,
       job: "Data Analyst",
       profile_picture: "https://example.com/profile/alice.jpg",
+      price: "$1965",
+      day: "+6.04%",
     },
     {
       id: 4,
@@ -114,7 +119,7 @@ export default function Page() {
       email: "alice.johnson@example.com",
       phone: "+1-202-555-0198",
       gender: "Female",
-      name: "",
+      name: "bitcoin",
       date_of_birth: "1990-01-05",
       street: "789 Pine St",
       city: "Columbus",
@@ -125,6 +130,8 @@ export default function Page() {
       latitude: 39.9612,
       job: "Data Analyst",
       profile_picture: "https://example.com/profile/alice.jpg",
+      price: "$1965",
+      day: "+6.04%",
     },
     {
       id: 5,
@@ -133,7 +140,7 @@ export default function Page() {
       email: "alice.johnson@example.com",
       phone: "+1-202-555-0198",
       gender: "Female",
-      name: "",
+      name: "bitcoin",
       date_of_birth: "1990-01-05",
       street: "789 Pine St",
       city: "Columbus",
@@ -144,6 +151,8 @@ export default function Page() {
       latitude: 39.9612,
       job: "Data Analyst",
       profile_picture: "https://example.com/profile/alice.jpg",
+      price: "$1965",
+      day: "+6.04%",
     },
   ];
   useEffect(() => {
@@ -173,7 +182,7 @@ export default function Page() {
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-          <Card>
+          <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Total Profits
@@ -185,7 +194,7 @@ export default function Page() {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Executors
@@ -195,7 +204,7 @@ export default function Page() {
               <div className="text-[24px] font-[700] font-inter">55</div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Executions
@@ -205,7 +214,7 @@ export default function Page() {
               <div className="text-[24px] font-[700] font-inter">12</div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Backtests
@@ -215,7 +224,7 @@ export default function Page() {
               <div className="text-[24px] font-[700] font-inter">489</div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Binance Status
@@ -227,16 +236,68 @@ export default function Page() {
               </Badge>
             </CardContent>
           </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                24h Low & High
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">489</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                All Time High
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">$73,867</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Price Change (1h)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">-1.13%</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Price Change (24h)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">+1.63%</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Price Change (7d)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">+7.89%</div>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1">
-          <Card className="col-span-4 md:col-span-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-1 lg:grid-cols-2 border-0">
+          <Card className=" border-0">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
                 <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
-                <span className={`jakarta.className} text-[14px]`}>
+                <span
+                  className={`${jakarta.className} text-[14px] dark:text-[white]`}
+                >
                   Live Notification
                 </span>
               </CardTitle>
@@ -245,46 +306,42 @@ export default function Page() {
               <Notification />
             </CardContent>
           </Card>
+          <Card className=" border-0">
+            <CardHeader>
+              <CardTitle className="text-base text-muted-foreground flex">
+                <span
+                  className={`${jakarta.className} text-[14px] dark:text-[white]`}
+                >
+                  Global Markets
+                </span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Image src="/imgs/map.svg" alt="map" width={500} height={250} />
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
-          <Card className="col-span-4 md:col-span-3">
-            <CardHeader>
-              <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
-                  <HiOutlineDocumentText />
-                </div>
-                Executors
-              </CardTitle>
-            </CardHeader>
+          <Card className="col-span-4 md:col-span-3 border-0">
             <CardContent>
               <DashboardTable
-                searchKey="country"
-                pageNo={page}
+                title="Top Gain Count"
+                searchKey="anything here"
                 columns={dashboardColumns}
                 totalUsers={totalUsers}
                 data={employee}
-                pageCount={pageCount}
               />
             </CardContent>
           </Card>
-          <Card className="col-span-4 md:col-span-3">
-            <CardHeader>
-              <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
-                  <HiOutlineDocumentText />
-                </div>
-                Backtests
-              </CardTitle>
-            </CardHeader>
+          <Card className="col-span-4 md:col-span-3 border-0">
             <CardContent>
               <DashboardTable
-                searchKey="country"
-                pageNo={page}
+                title="Top Lose Count"
+                searchKey="anything here"
                 columns={dashboardColumns}
                 totalUsers={totalUsers}
                 data={employee}
-                pageCount={pageCount}
               />
             </CardContent>
           </Card>

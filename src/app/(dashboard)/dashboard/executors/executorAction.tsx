@@ -121,8 +121,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
           <DropdownMenuItem
           // onClick={() => router.push(`/dashboard/user/${data.id}`)}
           >

@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useState, useContext } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,22 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
-
-const jakarta = Plus_Jakarta_Sans({
-  weight: "500",
-  subsets: ["vietnamese"],
-});
+import { useAuth } from "../../../AuthContext/AuthContext";
+import FrontFooter from "@/components/FrontFooter";
 
 const Page = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +38,7 @@ const Page = () => {
     );
     const user = await res.json();
     if (user) {
-      localStorage.setItem("token", user?.access_token);
+      login(user?.access_token);
       router.push("/dashboard");
     }
   };
@@ -152,20 +147,7 @@ const Page = () => {
             </Card>
           </div>
           <div>
-            <div className="flex justify-between w-full">
-              <p className={`text-sm lg:mx-8 ${jakarta.className}`}>
-                © 2024 Zorpvideo
-              </p>
-              <div className="flex items-end justify-end text-sm space-x-1 text-[#FE0FE2] dark:text-[#54A6FF]">
-                <Link href={"/"} className={jakarta.className}>
-                  Term & Condition
-                </Link>
-                <span className="text-bold text-white">|</span>
-                <Link href={"/"} className={jakarta.className}>
-                  Privacy & Policy
-                </Link>
-              </div>
-            </div>
+            <FrontFooter />
           </div>
         </div>
       </div>
