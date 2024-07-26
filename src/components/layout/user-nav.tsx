@@ -1,5 +1,5 @@
 "use client";
-import {useContext } from "react";
+import { useContext } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,12 +12,9 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import AuthContext from '../../AuthContext/AuthContext';
-// import { signOut, useSession } from 'next-auth/react';
+import { useAuth } from "../../AuthContext/AuthContext";
 export function UserNav() {
-  const {logout} = useContext(AuthContext);
-  // const { data: session } = useSession();
-  // if (session) {
+  const { logout } = useAuth();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -67,4 +64,3 @@ export function UserNav() {
   );
 }
 // }
-

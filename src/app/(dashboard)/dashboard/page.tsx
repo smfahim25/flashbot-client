@@ -13,6 +13,7 @@ import { dashboardColumns } from "./dashboardSection/dashboardColumns";
 import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/AuthContext/AuthContext";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 interface Executor {
   id: number;
@@ -48,7 +49,7 @@ export default function Page() {
   const page = 1;
   const pageCount = Math.ceil(totalUsers / pageLimit);
   const router = useRouter();
-
+  const { token } = useAuth();
   const employee: Executor[] = [
     {
       id: 1,
@@ -148,7 +149,6 @@ export default function Page() {
   ];
   useEffect(() => {
     const checkToken = () => {
-      const token = localStorage.getItem("token");
       if (!token) {
         // Redirect to login if token doesn't exist
         router.push("/auth/login");
@@ -161,7 +161,7 @@ export default function Page() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [router]);
+  }, [router, token]);
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">

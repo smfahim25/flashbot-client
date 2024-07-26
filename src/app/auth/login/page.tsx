@@ -1,6 +1,5 @@
 "use client";
-import { useState,useContext } from "react";
-import { signIn } from "next-auth/react";
+import { useState, useContext } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,25 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
-import AuthContext from '../../../AuthContext/AuthContext';
+import { useAuth } from "../../../AuthContext/AuthContext";
 import FrontFooter from "@/components/FrontFooter";
-
-const jakarta = Plus_Jakarta_Sans({
-  weight: "500",
-  subsets: ["vietnamese"],
-});
 
 const Page = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const router = useRouter();
-  const {login} = useContext(AuthContext);
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,8 +38,8 @@ const Page = () => {
     );
     const user = await res.json();
     if (user) {
-      login(user?.access_token); 
-        router.push("/dashboard");
+      login(user?.access_token);
+      router.push("/dashboard");
     }
   };
 
