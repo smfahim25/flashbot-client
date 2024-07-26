@@ -42,6 +42,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useEffect, useRef, useState } from "react";
+import FilterOption from "./filterOption";
 
 interface DataTableProps<Executor, TValue> {
   columns: ColumnDef<Executor, TValue>[];
@@ -132,51 +133,7 @@ export function EmployeeTable<Executor, TValue>({
                 ref={btnRef}
                 className="absolute z-50 w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 top-28"
               >
-                <div className="mb-5">
-                  <Select>
-                    <label>Strategy</label>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent></SelectContent>
-                  </Select>
-                </div>
-                <div className="mb-5">
-                  <Select>
-                    <label>Time Frame</label>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent></SelectContent>
-                  </Select>
-                </div>
-                <div className="mb-5">
-                  <Select>
-                    <label>Close Mode</label>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent></SelectContent>
-                  </Select>
-                </div>
-                <div className="mb-5">
-                  <Select>
-                    <label>Quantity Mode</label>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent></SelectContent>
-                  </Select>
-                </div>
-                <div className="mb-5">
-                  <Select>
-                    <label>Start Mode</label>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent></SelectContent>
-                  </Select>
-                </div>
+                <FilterOption />
                 <Button
                   variant={"secondary"}
                   className="w-full dark:text-[#FE0FE2] dark:bg-[#700162]"
