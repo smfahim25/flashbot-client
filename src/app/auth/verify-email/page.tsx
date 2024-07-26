@@ -1,3 +1,4 @@
+import FrontFooter from "@/components/FrontFooter";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -76,14 +77,7 @@ const page = () => {
             </Card>
           </div>
           <div className="mt-10">
-            <div className="flex justify-between  w-full">
-              <p className="text-sm lg:mx-8">© 2024 Zorpvideo</p>
-              <div className="flex items-end justify-end text-sm space-x-1 text-[#FE0FE2] dark:text-[#54A6FF]">
-                <Link href={"/"}>Term & Condition</Link>
-                <span className="text-bold text-white">|</span>
-                <Link href={"/"}>Privacy & Policy</Link>
-              </div>
-            </div>
+            <FrontFooter />
           </div>
         </div>
       </div>
