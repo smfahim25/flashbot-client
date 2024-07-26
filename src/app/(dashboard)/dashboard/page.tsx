@@ -295,7 +295,9 @@ export default function Page() {
                 <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
                   <HiOutlineDocumentText />
                 </div>
-                <span className={`${jakarta.className} text-[14px]`}>
+                <span
+                  className={`${jakarta.className} text-[14px] dark:text-[white]`}
+                >
                   Live Notification
                 </span>
               </CardTitle>
@@ -307,7 +309,9 @@ export default function Page() {
           <Card className=" border-0">
             <CardHeader>
               <CardTitle className="text-base text-muted-foreground flex">
-                <span className={`${jakarta.className} text-[14px]`}>
+                <span
+                  className={`${jakarta.className} text-[14px] dark:text-[white]`}
+                >
                   Global Markets
                 </span>
               </CardTitle>

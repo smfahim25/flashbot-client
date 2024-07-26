@@ -87,7 +87,7 @@ export function DashboardTable<TData, TValue>({
           </div>
           <Input
             placeholder={`Search ${searchKey}`}
-            className="block w-[230px] md:max-w-sm mb-2 bg-[#FAFAFA] pl-10 focus:outline-none focus:ring-0"
+            className="block w-[230px] md:max-w-sm mb-2 bg-[#FAFAFA] dark:bg-[#19191A] pl-10 focus:outline-none focus:ring-0"
           />
         </div>
       </div>
