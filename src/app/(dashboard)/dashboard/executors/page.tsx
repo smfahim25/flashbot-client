@@ -100,7 +100,7 @@ dark:bg-[#3D0135]"
         </div>
 
         <div className=" w-full rounded-xl p-4 mt-5">
-          <Card className="mt-4 border-none">
+          <Card className="mt-4 border-none p-2 px-5">
             <EmployeeTable
               searchKey="size"
               pageNo={page}
