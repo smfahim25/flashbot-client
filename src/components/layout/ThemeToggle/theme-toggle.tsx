@@ -39,7 +39,7 @@ export default function ThemeToggle({}: CompProps) {
       >
         <div
           className={`block w-4 h-4 bg-white dark:bg-gray-800 rounded-full shadow-md transform transition-transform ${
-            theme === "dark" ? "translate-x-4" : "translate-x-0"
+            theme === "dark" ? "translate-x-2" : "translate-x-[-6px]"
           }`}
         />
       </Toggle>
