@@ -11,7 +11,7 @@ const FilterOption = () => {
     <div>
       <div className="mb-5">
         <Select>
-          <label>Strategy</label>
+          <label className="text-[12px]">Strategy</label>
           <SelectTrigger>
             <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -20,7 +20,7 @@ const FilterOption = () => {
       </div>
       <div className="mb-5">
         <Select>
-          <label>Time Frame</label>
+          <label className="text-[12px]">Time Frame</label>
           <SelectTrigger>
             <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -29,7 +29,7 @@ const FilterOption = () => {
       </div>
       <div className="mb-5">
         <Select>
-          <label>Close Mode</label>
+          <label className="text-[12px]">Close Mode</label>
           <SelectTrigger>
             <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -38,7 +38,7 @@ const FilterOption = () => {
       </div>
       <div className="mb-5">
         <Select>
-          <label>Quantity Mode</label>
+          <label className="text-[12px]">Quantity Mode</label>
           <SelectTrigger>
             <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -47,7 +47,7 @@ const FilterOption = () => {
       </div>
       <div className="mb-5">
         <Select>
-          <label>Start Mode</label>
+          <label className="text-[12px]">Start Mode</label>
           <SelectTrigger>
             <SelectValue placeholder="Select" />
           </SelectTrigger>
