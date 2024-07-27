@@ -48,7 +48,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [cloneOpen, setCloneOpen] = useState(false);
   const [runBacksetOpen, setRunBacksetOpen] = useState(false);
-
+  console.log(data);
   const router = useRouter();
 
   const onConfirm = async () => {};
@@ -62,7 +62,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setOpenDelete(false)}
       >
         <div className="flex gap-4 justify-end">
-          <Button variant={"ghost"} className="border-2">
+          <Button
+            variant={"ghost"}
+            className="border-2"
+            onClick={() => setOpenDelete(false)}
+          >
             Cancel
           </Button>
           <Button>Delete Executor</Button>
@@ -75,7 +79,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setOpenPause(false)}
       >
         <div className="flex gap-4 justify-end">
-          <Button variant={"ghost"} className="border-2">
+          <Button
+            variant={"ghost"}
+            className="border-2"
+            onClick={() => setOpenPause(false)}
+          >
             Cancel
           </Button>
           <Button>Pause Executor</Button>
@@ -88,7 +96,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setOpenExport(false)}
       >
         <div className="flex gap-4 justify-end">
-          <Button variant={"ghost"} className="border-2">
+          <Button
+            variant={"ghost"}
+            className="border-2"
+            onClick={() => setOpenExport(false)}
+          >
             Cancel
           </Button>
           <Button>Export Executor</Button>
@@ -101,7 +113,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setViewOpen(false)}
       >
         <div className="flex gap-4 justify-end">
-          <Button variant={"ghost"} className="border-2">
+          <Button
+            variant={"ghost"}
+            className="border-2"
+            onClick={() => setViewOpen(false)}
+          >
             Cancel
           </Button>
           <Button>Export Executor</Button>
@@ -237,7 +253,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
               <SelectItem value="rsi">rsi</SelectItem>
             </SelectContent>
           </Select>
-          <div className="flex gap-10 w-[300px] mx-auto mt-14">
+          <div className="flex gap-5 justify-end mt-10">
             <Button
               variant={"ghost"}
               className="border-2 px-12 bg-[#F2F2F3] dark:bg-[#252628]"
