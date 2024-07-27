@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -326,7 +326,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
+            <EllipsisVertical className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
