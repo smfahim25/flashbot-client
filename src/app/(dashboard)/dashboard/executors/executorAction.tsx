@@ -237,7 +237,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
               <SelectItem value="rsi">rsi</SelectItem>
             </SelectContent>
           </Select>
-          <div className="flex gap-4 w-[300px] mx-auto mt-14">
+          <div className="flex gap-10 w-[300px] mx-auto mt-14">
             <Button
               variant={"ghost"}
               className="border-2 px-12 bg-[#F2F2F3] dark:bg-[#252628]"
