@@ -92,19 +92,18 @@ dark:bg-[#3D0135]"
               <span className={manarop.className}> Import Executors</span>
             </Button>
             <Link href="/dashboard/addexecutors">
-            <Button className="text-[16px]">
-              <span className="px-2">
-                <FiPlus />
-              </span>
-              <span className={manarop.className}> Add Executors</span>
-            </Button>
+              <Button className="text-[16px]">
+                <span className="px-2">
+                  <FiPlus />
+                </span>
+                <span className={manarop.className}> Add Executors</span>
+              </Button>
             </Link>
-            
           </div>
         </div>
 
-        <div className="w-full rounded-xl p-4">
-          <Card className="border-none p-2 px-5">
+        <div className="w-full rounded-xl">
+          <Card className="border-none px-5 py-5">
             <ExecutorTable
               searchKey="size"
               pageNo={page}
