@@ -28,11 +28,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface CellActionProps {
   data: Executor;
@@ -112,124 +113,114 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         isOpen={viewMore}
         onClose={() => setViewMore(false)}
       >
-        <div className="grid grid-cols-2 gap-4 justify-center items-center">
+        <ScrollArea className="h-[85vh]">
+          <div className="grid grid-cols-2 gap-4 justify-center items-center">
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                  Coin
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-[14px] font-[600]">ADAUSDT</div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                  Size
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-[14px] font-[600]">1000ADA</div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                  TP/SL
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-[14px] font-[600]">2:-1</div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                  Start Position
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-[14px] font-[600]">NEUTRAL</div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                  Status
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-[14px] font-[600] bg-orange-100 text-center text-orange-500 me-[60px]">
+                  Pause
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                  Close Mode
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-[14px] font-[600]">TP/SL</div>
+              </CardContent>
+            </Card>
+          </div>
+          <div>
+            <h2 className="py-4 text-xl text-gray-500">Strategies Assigned</h2>
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <Select>
+                  <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
+                    <SelectValue placeholder="rsi" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="light">rsi</SelectItem>
+                    <SelectItem value="dark">rsi</SelectItem>
+                    <SelectItem value="system">rsi</SelectItem>
+                  </SelectContent>
+                </Select>
+              </CardHeader>
+              <CardContent>
+                <div className="text-sm p-4 text-gray-500 dark:text-white innertext">
+                  <h4>PeriodRSI: 13</h4>
+                  <h4>EMA : True</h4>
+                  <h4>High Limit : 85</h4>
+                  <h4>Low Limit : 15</h4>
+                  <h4>30m</h4>
+                </div>
+              </CardContent>
+            </Card>
 
-        <Card className="border-0 bg-gray-100 h-[90px]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-[12px] font-normal text-muted-foreground">
-                Coin
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-[20px] font-[600]">
-                ADAUSDT
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-0 bg-gray-100 h-[90px]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-[12px] font-normal text-muted-foreground">
-                Size
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-[20px] font-[600]">
-                1000ADA
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-0 bg-gray-100 h-[90px]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-[12px] font-normal text-muted-foreground">
-                TP/SL
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-[20px] font-[600]">
-                2:-1
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-0 bg-gray-100 h-[90px]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-[12px] font-normal text-muted-foreground">
-                Start Position
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-[20px] font-[600]">
-                NEUTRAL
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-0 bg-gray-100 h-[90px]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-[12px] font-normal text-muted-foreground">
-                Status
-              </CardTitle>
-            </CardHeader>
-            <CardContent >
-              <div className="text-[20px] font-[600] bg-orange-100 text-center text-orange-500 me-[60px]">
-                Pause
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-0 bg-gray-100 h-[90px]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-[12px] font-normal text-muted-foreground">
-                Close Mode
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-[20px] font-[600]">
-                TP/SL
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        <div>
-        <h2 className="py-4 text-xl text-gray-500">Strategies Assigned</h2>
-        <Card className="border-0 bg-gray-100">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="rsi" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">rsi</SelectItem>
-                <SelectItem value="dark">rsi</SelectItem>
-                <SelectItem value="system">rsi</SelectItem>
-              </SelectContent>
-            </Select>
-
-            </CardHeader>
-            <CardContent>
-              <div className="text-sm p-4 text-gray-500 innertext">
-                <h4>PeriodRSI: 13</h4>
-                <h4>EMA : True</h4>
-                <h4>High Limit : 85</h4>
-                <h4>Low Limit : 15</h4>
-                <h4>30m</h4>  
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 bg-gray-100 mt-4">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="rsi" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="rsi">rsi</SelectItem>
-              </SelectContent>
-            </Select>
-
-            </CardHeader>
-          </Card>
-        </div>
-        
+            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] mt-4">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                <Select>
+                  <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
+                    <SelectValue placeholder="rsi" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rsi">rsi</SelectItem>
+                  </SelectContent>
+                </Select>
+              </CardHeader>
+            </Card>
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </SideModal>
+
       <SideModal
         title="Clone Executors"
         description="Clone Executors tomsfklsdaklfjklj JSON"
@@ -239,15 +230,19 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <div className="">
           <Label className="text-lg">End Date</Label>
           <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="rsi">rsi</SelectItem>
-              </SelectContent>
-            </Select>
+            <SelectTrigger className="w-full dark:bg-[#56595C]">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="rsi">rsi</SelectItem>
+            </SelectContent>
+          </Select>
           <div className="flex gap-4 w-[300px] mx-auto mt-14">
-            <Button variant={"ghost"} className="border-2 px-12 bg-gray-100">
+            <Button
+              variant={"ghost"}
+              className="border-2 px-12 bg-[#F2F2F3] dark:bg-[#252628]"
+              onClick={() => setCloneOpen(false)}
+            >
               Cancel
             </Button>
             <Button>Clone Executor</Button>
@@ -263,9 +258,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       >
         <div className="">
           <div className="mb-5">
-          <Label className="text-xs">Start Date</Label>
-          <Select>
-              <SelectTrigger className="w-full">
+            <Label className="text-xs">Start Date</Label>
+            <Select>
+              <SelectTrigger className="w-full dark:bg-[#56595C]">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
@@ -274,44 +269,52 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             </Select>
           </div>
 
-            <div className="mb-5">
+          <div className="mb-5">
             <Label className="text-xs">End Date</Label>
-          <Select>
-              <SelectTrigger className="w-full">
+            <Select>
+              <SelectTrigger className="w-full dark:bg-[#56595C]">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="rsi">rsi</SelectItem>
               </SelectContent>
             </Select>
-            </div>
+          </div>
 
-            <div className="mb-5">
+          <div className="mb-5">
             <Label className="text-xs">Coin</Label>
-          <Select>
-              <SelectTrigger className="w-full">
+            <Select>
+              <SelectTrigger className="w-full dark:bg-[#56595C]">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="rsi">rsi</SelectItem>
               </SelectContent>
             </Select>
-            </div>
-            <Label className="text-sm underline">You are backtesting on ---</Label>
+          </div>
+          <Label className="text-sm underline">
+            You are backtesting on ---
+          </Label>
 
-            <div className="my-2">
+          <div className="my-2">
             <Label className="text-xs">Custom Strategy</Label>
-            <h2 className="text-lg font-[700]"> 1000BONKUSDT: 1 USDT -1: -1- LONG</h2>
-            </div>
+            <h2 className="text-lg font-[700]">
+              {" "}
+              1000BONKUSDT: 1 USDT -1: -1- LONG
+            </h2>
+          </div>
 
-            <div className="my-2">
+          <div className="my-2">
             <Label className="text-xs">Strategies</Label>
             <h2 className="text-lg font-[700]"> macd( 5m ) | rsi( 12h ) </h2>
-            </div>
-
+          </div>
 
           <div className="flex gap-4 justify-center mx-auto mt-14">
-            <Button variant={"ghost"} className="px-12 w-[200px] bg-gray-100 hover:bg-gray-200">
+            <Button
+              variant={"ghost"}
+              className="px-12 w-[200px] bg-[#F2F2F3] dark:bg-[#252628] hover:bg-gray-200"
+              onClick={() => setRunBacksetOpen(false)}
+            >
               Cancel
             </Button>
             <Button className="w-[200px]">Run Backtest</Button>
@@ -327,9 +330,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem
-          onClick={() => setViewMore(true)}
-          >
+          <DropdownMenuItem onClick={() => setViewMore(true)}>
             View More
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setViewOpen(true)}>
