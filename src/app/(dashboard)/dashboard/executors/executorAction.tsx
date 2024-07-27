@@ -46,6 +46,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [openPause, setOpenPause] = useState(false);
   const [open, setOpen] = useState(false);
   const [cloneOpen, setCloneOpen] = useState(false);
+  const [runBacksetOpen, setRunBacksetOpen] = useState(false);
 
   const router = useRouter();
 
@@ -120,7 +121,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700]">
+              <div className="text-[20px] font-[600]">
                 ADAUSDT
               </div>
             </CardContent>
@@ -128,12 +129,60 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <Card className="border-0 bg-gray-100 h-[90px]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground">
-                Coin
+                Size
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700]">
-                ADAUSDT
+              <div className="text-[20px] font-[600]">
+                1000ADA
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-0 bg-gray-100 h-[90px]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                TP/SL
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[20px] font-[600]">
+                2:-1
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-0 bg-gray-100 h-[90px]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                Start Position
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[20px] font-[600]">
+                NEUTRAL
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-0 bg-gray-100 h-[90px]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                Status
+              </CardTitle>
+            </CardHeader>
+            <CardContent >
+              <div className="text-[20px] font-[600] bg-orange-100 text-center text-orange-500 me-[60px]">
+                Pause
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-0 bg-gray-100 h-[90px]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground">
+                Close Mode
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[20px] font-[600]">
+                TP/SL
               </div>
             </CardContent>
           </Card>
@@ -155,28 +204,117 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] innertext">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+              <div className="text-sm p-4 text-gray-500 innertext">
+                <h4>PeriodRSI: 13</h4>
+                <h4>EMA : True</h4>
+                <h4>High Limit : 85</h4>
+                <h4>Low Limit : 15</h4>
+                <h4>30m</h4>  
               </div>
             </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-gray-100 mt-4">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="rsi" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="rsi">rsi</SelectItem>
+              </SelectContent>
+            </Select>
+
+            </CardHeader>
           </Card>
         </div>
         
       </SideModal>
       <SideModal
         title="Clone Executors"
-        description="Exporting Executor tomsfklsdaklfjklj JSON"
+        description="Clone Executors tomsfklsdaklfjklj JSON"
         isOpen={cloneOpen}
         onClose={() => setCloneOpen(false)}
       >
         <div className="">
           <Label className="text-lg">End Date</Label>
-          <Input type="date" className=" py-4   mt-2"></Input>
+          <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="rsi">rsi</SelectItem>
+              </SelectContent>
+            </Select>
           <div className="flex gap-4 w-[300px] mx-auto mt-14">
-            <Button variant={"ghost"} className="border-2 px-12">
+            <Button variant={"ghost"} className="border-2 px-12 bg-gray-100">
               Cancel
             </Button>
-            <Button>Export Executor</Button>
+            <Button>Clone Executor</Button>
+          </div>
+        </div>
+      </SideModal>
+
+      <SideModal
+        title="Configure Backtest"
+        description="Clone Executors tomsfklsdaklfjklj JSON"
+        isOpen={runBacksetOpen}
+        onClose={() => setRunBacksetOpen(false)}
+      >
+        <div className="">
+          <div className="mb-5">
+          <Label className="text-xs">Start Date</Label>
+          <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="rsi">rsi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+            <div className="mb-5">
+            <Label className="text-xs">End Date</Label>
+          <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="rsi">rsi</SelectItem>
+              </SelectContent>
+            </Select>
+            </div>
+
+            <div className="mb-5">
+            <Label className="text-xs">Coin</Label>
+          <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="rsi">rsi</SelectItem>
+              </SelectContent>
+            </Select>
+            </div>
+            <Label className="text-sm underline">You are backtesting on ---</Label>
+
+            <div className="my-2">
+            <Label className="text-xs">Custom Strategy</Label>
+            <h2 className="text-lg font-[700]"> 1000BONKUSDT: 1 USDT -1: -1- LONG</h2>
+            </div>
+
+            <div className="my-2">
+            <Label className="text-xs">Strategies</Label>
+            <h2 className="text-lg font-[700]"> macd( 5m ) | rsi( 12h ) </h2>
+            </div>
+
+
+          <div className="flex gap-4 justify-center mx-auto mt-14">
+            <Button variant={"ghost"} className="px-12 w-[200px] bg-gray-100 hover:bg-gray-200">
+              Cancel
+            </Button>
+            <Button className="w-[200px]">Run Backtest</Button>
           </div>
         </div>
       </SideModal>
@@ -200,7 +338,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => setCloneOpen(true)}>
             Clone Executor
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
+          <DropdownMenuItem onClick={() => setRunBacksetOpen(true)}>
             Run backtest
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
