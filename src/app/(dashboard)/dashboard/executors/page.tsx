@@ -7,6 +7,7 @@ import { columns } from "./executorsColumn";
 import { Card } from "@/components/ui/card";
 import { EmployeeTable } from "../../../../components/executors/executors-table";
 import { Lexend, Manrope } from "next/font/google";
+import Link from "next/link";
 interface Executor {
   id: number;
   name: string;
@@ -90,12 +91,15 @@ dark:bg-[#3D0135]"
               </span>
               <span className={manarop.className}> Import Executors</span>
             </Button>
+            <Link href="/dashboard/addexecutors">
             <Button className="text-[16px]">
               <span className="px-2">
                 <FiPlus />
               </span>
               <span className={manarop.className}> Add Executors</span>
             </Button>
+            </Link>
+            
           </div>
         </div>
 
