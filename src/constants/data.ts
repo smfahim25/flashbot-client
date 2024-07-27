@@ -121,6 +121,7 @@ export type Executor = {
   ticker: string;
   size: string; // Consider using a proper date type if possible
   startposition: string;
+  createdDate?: string;
 };
 export const navItems: NavItem[] = [
   {
@@ -144,7 +145,7 @@ export const navItems: NavItem[] = [
 
   {
     title: "Backtest",
-    href: "/dashboard/table",
+    href: "/dashboard/backtest",
     icon: "reset",
     label: "Backtest",
   },

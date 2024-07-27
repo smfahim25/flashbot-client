@@ -34,15 +34,10 @@ import {
 import { Input } from "../ui/input";
 import { LuSettings2 } from "react-icons/lu";
 import { PiExport } from "react-icons/pi";
-import { IoIosPeople } from "react-icons/io";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { useEffect, useRef, useState } from "react";
-import FilterOption from "./executorFilter";
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
+import { useEffect, useMemo, useRef, useState } from "react";
+import FilterOption from "./backtestFilter";
 
 interface DataTableProps<Executor, TValue> {
   columns: ColumnDef<Executor, TValue>[];
@@ -62,16 +57,30 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ["vietnamese"],
 });
 
-export function ExecutorTable<Executor, TValue>({
+export function BacktestTable<Executor, TValue>({
   columns,
   data,
   searchKey,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<Executor, TValue>) {
+  const [show, setShow] = useState(false);
+  const [selectOngoing, setSelectOngoing] = useState(true);
+  const [selectHistory, setSelectHistory] = useState(false);
+
+  // Conditionally adjust columns based on the selectHistory state
+  const filteredColumns = useMemo(() => {
+    return columns.filter((column) => {
+      if (column.id === "actions" && selectHistory) {
+        return false;
+      }
+      return true;
+    });
+  }, [selectHistory, columns]);
+
   const table = useReactTable({
     data,
-    columns,
+    columns: filteredColumns,
     pageCount: pageCount ?? -1,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -79,7 +88,7 @@ export function ExecutorTable<Executor, TValue>({
     manualPagination: true,
     manualFiltering: true,
   });
-  const [show, setShow] = useState(false);
+
   const btnRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const closeMenu = (e: MouseEvent) => {
@@ -92,20 +101,35 @@ export function ExecutorTable<Executor, TValue>({
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
-  // Handle server-side pagination
 
   return (
     <>
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center ">
-          <span className="bg-[#FE0FE2] text-white p-2 rounded-lg mr-2">
-            <IoIosPeople size={18} />
+        <div className="flex items-center cursor-pointer">
+          <span
+            className={`${jakarta.className} text-[14px] border-b-2 ${
+              selectOngoing && "border-[#FE0FE2] text-[#FE0FE2]"
+            } p-3`}
+            onClick={() => {
+              setSelectHistory(false);
+              setSelectOngoing(true);
+            }}
+          >
+            Ongoing Backtest
           </span>
-          <span className={`${jakarta.className} text-[14px]`}>
-            All Executors
+          <span
+            className={`${jakarta.className} text-[14px] border-b-2 p-3 ${
+              selectHistory && "border-[#FE0FE2] text-[#FE0FE2]"
+            }`}
+            onClick={() => {
+              setSelectHistory(true);
+              setSelectOngoing(false);
+            }}
+          >
+            History & Statistics
           </span>
         </div>
-        <div className="flex">
+        <div className="flex mt-5">
           <Input
             placeholder={`Search ${searchKey}...`}
             value={
@@ -150,7 +174,7 @@ export function ExecutorTable<Executor, TValue>({
               <span className="px-2">
                 <PiExport size={18} />
               </span>
-              Export Executors
+              Export Backtest
             </Button>
           </div>
         </div>
@@ -186,13 +210,14 @@ export function ExecutorTable<Executor, TValue>({
                     className="text-center"
                   >
                     {row.getVisibleCells().map((cell) => {
+                      console.log(cell);
                       const status = cell.column.id.includes("status");
                       return (
                         <TableCell key={cell.id}>
                           <div
                             className={
                               status
-                                ? "bg-[#FFF4E5] text-[#FF9100] p-2 text-center rounded-md"
+                                ? "bg-[#E5FFEA] text-[#00B21D] p-2 text-center rounded-md"
                                 : ""
                             }
                           >

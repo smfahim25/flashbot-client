@@ -3,11 +3,9 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Notification } from "@/components/notification";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Employee, users } from "@/constants/data";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { columns } from "./executors/executorsColumn";
 import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
 import { dashboardColumns } from "./dashboardSection/dashboardColumns";
 import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
@@ -15,25 +13,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
-interface Executor {
-  id: number;
-  first_name: string;
-  last_name: string;
-  name: string;
-  email: string;
-  phone: string;
-  gender: string;
-  date_of_birth: string; // Consider using a proper date type if possible
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  longitude?: number; // Optional field
-  latitude?: number; // Optional field
-  job: string;
-  profile_picture?: string | null;
-}
+
 const lexend = Lexend({
   weight: "600",
   subsets: ["vietnamese"],

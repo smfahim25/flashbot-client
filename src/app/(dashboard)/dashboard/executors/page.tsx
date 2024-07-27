@@ -5,7 +5,7 @@ import { FiPlus } from "react-icons/fi";
 import { TfiImport } from "react-icons/tfi";
 import { columns } from "./executorsColumn";
 import { Card } from "@/components/ui/card";
-import { EmployeeTable } from "../../../../components/executors/executors-table";
+import { ExecutorTable } from "../../../../components/executors/executors-table";
 import { Lexend, Manrope } from "next/font/google";
 import Link from "next/link";
 interface Executor {
@@ -103,9 +103,9 @@ dark:bg-[#3D0135]"
           </div>
         </div>
 
-        <div className=" w-full rounded-xl p-4 mt-5">
-          <Card className="mt-4 border-none p-2 px-5">
-            <EmployeeTable
+        <div className="w-full rounded-xl p-4">
+          <Card className="border-none p-2 px-5">
+            <ExecutorTable
               searchKey="size"
               pageNo={page}
               columns={columns}
