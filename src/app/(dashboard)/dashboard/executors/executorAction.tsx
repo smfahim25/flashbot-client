@@ -1,24 +1,13 @@
 "use client";
-import { AlertModal } from "@/components/alert-modal/alert-modal";
 import { SideModal } from "@/components/sideModal";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
 import { Executor } from "@/constants/data";
@@ -31,7 +20,7 @@ import {
 } from "@/components/ui/select";
 
 import { EllipsisVertical } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
@@ -48,7 +37,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [cloneOpen, setCloneOpen] = useState(false);
   const [runBacksetOpen, setRunBacksetOpen] = useState(false);
-  console.log(data);
   const router = useRouter();
 
   const onConfirm = async () => {};
