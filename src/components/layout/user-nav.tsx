@@ -19,15 +19,15 @@ export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full mx-8">
+        <div className="flex items-center cursor-pointer">
           <Avatar className="h-8 w-8">
             <AvatarImage src="/imgs/logo.png" />
             {/* <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback> */}
           </Avatar>
           <span>MR.XXX</span>
-        </Button>
+        </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent className="w-56 mt-3" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex items-center space-y-1">
             <div className="mr-2">
