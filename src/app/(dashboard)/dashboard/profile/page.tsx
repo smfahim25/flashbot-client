@@ -87,7 +87,6 @@ export default function Page() {
                   +88019485 21934
                 </h6>
                 <span className="cursor-pointer p-1">
-                  {" "}
                   <FiCopy onClick={handleCopy} />
                 </span>
               </div>

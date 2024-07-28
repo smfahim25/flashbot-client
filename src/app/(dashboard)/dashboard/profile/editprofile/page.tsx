@@ -101,7 +101,7 @@ export default function Page() {
               <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">
                 Date of Birth
               </Label>
-              <CalendarDateRangePicker />
+              <CalendarDateRangePicker className="w-[335px]" />
             </div>
 
             <div>
