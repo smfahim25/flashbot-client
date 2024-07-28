@@ -71,12 +71,16 @@ export function BacktestTable<Executor, TValue>({
   // Conditionally adjust columns based on the selectHistory state
   const filteredColumns = useMemo(() => {
     return columns.filter((column) => {
-      if (column.id === "actions" && selectHistory) {
+      if (column.id === "download" && selectHistory && !selectOngoing) {
+        return true;
+      } else if (column.id === "actions" && selectHistory) {
+        return false;
+      } else if (column.id === "download" && selectOngoing) {
         return false;
       }
       return true;
     });
-  }, [selectHistory, columns]);
+  }, [selectHistory, columns, selectOngoing]);
 
   const table = useReactTable({
     data,
@@ -209,7 +213,6 @@ export function BacktestTable<Executor, TValue>({
                     className="text-center"
                   >
                     {row.getVisibleCells().map((cell) => {
-                      console.log(cell);
                       const status = cell.column.id.includes("status");
                       return (
                         <TableCell key={cell.id}>
