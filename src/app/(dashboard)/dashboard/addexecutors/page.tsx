@@ -177,7 +177,7 @@ export default function Page() {
   const { isMinimized } = useSidebar();
   return (
     <ScrollArea className="h-full">
-      <div className="flex-1 space-y-4  p-4 pt-6 md:p-8 mb-16">
+      <div className="flex-1  p-4 md:p-8 mb-16">
         <div className="flex justify-between items-center">
           <div>
             <h6
@@ -330,97 +330,6 @@ export default function Page() {
             </Card>
           </ScrollArea>
           <div className="w-1/2">
-            {/* <ScrollArea className="h-[70vh] mt-4">
-              <Card className=" w-full border-none p-2 px-5">
-                <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
-                  <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
-                    rsi
-                  </h2>
-                </div>
-                <div className="mb-5">
-                  <Label className="text-xs">Add Strategy</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
-                  <div className="mb-5">
-                    <Label className="text-xs">PeriodoRSI</Label>
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rsi">rsi</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="mb-5">
-                    <Label className="text-xs">EMA</Label>
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rsi">rsi</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="mb-5">
-                    <Label className="text-xs">High Limit</Label>
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rsi">rsi</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="mb-5">
-                    <Label className="text-xs">Low Limit</Label>
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rsi">rsi</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="mb-5">
-                    <Label className="text-xs">Timeframe</Label>
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rsi">rsi</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="flex gap-5 justify-end mt-10 mb-2">
-                  <Button
-                    variant={"ghost"}
-                    className="border-2 px-12 w-[125px] bg-white dark:bg-[#252628]"
-                  >
-                    Remove
-                  </Button>
-                  <Button className="w-[125px] bg-[#2DD2CE]">Add</Button>
-                </div>
-              </Card>
-            </ScrollArea> */}
             <ScrollArea className="h-[70vh] mt-4">
               <StrategyFormManager />
             </ScrollArea>
