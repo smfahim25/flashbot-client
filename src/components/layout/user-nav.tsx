@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "../../AuthContext/AuthContext";
 import Image from "next/image";
+import Link from "next/link";
 export function UserNav() {
   const { logout } = useAuth();
   return (
@@ -46,7 +47,8 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <div className="flex items-center">
+          <Link href="/dashboard/profile"> 
+          <div className="flex items-center">
               <span className="mr-2">
                 <Image
                   src="/imgs/profile.svg"
@@ -57,6 +59,8 @@ export function UserNav() {
               </span>
               <span>View Profile</span>
             </div>
+           </Link>
+            
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>

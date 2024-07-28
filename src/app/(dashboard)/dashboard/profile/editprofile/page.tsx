@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useSidebar } from "@/hooks/useSidebar";
 import { FaCopy, FaEdit } from "react-icons/fa";
-import Link from "next/link";
 interface Executor {
   id: number;
   name: string;
@@ -32,6 +31,7 @@ interface Executor {
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
   { title: "Profile", link: "/dashboard/profile" },
+  { title: "Edit Profile", link: "/dashboard/profile/editprofile" },
 ];
 const lexend = Lexend({
   weight: "600",
@@ -55,57 +55,64 @@ export default function Page() {
             <h6
               className={`font-semibold text-[24px] leading-10 ${lexend.className}`}
             >
-              Profile
+              Edit Profile
             </h6>
             <Breadcrumbs items={breadcrumbItems} />
           </div>
         </div>
 
           <Card className="w-full mt-4 border-none p-2 px-5 rounded-xl p-4 mt-5">
-            <div className="flex justify-between">
-                <h6 className="font-[600] text-[24px]">General Information</h6>
-                <Link href="/dashboard/profile/editprofile"> <FiEdit/> </Link>
-                
-
-            </div>  
-            <div className="w-[120px] h-[120px] rounded-full bg-gray-200 mt-4"></div>
+            <div className="w-[120px] h-[120px] rounded-full bg-gray-200 mt-4 flex justify-center items-center cursor-pointer">
+                <Label className="font-lexend font-[400] text-[16px] text-[#686868]">Upload <br/>Picture</Label>
+            </div>
             <div className="grid grid-cols-3 gap-4 justify-center items-center my-5">
                 <div>
-                <Label className="text-xs font-[400] font-inner text-[12px] text-[#717275]">Full Name</Label>
-                <div className="flex">
-                <h6 className="font-[600] text-[16px] font-inner">Rafatul Islam </h6>
-                <span className="cursor-pointer p-1"> <FiCopy/> </span>
-                </div>
-                </div>
-                <div>
-                <Label className="text-xs font-[400] font-inner text-[12px] text-[#717275]">Email ID</Label>
-                <div className="flex">
-                <h6 className="font-[600] text-[16px] font-inner">watson@gmail.com </h6>
-                <span className="cursor-pointer p-1"> <FiCopy/> </span>
-                </div>
-                </div>
-                <div>
-                <Label className="text-xs font-[400] font-inner text-[12px] text-[#717275]">Phone Number</Label>
-                <div className="flex">
-                <h6 className="font-[600] text-[16px] font-inner">+88019485 21934 </h6>
-                <span className="cursor-pointer p-1"> <FiCopy/> </span>
-                </div>
-                </div>
-                <div>
-                <Label className="text-xs font-[400] font-inner text-[12px] text-[#717275]">User Name</Label>
-                <h6 className="font-[600] text-[16px] font-inner">rafatulislam </h6>
+                <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">First Name</Label>
+                <Input placeholder="First Name"></Input>
                 </div>
 
                 <div>
-                <Label className="text-xs font-[400] font-inner text-[12px] text-[#717275]">Date of Birth</Label>
-                <h6 className="font-[600] text-[16px] font-inner">1991-07-26 </h6>
+                <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">Last Name</Label>
+                <Input placeholder="Last Name"></Input>
                 </div>
+
                 <div>
-                <Label className="text-xs font-[400] font-inner text-[12px] text-[#717275]">Sex</Label>
-                <h6 className="font-[600] text-[16px] font-inner">Male </h6>
+                <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">User Name</Label>
+                <Input placeholder="User Name"></Input>
                 </div>
                 
-            </div>          
+                <div>
+                <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">Email</Label>
+                <Input placeholder="Email" type="email"></Input>
+                </div>
+               
+                <div>
+                <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">Phone Number</Label>
+                <Input placeholder="Phone Number"></Input>
+                </div>
+                
+                <div>
+                <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">Date of Birth</Label>
+                <Input placeholder="Date of Birth" type="date"></Input>
+                </div>
+
+                <div>
+                <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">Sex</Label>
+                <Select>
+                  <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
+                    <SelectValue placeholder="Sex" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                </div>
+            </div>  
+            <div className="flex gap-5 justify-end mt-10">
+            <Button>Save</Button>
+          </div>        
           </Card>
           
         
