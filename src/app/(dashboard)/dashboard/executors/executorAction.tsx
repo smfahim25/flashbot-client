@@ -232,13 +232,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setCloneOpen(false)}
       >
         <div className="">
-          <Label className="text-lg">End Date</Label>
+          <Label className="text-lg">Coin</Label>
           <Select>
             <SelectTrigger className="w-full dark:bg-[#56595C]">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="rsi">rsi</SelectItem>
+              <SelectItem value="One coin">One coin</SelectItem>
+              <SelectItem value="Miltiple Coins">Multiple Coins</SelectItem>
+              <SelectItem value="All Coins">All Coins</SelectItem>
             </SelectContent>
           </Select>
           <div className="flex gap-5 justify-end mt-10">
@@ -337,7 +339,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => setViewMore(true)}>
             View More
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setViewOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => router.push("/dashboard/addexecutors")}
+          >
             Edit Executor
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setCloneOpen(true)}>

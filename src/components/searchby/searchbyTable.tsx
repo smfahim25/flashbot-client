@@ -7,9 +7,6 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { LuSettings2 } from "react-icons/lu";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import {
   Table,
@@ -20,7 +17,6 @@ import {
   TableRow,
 } from "../ui/table";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import Image from "next/image";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

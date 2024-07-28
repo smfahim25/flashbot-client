@@ -26,7 +26,6 @@ interface CellActionProps {
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  const [viewOpen, setViewOpen] = useState(false);
   const [viewMore, setViewMore] = useState(false);
 
   return (

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useSidebar } from "@/hooks/useSidebar";
+import { useState } from "react";
 interface Executor {
   id: number;
   name: string;
@@ -40,11 +41,139 @@ const manarop = Manrope({
   weight: "700",
   subsets: ["vietnamese"],
 });
+// Define the types for the props
+interface StrategyFormProps {
+  onRemove: () => void;
+  onAdd: () => void;
+  showAddButton: boolean;
+}
+
+function StrategyForm({ onRemove, onAdd, showAddButton }: StrategyFormProps) {
+  return (
+    <Card className="w-full border-none p-2 px-5 mb-5">
+      <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
+        <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
+          rsi
+        </h2>
+      </div>
+      <div className="mb-5">
+        <Label className="text-xs">Add Strategy</Label>
+        <Select>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="rsi">rsi</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
+        <div className="mb-5">
+          <Label className="text-xs">PeriodoRSI</Label>
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="rsi">rsi</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="mb-5">
+          <Label className="text-xs">EMA</Label>
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="rsi">rsi</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="mb-5">
+          <Label className="text-xs">High Limit</Label>
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="rsi">rsi</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="mb-5">
+          <Label className="text-xs">Low Limit</Label>
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="rsi">rsi</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="mb-5">
+          <Label className="text-xs">Timeframe</Label>
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="rsi">rsi</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="flex gap-5 justify-end mt-10 mb-2">
+        {showAddButton && (
+          <Button className="w-[125px] bg-[#2DD2CE]" onClick={onAdd}>
+            Add
+          </Button>
+        )}
+        <Button
+          variant={"ghost"}
+          className="border-2 px-12 w-[125px] bg-white dark:bg-[#252628]"
+          onClick={onRemove}
+        >
+          Remove
+        </Button>
+      </div>
+    </Card>
+  );
+}
+
+function StrategyFormManager() {
+  const [forms, setForms] = useState([{ id: Date.now() }]);
+
+  const addForm = () => {
+    setForms([...forms, { id: Date.now() }]);
+  };
+
+  const removeForm = (id: number) => {
+    if (forms.length > 1) {
+      setForms(forms.filter((form) => form.id !== id));
+    }
+  };
+
+  return (
+    <div>
+      {forms.map((form, index) => (
+        <StrategyForm
+          key={form.id}
+          onRemove={() => removeForm(form.id)}
+          onAdd={addForm}
+          showAddButton={index === forms.length - 1}
+        />
+      ))}
+    </div>
+  );
+}
 export default function Page() {
-  const totalUsers = 20;
-  const pageLimit = 10;
-  const page = 1;
-  const pageCount = Math.ceil(totalUsers / pageLimit);
   const { isMinimized } = useSidebar();
   return (
     <ScrollArea className="h-full">
@@ -61,67 +190,15 @@ export default function Page() {
         </div>
 
         <div className=" w-full flex justify-center gap-4 rounded-xl p-4 mt-5">
-          <Card className="mt-4 border-none w-1/2 p-2 px-5">
-            <div className="mb-5">
-              <Label className="text-xs">Executor Name</Label>
-              <Input placeholder="Name"></Input>
-            </div>
-
-            <div className="mb-5">
-              <Label className="text-xs">Ticker / Coin / Symbol</Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rsi">rsi</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="mb-5">
-              <Label className="text-xs">Close Mode</Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rsi">rsi</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
+          <ScrollArea className="h-[70vh] mt-4">
+            <Card className="border-none w-full p-2 px-5">
               <div className="mb-5">
-                <Label className="text-xs">TP</Label>
-                <div className="flex items-center border rounded-md w-full shadow-sm">
-                  <input
-                    type="number"
-                    className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
-                    placeholder="0"
-                  />
-                  <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
-                    %
-                  </span>
-                </div>
+                <Label className="text-xs">Executor Name</Label>
+                <Input placeholder="Name"></Input>
               </div>
 
               <div className="mb-5">
-                <Label className="text-xs">SL</Label>
-                <div className="flex items-center border rounded-md w-full shadow-sm">
-                  <input
-                    type="number"
-                    className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
-                    placeholder="0"
-                  />
-                  <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
-                    %
-                  </span>
-                </div>
-              </div>
-
-              <div className="mb-5">
-                <Label className="text-xs">Size per Trade</Label>
+                <Label className="text-xs">Ticker / Coin / Symbol</Label>
                 <Select>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select" />
@@ -133,7 +210,98 @@ export default function Page() {
               </div>
 
               <div className="mb-5">
-                <Label className="text-xs">Type</Label>
+                <Label className="text-xs">Close Mode</Label>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rsi">rsi</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
+                <div className="mb-5">
+                  <Label className="text-xs">TP</Label>
+                  <div className="flex items-center border rounded-md w-full shadow-sm">
+                    <input
+                      type="number"
+                      className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
+                      placeholder="0"
+                    />
+                    <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
+                      %
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mb-5">
+                  <Label className="text-xs">SL</Label>
+                  <div className="flex items-center border rounded-md w-full shadow-sm">
+                    <input
+                      type="number"
+                      className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
+                      placeholder="0"
+                    />
+                    <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
+                      %
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mb-5">
+                  <Label className="text-xs">Size per Trade</Label>
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="rsi">rsi</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="mb-5">
+                  <Label className="text-xs">Type</Label>
+                  <div className="flex items-center border rounded-md w-full shadow-sm">
+                    <input
+                      type="number"
+                      className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
+                      placeholder="0"
+                    />
+                    <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <Label className="text-xs">Start Position</Label>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rsi">rsi</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="mb-5">
+                <Label className="text-xs">Status</Label>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rsi">rsi</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="mb-5">
+                <Label className="text-xs">Consensus</Label>
                 <div className="flex items-center border rounded-md w-full shadow-sm">
                   <input
                     type="number"
@@ -145,81 +313,32 @@ export default function Page() {
                   </span>
                 </div>
               </div>
-            </div>
 
-            <div className="mb-5">
-              <Label className="text-xs">Start Position</Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rsi">rsi</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="mb-5">
-              <Label className="text-xs">Status</Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rsi">rsi</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="mb-5">
-              <Label className="text-xs">Consensus</Label>
-              <div className="flex items-center border rounded-md w-full shadow-sm">
-                <input
-                  type="number"
-                  className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
-                  placeholder="0"
-                />
-                <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
-                  %
-                </span>
+              <div className="mb-5">
+                <Label className="text-xs">Leverage</Label>
+                <div className="flex items-center border rounded-md w-full shadow-sm">
+                  <input
+                    type="number"
+                    className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
+                    placeholder="0"
+                  />
+                  <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
+                    %
+                  </span>
+                </div>
               </div>
-            </div>
-
-            <div className="mb-5">
-              <Label className="text-xs">Leverage</Label>
-              <div className="flex items-center border rounded-md w-full shadow-sm">
-                <input
-                  type="number"
-                  className="w-full py-1.5 px-2.5 text-gray-900 border-none rounded-l-md focus:outline-none focus:ring-0"
-                  placeholder="0"
-                />
-                <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42]">
-                  %
-                </span>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </ScrollArea>
           <div className="w-1/2">
-            <Card className="mt-4 w-full border-none p-2 px-5">
-              <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
-                <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
-                  rsi
-                </h2>
-              </div>
-              <div className="mb-5">
-                <Label className="text-xs">Add Strategy</Label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rsi">rsi</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
+            {/* <ScrollArea className="h-[70vh] mt-4">
+              <Card className=" w-full border-none p-2 px-5">
+                <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
+                  <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
+                    rsi
+                  </h2>
+                </div>
                 <div className="mb-5">
-                  <Label className="text-xs">PeriodoRSI</Label>
+                  <Label className="text-xs">Add Strategy</Label>
                   <Select>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select" />
@@ -230,153 +349,81 @@ export default function Page() {
                   </Select>
                 </div>
 
-                <div className="mb-5">
-                  <Label className="text-xs">EMA</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
+                  <div className="mb-5">
+                    <Label className="text-xs">PeriodoRSI</Label>
+                    <Select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rsi">rsi</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="mb-5">
+                    <Label className="text-xs">EMA</Label>
+                    <Select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rsi">rsi</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="mb-5">
+                    <Label className="text-xs">High Limit</Label>
+                    <Select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rsi">rsi</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="mb-5">
+                    <Label className="text-xs">Low Limit</Label>
+                    <Select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rsi">rsi</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="mb-5">
+                    <Label className="text-xs">Timeframe</Label>
+                    <Select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rsi">rsi</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
-                <div className="mb-5">
-                  <Label className="text-xs">High Limit</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex gap-5 justify-end mt-10 mb-2">
+                  <Button
+                    variant={"ghost"}
+                    className="border-2 px-12 w-[125px] bg-white dark:bg-[#252628]"
+                  >
+                    Remove
+                  </Button>
+                  <Button className="w-[125px] bg-[#2DD2CE]">Add</Button>
                 </div>
-
-                <div className="mb-5">
-                  <Label className="text-xs">Low Limit</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="mb-5">
-                  <Label className="text-xs">Timeframe</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="flex gap-5 justify-end mt-10 mb-2">
-                <Button
-                  variant={"ghost"}
-                  className="border-2 px-12 w-[125px] bg-white dark:bg-[#252628]"
-                >
-                  Remove
-                </Button>
-                <Button className="w-[125px] bg-[#2DD2CE]">Add</Button>
-              </div>
-            </Card>
-            <Card className="mt-4 w-full border-none p-2 px-5">
-              <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
-                <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
-                  rsi
-                </h2>
-              </div>
-              <div className="mb-5">
-                <Label className="text-xs">Add Strategy</Label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rsi">rsi</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
-                <div className="mb-5">
-                  <Label className="text-xs">PeriodoRSI</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="mb-5">
-                  <Label className="text-xs">EMA</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="mb-5">
-                  <Label className="text-xs">High Limit</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="mb-5">
-                  <Label className="text-xs">Low Limit</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="mb-5">
-                  <Label className="text-xs">Timeframe</Label>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rsi">rsi</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="flex gap-5 justify-end mt-10 mb-2">
-                <Button
-                  variant={"ghost"}
-                  className="border-2 px-12 w-[125px] bg-white dark:bg-[#252628]"
-                >
-                  Remove
-                </Button>
-                <Button className="w-[125px] bg-[#2DD2CE]">Add</Button>
-              </div>
-            </Card>
+              </Card>
+            </ScrollArea> */}
+            <ScrollArea className="h-[70vh] mt-4">
+              <StrategyFormManager />
+            </ScrollArea>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import { Executor } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./backtestAction";
+import Downloadcsv from "./downloadcsv";
 
 export const columns: ColumnDef<Executor>[] = [
   {
@@ -47,5 +48,10 @@ export const columns: ColumnDef<Executor>[] = [
     id: "actions",
     header: "Action",
     cell: ({ row }) => <CellAction data={row.original} />,
+  },
+  {
+    id: "download",
+    header: "Download",
+    cell: ({ row }) => <Downloadcsv data={row.original} />,
   },
 ];
