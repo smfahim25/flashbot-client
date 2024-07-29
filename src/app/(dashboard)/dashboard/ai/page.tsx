@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
@@ -28,6 +29,23 @@ const lexend = Lexend({
 export default function Page() {
   const [show, setShow] = useState(false);
   const btnRef = useRef<HTMLDivElement | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleLabelClick = () => {
+    setIsEditing(true);
+    textareaRef.current?.focus();
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleTextareaBlur = () => {
+    setIsEditing(false);
+  };
+
   useEffect(() => {
     const closeMenu = (e: MouseEvent) => {
       if (btnRef.current && !btnRef.current.contains(e.target as HTMLElement)) {
@@ -39,6 +57,7 @@ export default function Page() {
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
+
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
@@ -97,9 +116,24 @@ export default function Page() {
         <Card className="w-full border-none px-5 rounded-xl p-4 mt-5 flex justify-between items-center h-[73px]">
           <div className="flex justify-center items-center gap-2">
             <Image src="/imgs/robot.png" alt="" width={44} height={45} />
-            <Label className="font-inner font-[400] text-[16px] text-[#888C91]">
-              Write Prompt...
-            </Label>
+            <div className="relative w-full">
+              {!isEditing ? (
+                <Label
+                  className="font-inner font-[400] text-[16px] text-[#888C91] cursor-pointer"
+                  onClick={handleLabelClick}
+                >
+                  {inputValue || "Write Prompt..."}
+                </Label>
+              ) : (
+                <Textarea
+                  ref={textareaRef}
+                  value={inputValue}
+                  onChange={handleTextareaChange}
+                  onBlur={handleTextareaBlur}
+                  className="absolute inset-0 bg-transparent border-none z-10 resize-none w-[500px] top-[-30px]"
+                />
+              )}
+            </div>
           </div>
           <div className="flex justify-center items-center gap-2">
             <div className="relative" ref={btnRef}>
