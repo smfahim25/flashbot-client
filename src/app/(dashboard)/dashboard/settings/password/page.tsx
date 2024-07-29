@@ -40,7 +40,7 @@ export default function Page() {
         <Card className="w-full border-none px-5 rounded-xl p-5 mt-5 ">
           <div className="grid grid-cols-3 w-1/2 my-4 ">
             <Link href="/dashboard/settings">
-              <h4 className="font-normal text-sm text-center p-2 text-[#737373] border-b border-b-[#D9DFEB] cursor-pointer hover:border-b-[#FE0FE2]">
+              <h4 className="font-normal text-sm text-center p-2 text-[#737373] border-b border-b-[#D9DFEB] cursor-pointer ">
                 General Settings
               </h4>
             </Link>
@@ -49,7 +49,7 @@ export default function Page() {
               Password Settings
             </h4>
             <Link href="/dashboard/settings/notification">
-              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer hover:border-b-[#FE0FE2]">
+              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer">
                 Notification Settings
               </h4>
             </Link>

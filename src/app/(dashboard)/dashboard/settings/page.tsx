@@ -49,12 +49,12 @@ export default function Page() {
               General Settings
             </h4>
             <Link href="/dashboard/settings/password">
-              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer hover:border-b-[#FE0FE2]">
+              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer">
                 Password Settings
               </h4>
             </Link>
             <Link href="/dashboard/settings/notification">
-              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer hover:border-b-[#FE0FE2]">
+              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer">
                 Notification Settings
               </h4>
             </Link>

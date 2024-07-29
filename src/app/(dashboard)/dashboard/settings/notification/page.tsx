@@ -56,7 +56,7 @@ export default function Page() {
         <div className="flex justify-between items-center">
           <div>
             <h6
-              className={`font-semibold text-[24px] leading-10 text-center ${lexend.className}`}
+              className={`font-semibold text-[24px] leading-10 ${lexend.className}`}
             >
               Notification Settings
             </h6>
@@ -66,17 +66,17 @@ export default function Page() {
         <Card className="w-full border-none px-5 rounded-xl p-5 mt-5 ">
           <div className="grid grid-cols-3 w-1/2 my-4 ">
             <Link href="/dashboard/settings">
-              <h4 className="font-normal text-sm text-center p-2 text-[#737373] border-b border-b-[#D9DFEB] cursor-pointer hover:border-b-[#FE0FE2]">
+              <h4 className="font-normal text-sm text-center p-2 text-[#737373] border-b border-b-[#D9DFEB] cursor-pointer">
                 General Settings
               </h4>
             </Link>
 
             <Link href="/dashboard/settings/password">
-              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer hover:border-b-[#FE0FE2]">
+              <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#D9DFEB] cursor-pointer">
                 Password Settings
               </h4>
             </Link>
-            <h4 className="font-[400] text-sm text-inner text-[#737373] text-center p-2 border-b border-b-[#FE0FE2]">
+            <h4 className="font-[400] text-sm text-inner text-[#FE0FE2] text-center p-2 border-b border-b-[#FE0FE2]">
               Notification Settings
             </h4>
           </div>
@@ -91,13 +91,17 @@ export default function Page() {
               <Toggle
                 pressed={proNoti === false}
                 onPressedChange={handleProNoti}
-                className={`relative w-10 h-6 bg-[#00D066] dark:bg-[#00D066] rounded-full`}
+                className={`relative w-10 h-6 rounded-full ${
+                  proNoti === true
+                    ? "bg-[#00D066] dark:bg-[#00D066]"
+                    : "dark:bg-gray-700"
+                } `}
               >
                 <div
-                  className={`block w-4 h-4 bg-white dark:bg-gray-800 rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
                     proNoti === false
-                      ? "translate-x-[-6px]"
-                      : "translate-x-[6px]"
+                      ? "translate-x-[-6px] bg-black"
+                      : "translate-x-[6px] bg-white"
                   }`}
                 />
               </Toggle>
@@ -115,13 +119,17 @@ export default function Page() {
               <Toggle
                 pressed={receiveMsg == false}
                 onPressedChange={handleReceiveMsg}
-                className={`relative w-10 h-6 bg-[#00D066] dark:bg-[#00D066] rounded-full`}
+                className={`relative w-10 h-6 rounded-full ${
+                  receiveMsg === true
+                    ? "bg-[#00D066] dark:bg-[#00D066]"
+                    : "dark:bg-gray-700"
+                } `}
               >
                 <div
-                  className={`block w-4 h-4 bg-white dark:bg-gray-800 rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
                     receiveMsg === false
-                      ? "translate-x-[-6px]"
-                      : "translate-x-[6px]"
+                      ? "translate-x-[-6px] bg-black"
+                      : "translate-x-[6px] bg-white"
                   }`}
                 />
               </Toggle>
@@ -138,13 +146,17 @@ export default function Page() {
               <Toggle
                 pressed={getPush == false}
                 onPressedChange={handleGetPush}
-                className={`relative w-10 h-6 bg-[#00D066] dark:bg-[#00D066] rounded-full`}
+                className={`relative w-10 h-6  rounded-full ${
+                  getPush === true
+                    ? "bg-[#00D066] dark:bg-[#00D066]"
+                    : "dark:bg-gray-700"
+                } `}
               >
                 <div
-                  className={`block w-4 h-4 bg-white dark:bg-gray-800 rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
                     getPush === false
-                      ? "translate-x-[-6px]"
-                      : "translate-x-[6px]"
+                      ? "translate-x-[-6px] bg-black"
+                      : "translate-x-[6px] bg-white"
                   }`}
                 />
               </Toggle>
@@ -163,13 +175,17 @@ export default function Page() {
               <Toggle
                 pressed={receiveCupon == false}
                 onPressedChange={handleReceiveCupon}
-                className={`relative w-10 h-6 bg-[#00D066] dark:bg-[#00D066] rounded-full`}
+                className={`relative w-10 h-6 rounded-full ${
+                  receiveCupon === true
+                    ? "bg-[#00D066] dark:bg-[#00D066]"
+                    : "dark:bg-gray-700"
+                } `}
               >
                 <div
-                  className={`block w-4 h-4 bg-white dark:bg-gray-800 rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
                     receiveCupon === false
-                      ? "translate-x-[-6px]"
-                      : "translate-x-[6px]"
+                      ? "translate-x-[-6px] bg-black"
+                      : "translate-x-[6px] bg-white"
                   }`}
                 />
               </Toggle>
@@ -188,13 +204,17 @@ export default function Page() {
               <Toggle
                 pressed={receiveAccount == false}
                 onPressedChange={handleReceiveAccount}
-                className={`relative w-10 h-6 bg-[#00D066] dark:bg-[#00D066] rounded-full`}
+                className={`relative w-10 h-6 rounded-full ${
+                  receiveAccount === true
+                    ? "bg-[#00D066] dark:bg-[#00D066]"
+                    : "dark:bg-gray-700"
+                }`}
               >
                 <div
-                  className={`block w-4 h-4 bg-white dark:bg-gray-800 rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 rounded-full shadow-md transform transition-transform ${
                     receiveAccount === false
-                      ? "translate-x-[-6px]"
-                      : "translate-x-[6px]"
+                      ? "translate-x-[-6px] bg-black"
+                      : "translate-x-[6px] bg-white"
                   }`}
                 />
               </Toggle>
