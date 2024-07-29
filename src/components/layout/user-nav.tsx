@@ -23,7 +23,6 @@ export function UserNav() {
         <div className="flex items-center cursor-pointer">
           <Avatar className="h-8 w-8">
             <AvatarImage src="/imgs/logo.png" />
-            {/* <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback> */}
           </Avatar>
           <span>MR.XXX</span>
         </div>
@@ -47,20 +46,19 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-          <Link href="/dashboard/profile"> 
-          <div className="flex items-center">
-              <span className="mr-2">
-                <Image
-                  src="/imgs/profile.svg"
-                  alt="profile"
-                  width={16}
-                  height={16}
-                />
-              </span>
-              <span>View Profile</span>
-            </div>
-           </Link>
-            
+            <Link href="/dashboard/profile">
+              <div className="flex items-center">
+                <span className="mr-2">
+                  <Image
+                    src="/imgs/profile.svg"
+                    alt="profile"
+                    width={16}
+                    height={16}
+                  />
+                </span>
+                <span>View Profile</span>
+              </div>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
