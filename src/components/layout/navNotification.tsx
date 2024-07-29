@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,7 @@ import { FaRegCircleCheck } from "react-icons/fa6";
 export default function NavNotification() {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedValue, setSelectedValue] = useState("All");
+  const btnRef = useRef<HTMLDivElement | null>(null);
 
   const handleAllClick = () => {
     setShowOptions((prevState) => !prevState);
@@ -22,6 +23,18 @@ export default function NavNotification() {
     setSelectedValue(value);
     setShowOptions(false); // Hide the options after selection
   };
+
+  useEffect(() => {
+    const closeMenu = (e: MouseEvent) => {
+      if (btnRef.current && !btnRef.current.contains(e.target as HTMLElement)) {
+        setShowOptions(false);
+      }
+    };
+
+    document.body.addEventListener("mousedown", closeMenu);
+
+    return () => document.body.removeEventListener("mousedown", closeMenu);
+  }, []);
   return (
     <div>
       <DropdownMenu>
@@ -38,6 +51,7 @@ export default function NavNotification() {
                 <span
                   className="ml-5 flex items-center cursor-pointer"
                   onClick={handleAllClick}
+                  ref={btnRef}
                 >
                   {selectedValue}
                   <span className="ml-2">
