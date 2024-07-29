@@ -23,6 +23,7 @@ import { EllipsisVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { CalendarDateRangePicker } from "@/components/date-pick-ranger";
 
 interface CellActionProps {
   data: Executor;
@@ -265,26 +266,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <div className="">
           <div className="mb-5">
             <Label className="text-xs">Start Date</Label>
-            <Select>
-              <SelectTrigger className="w-full dark:bg-[#56595C]">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="rsi">rsi</SelectItem>
-              </SelectContent>
-            </Select>
+            <CalendarDateRangePicker />
           </div>
 
           <div className="mb-5">
             <Label className="text-xs">End Date</Label>
-            <Select>
-              <SelectTrigger className="w-full dark:bg-[#56595C]">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="rsi">rsi</SelectItem>
-              </SelectContent>
-            </Select>
+            <CalendarDateRangePicker />
           </div>
 
           <div className="mb-5">
@@ -294,7 +281,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="rsi">rsi</SelectItem>
+                <SelectItem value="One Coin">One Coin</SelectItem>
+                <SelectItem value="Multiple Coins">Multiple Coins</SelectItem>
+                <SelectItem value="All Coins">All Coins</SelectItem>
               </SelectContent>
             </Select>
           </div>
