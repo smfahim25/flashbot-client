@@ -18,7 +18,7 @@ export default function NavNotification() {
             <GoBell className="text-2xl" />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mt-5 p-3" align="end" forceMount>
+        <DropdownMenuContent className="mt-5 p-3 w-96" align="end" forceMount>
           <div className="flex item-center justify-between">
             <div className="flex items-center">
               <span className="text-[16px] font-[500]">Notification</span>
