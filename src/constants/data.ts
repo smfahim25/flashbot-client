@@ -169,7 +169,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "AI",
-    href: "/dashboard/kanban",
+    href: "/dashboard/ai",
     icon: "kanban",
     label: "kanban",
   },

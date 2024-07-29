@@ -62,6 +62,7 @@ export function UserNav() {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
+            <Link href="/dashboard/settings">
             <div className="flex items-center">
               <span className="mr-2">
                 <Image
@@ -73,6 +74,8 @@ export function UserNav() {
               </span>
               <span>Settings</span>
             </div>
+            </Link>
+            
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
