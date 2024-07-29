@@ -33,12 +33,12 @@ export default function ThemeToggle({}: CompProps) {
       <Toggle
         pressed={theme === "dark"}
         onPressedChange={handleToggleChange}
-        className={`relative w-10 h-6 bg-gray-500 dark:bg-gray-600 rounded-full ${
+        className={`relative w-10 h-6 bg-gray-500 dark:bg-[#FE0FE2] rounded-full ${
           isMinimized && "ml-[-10px]"
         }`}
       >
         <div
-          className={`block w-4 h-4 bg-white dark:bg-gray-800 rounded-full shadow-md transform transition-transform ${
+          className={`block w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
             theme === "dark" ? "translate-x-2" : "translate-x-[-6px]"
           }`}
         />
