@@ -28,8 +28,10 @@ export default function Header() {
           <MobileSidebar />
         </div>
 
-        <div className="flex items-center gap-2">
-          <NavNotification />
+        <div className="flex items-center gap-5">
+          <span className="mr-5">
+            <NavNotification />
+          </span>
           <UserNav />
         </div>
       </nav>
