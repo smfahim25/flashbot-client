@@ -22,14 +22,14 @@ export default function NavNotification() {
           <div className="flex item-center justify-between">
             <div className="flex items-center">
               <span className="text-[16px] font-[500]">Notification</span>
-              <span className="ml-5 flex items-center">
+              <span className="ml-5 flex items-center cursor-pointer">
                 All
                 <span className="ml-2">
                   <RiArrowDownSLine />
                 </span>
               </span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer">
               <span>Mark all as read</span>
               <span className="ml-3">
                 <FaRegCircleCheck />
