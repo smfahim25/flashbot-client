@@ -107,32 +107,24 @@ export default function Page() {
             </Button>
           </div>
         </div>
-        <Card className="w-full border-none px-5 rounded-xl p-4 mt-5 flex justify-center items-center h-[566px]">
+        <Card className="w-[1100px] border-none px-5 mx-auto rounded-xl p-4 mt-5 flex justify-center items-center h-[566px]">
           <Label className="font-inner font-[400] text-[16px] text-[#888C91] ">
             No Prompt yet
           </Label>
         </Card>
 
-        <Card className="w-full border-none px-5 rounded-xl p-4 mt-5 flex justify-between items-center h-[73px]">
+        <Card className="w-[1100px] mx-auto border-none px-5 rounded-xl p-4 mt-5 flex justify-between items-center h-[73px]">
           <div className="flex justify-center items-center gap-2">
             <Image src="/imgs/robot.png" alt="" width={44} height={45} />
-            <div className="relative w-full">
-              {!isEditing ? (
-                <Label
-                  className="font-inner font-[400] text-[16px] text-[#888C91] cursor-pointer"
-                  onClick={handleLabelClick}
-                >
-                  {inputValue || "Write Prompt..."}
-                </Label>
-              ) : (
-                <Textarea
-                  ref={textareaRef}
-                  value={inputValue}
-                  onChange={handleTextareaChange}
-                  onBlur={handleTextareaBlur}
-                  className="absolute inset-0 bg-transparent border-none z-10 resize-none w-[500px] top-[-30px]"
-                />
-              )}
+            <div className="relative w-full max-w-lg h-24">
+              <textarea
+                ref={textareaRef}
+                value={inputValue}
+                onChange={handleTextareaChange}
+                onBlur={handleTextareaBlur}
+                placeholder="Write prompt..."
+                className=" w-[900px] h-[60px] bg-transparent border-none resize-none p-4 text-base text-gray-900 outline-none mt-5 dark:text-white"
+              />
             </div>
           </div>
           <div className="flex justify-center items-center gap-2">
