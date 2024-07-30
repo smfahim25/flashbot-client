@@ -123,7 +123,7 @@ export default function Page() {
                 onChange={handleTextareaChange}
                 onBlur={handleTextareaBlur}
                 placeholder="Write prompt..."
-                className=" w-[900px] h-[60px] bg-transparent border-none resize-none p-4 text-base text-gray-900 outline-none mt-5 dark:text-white"
+                className=" w-[930px] h-[60px] bg-transparent border-none resize-none p-4 text-base text-gray-900 outline-none mt-5 dark:text-white"
               />
             </div>
           </div>
@@ -161,8 +161,10 @@ export default function Page() {
                 </Card>
               )}
             </div>
-            <div className="w-[44px] h-[44px] rounded-[12px] flex justify-center items-center bg-[#2DD2CE] cursor-pointer">
-              <FiSend className="text-white" name="Ask" />
+            <div>
+              <Button className="w-[44px] h-[44px] rounded-[12px] flex justify-center items-center bg-[#2DD2CE] cursor-pointer hover:bg-bg-[#2DD2CE]">
+                <FiSend className="text-white" name="Ask" />
+              </Button>
             </div>
           </div>
         </Card>
