@@ -181,7 +181,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Trading View",
-    href: "/",
+    href: "/dashboard/tradingview",
     icon: "barchart",
     label: "login",
   },
