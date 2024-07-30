@@ -223,7 +223,9 @@ export default function Page() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700] font-inter">489</div>
+              <div className="text-[24px] font-[700] font-inter">
+                <Image src="/imgs/24hbar.svg" alt="" width={250} height={50} />
+              </div>
             </CardContent>
           </Card>
           <Card className="border-0">
