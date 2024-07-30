@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { CalendarDateRangePicker } from "@/components/date-pick-ranger";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
@@ -27,6 +27,7 @@ const lexend = Lexend({
 });
 export default function Page() {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [date, setDate] = useState<Date | undefined>();
 
   const handleDivClick = () => {
     fileInputRef.current?.click();
@@ -101,7 +102,7 @@ export default function Page() {
               <Label className="text-xs font-[600] font-inner text-[12px] text-[#37383B]">
                 Date of Birth
               </Label>
-              <CalendarDateRangePicker className="w-[335px]" />
+              <CalendarDateRangePicker className="w-full" />
             </div>
 
             <div>
@@ -109,7 +110,7 @@ export default function Page() {
                 Sex
               </Label>
               <Select>
-                <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#19191A]">
+                <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#09090b]">
                   <SelectValue placeholder="Sex" />
                 </SelectTrigger>
                 <SelectContent>
