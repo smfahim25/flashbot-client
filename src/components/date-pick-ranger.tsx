@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
@@ -10,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import * as React from "react";
+import { Calendar } from "./ui/calender";
 
 export function CalendarDateRangePicker({
   className,
@@ -29,11 +29,11 @@ export function CalendarDateRangePicker({
               className
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
             {date ? format(date, "LLL dd, y") : <span>Pick a date</span>}
+            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="end">
+        <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             initialFocus
             selected={date}
