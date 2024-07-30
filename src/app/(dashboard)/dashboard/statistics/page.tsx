@@ -9,6 +9,8 @@ import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import DoughnutChart from "@/components/chart/dounghanut";
+import PieChart from "@/components/chart/pie";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
@@ -199,22 +201,14 @@ export default function Page() {
           </Card>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 md:grid-cols-1 lg:grid-cols-3 border-0">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 border-0">
           <Card className="border-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
                 Trades Ratio
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex justify-center items-center gap-10">
-              <Image src="/imgs/trade.svg" alt="" width={500} height={164} />
-              <Image
-                src="/imgs/trade-text.svg"
-                alt=""
-                width={100}
-                height={44}
-              />
-            </CardContent>
+            <CardContent className="flex justify-center items-center gap-10"></CardContent>
           </Card>
           <Card className="border-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -223,13 +217,7 @@ export default function Page() {
               </CardTitle>
             </CardHeader>
             <CardContent className="flex items-center justify-center gap-10">
-              <Image src="/imgs/longs.svg" alt="" width={500} height={164} />
-              <Image
-                src="/imgs/ratio-text.svg"
-                alt=""
-                width={100}
-                height={44}
-              />
+              <DoughnutChart />
             </CardContent>
           </Card>
           <Card className="border-none">
@@ -238,15 +226,7 @@ export default function Page() {
                 Total Positive & Negative Short
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center gap-5">
-              <Image src="/imgs/positive.svg" alt="" width={520} height={164} />
-              <Image
-                src="/imgs/positive-text.svg"
-                alt=""
-                width={300}
-                height={100}
-              />
-            </CardContent>
+            <CardContent className="flex flex-col items-center justify-center gap-5"></CardContent>
           </Card>
           <Card className="border-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -255,18 +235,7 @@ export default function Page() {
               </CardTitle>
             </CardHeader>
             <CardContent className="flex items-center justify-center gap-10">
-              <Image
-                src="/imgs/positivelong.svg"
-                alt=""
-                width={500}
-                height={164}
-              />
-              <Image
-                src="/imgs/positivelong-text.svg"
-                alt=""
-                width={100}
-                height={44}
-              />
+              <PieChart />
             </CardContent>
           </Card>
           <Card className="border-none">
@@ -275,9 +244,7 @@ export default function Page() {
                 Trade Longest & Shortest
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center justify-center gap-10">
-              <Image src="/imgs/longest.svg" alt="" width={500} height={164} />
-            </CardContent>
+            <CardContent className="flex items-center justify-center gap-10"></CardContent>
           </Card>
           <Card className="border-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -285,15 +252,7 @@ export default function Page() {
                 Longs & Shorts Win Ratio
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex justify-center items-center gap-10">
-              <Image src="/imgs/ratio.svg" alt="" width={500} height={164} />
-              <Image
-                src="/imgs/ratio-text.svg"
-                alt=""
-                width={100}
-                height={44}
-              />
-            </CardContent>
+            <CardContent className="flex justify-center items-center gap-10"></CardContent>
           </Card>
         </div>
       </div>
