@@ -680,7 +680,7 @@ export default function Page() {
               <Label className="font-inner font-[500] text-[14px] text-[#344054] dark:text-white">
                 Auto Stop Loss On
               </Label>
-              <CalendarDateRangePicker></CalendarDateRangePicker>
+              <CalendarDateRangePicker className="w-full"></CalendarDateRangePicker>
               <div className="flex justify-end my-2">
                 <Label className="font-inner font-[500] text-[12px] text-[#000000] dark:text-white">
                   current server date and time : 2024/02/04 02:14
