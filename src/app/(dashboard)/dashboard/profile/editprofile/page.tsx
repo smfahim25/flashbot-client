@@ -29,7 +29,6 @@ const lexend = Lexend({
 
 export default function Page() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [date, setDate] = useState<Date | undefined>();
   const [image, setImage] = useState<string | null>(null);
 
   const handleDivClick = () => {
@@ -49,7 +48,7 @@ export default function Page() {
 
   return (
     <ScrollArea className="h-full">
-      <div className="flex-1 space-y-4 p-4 pt-6 md:p-8 mb-16">
+      <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
         <div className="flex justify-between items-center">
           <div>
             <h6
