@@ -11,6 +11,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import DoughnutChart from "@/components/chart/dounghanut";
 import PieChart from "@/components/chart/pie";
+import RatioChart from "@/components/chart/ratio";
+import LineChart from "@/components/chart/line";
+import BarChart from "@/components/chart/bar";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
@@ -208,7 +211,9 @@ export default function Page() {
                 Trades Ratio
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex justify-center items-center gap-10"></CardContent>
+            <CardContent className="flex justify-center items-center gap-10">
+              <RatioChart />
+            </CardContent>
           </Card>
           <Card className="border-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -226,7 +231,9 @@ export default function Page() {
                 Total Positive & Negative Short
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center gap-5"></CardContent>
+            <CardContent className="flex flex-col items-center justify-center gap-5">
+              <BarChart />
+            </CardContent>
           </Card>
           <Card className="border-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -244,7 +251,9 @@ export default function Page() {
                 Trade Longest & Shortest
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center justify-center gap-10"></CardContent>
+            <CardContent className="flex items-center justify-center gap-10 h-full">
+              <LineChart />
+            </CardContent>
           </Card>
           <Card className="border-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -252,7 +261,9 @@ export default function Page() {
                 Longs & Shorts Win Ratio
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex justify-center items-center gap-10"></CardContent>
+            <CardContent className="flex justify-center items-center gap-10">
+              <RatioChart />
+            </CardContent>
           </Card>
         </div>
       </div>
