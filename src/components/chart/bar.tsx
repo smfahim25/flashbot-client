@@ -13,18 +13,18 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const BarChart: React.FC = () => {
   const data = {
-    labels: ["January", "February", "March", "April", "March", "April"],
+    labels: ["January", "February", "March", "April", "March", "April", "June"],
     datasets: [
       {
         label: "Total Positive Shorts",
-        data: [65, -59, 80, -81, 56, -55, 40],
+        data: [65, -59, 86, -81, 56, -55, 40],
         backgroundColor: "#FFE6FC",
         borderColor: "#FFE6FC",
         borderWidth: 1,
       },
       {
         label: "Total Negative Shorts",
-        data: [-28, 48, -40, 19, -86, 27, 90],
+        data: [-28, 48, -40, 19, -86, 27, -90],
         backgroundColor: "#FE0FE2",
         borderColor: "#FE0FE2",
         borderWidth: 1,
@@ -34,6 +34,7 @@ const BarChart: React.FC = () => {
   // Calculate the maximum positive value across all datasets
   const allData = data.datasets.flatMap((dataset) => dataset.data);
   const maxPositiveValue = Math.max(...allData.filter((value) => value > 0), 0);
+  const maxNegativeValue = Math.min(...allData.filter((value) => value < 0), 0);
 
   const options = {
     // indexAxis: "y" as const, // This makes the bar chart horizontal
@@ -52,14 +53,14 @@ const BarChart: React.FC = () => {
       y: {
         stacked: true, // Stack the bars on the y-axis
         reverse: true,
-        min: -maxPositiveValue,
+        min: maxNegativeValue,
         max: maxPositiveValue,
       },
     },
   };
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <div style={{ width: "100%", height: "400px" }}>
       <Bar data={data} options={options} />
     </div>
   );
