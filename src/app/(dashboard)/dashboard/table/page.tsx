@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Table", link: "/dashboard/ai" },
+  { title: "Table", link: "/dashboard/table" },
 ];
 const lexend = Lexend({
   weight: "600",
@@ -71,11 +71,11 @@ export default function Page() {
             <Breadcrumbs items={breadcrumbItems} />
           </div>
         </div>
-        <div className="flex mt-5">
-          <Card className="w-full border-none px-5 rounded-xl p-4 mr-4 grid grid-cols-2 gap-4 justify-center items-center">
+        <div className="w-full flex mt-5">
+          <Card className="w-full border-none px-5 rounded-xl p-4 mr-4 grid grid-cols-4 gap-4 justify-center items-center">
             <div>
-              <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B]">
-                Executor
+              <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B] dark:text-white">
+                Ticker
               </Label>
               <Select>
                 <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#19191A]">
@@ -88,8 +88,34 @@ export default function Page() {
             </div>
 
             <div>
-              <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B]">
-                Execution
+              <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B] dark:text-white">
+                Start Date
+              </Label>
+              <Select>
+                <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#19191A]">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B] dark:text-white">
+                End Date
+              </Label>
+              <Select>
+                <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#19191A]">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B] dark:text-white">
+                TimeFrame
               </Label>
               <Select>
                 <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#19191A]">
@@ -108,9 +134,12 @@ export default function Page() {
           </div>
         </div>
         <Card className="border-none px-5 mx-auto rounded-xl p-4 mt-5 flex justify-center items-center h-[566px]">
-          <Label className="font-inner font-[400] text-[16px] text-[#888C91] ">
-            No Prompt yet
+          <div className="flex flex-col items-center justify-center">
+            <Image src="/imgs/robot.png" alt="" width={152} height={155} />
+          <Label className="font-inner font-[400] text-[16px] text-[#888C91] dark:text-white text-center">
+            Ask me anything
           </Label>
+          </div>
         </Card>
 
         <Card className="mx-auto border-none px-5 rounded-xl p-4 mt-5 flex justify-between items-center h-[73px]">
@@ -129,7 +158,7 @@ export default function Page() {
           </div>
           <div className="flex justify-center items-center gap-2">
             <div className="relative" ref={btnRef}>
-              <div
+              {/* <div
                 className="w-[44px] h-[44px] rounded-[12px] flex justify-center items-center bg-white dark:bg-[#080808] border-[1px] cursor-pointer"
                 onClick={() => setShow(!show)}
               >
@@ -137,7 +166,7 @@ export default function Page() {
                   className="text-[#292D32] dark:text-white"
                   name="filter"
                 />
-              </div>
+              </div> */}
               {show && (
                 <Card className="absolute bottom-[70px] right-[-70px] w-[250px] h-[420px] border-gray px-5 rounded-lg p-4 mt-5 shadow-lg">
                   <h4 className="font-inner font-[400] text-[16px] text-[#6F7277] my-5">

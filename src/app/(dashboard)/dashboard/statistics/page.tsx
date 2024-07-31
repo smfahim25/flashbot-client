@@ -4,15 +4,21 @@ import { Notification } from "@/components/notification";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Employee, users } from "@/constants/data";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
-import { dashboardColumns } from "./dashboardSection/dashboardColumns";
 import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
+import DoughnutChart from "@/components/chart/dounghanut";
+import PieChart from "@/components/chart/pie";
+import RatioChart from "@/components/chart/ratio";
+import LineChart from "@/components/chart/line";
+import BarChart from "@/components/chart/bar";
+
+const breadcrumbItems = [
+  { title: "Dashboard", link: "/dashboard" },
+  { title: "Statistics", link: "/dashboard/statistics" },
+];
 
 const lexend = Lexend({
   weight: "600",
@@ -24,117 +30,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export default function Page() {
-  const totalUsers = 20;
-  const pageLimit = 10;
-  const pageCount = Math.ceil(totalUsers / pageLimit);
   const router = useRouter();
-  const employee: Employee[] = [
-    {
-      id: 1,
-      first_name: "John",
-      last_name: "Doe",
-      email: "john.doe@example.com",
-      phone: "+1-202-555-0123",
-      gender: "Male",
-      date_of_birth: "1980-04-25",
-      street: "123 Main St",
-      city: "Springfield",
-      state: "IL",
-      country: "USA",
-      name: "bitcoin",
-      zipcode: "62701",
-      longitude: -89.65,
-      latitude: 39.7817,
-      job: "Software Developer",
-      profile_picture: null,
-      price: "$167",
-      day: "+6.04%",
-    },
-    {
-      id: 2,
-      first_name: "Jane",
-      name: "bitcoin",
-      last_name: "Smith",
-      email: "jane.smith@example.com",
-      phone: "+1-202-555-0145",
-      gender: "Female",
-      date_of_birth: "1985-07-14",
-      street: "456 Oak St",
-      city: "Madison",
-      state: "WI",
-      country: "USA",
-      zipcode: "53703",
-      longitude: -89.3838,
-      latitude: 43.0731,
-      job: "Project Manager",
-      profile_picture: "https://example.com/profile/jane.jpg",
-      price: "$1965",
-      day: "+6.04%",
-    },
-    {
-      id: 3,
-      first_name: "Alice",
-      last_name: "Johnson",
-      email: "alice.johnson@example.com",
-      phone: "+1-202-555-0198",
-      gender: "Female",
-      name: "bitcoin",
-      date_of_birth: "1990-01-05",
-      street: "789 Pine St",
-      city: "Columbus",
-      state: "OH",
-      country: "USA",
-      zipcode: "43215",
-      longitude: -82.9988,
-      latitude: 39.9612,
-      job: "Data Analyst",
-      profile_picture: "https://example.com/profile/alice.jpg",
-      price: "$1965",
-      day: "+6.04%",
-    },
-    {
-      id: 4,
-      first_name: "Alice",
-      last_name: "Johnson",
-      email: "alice.johnson@example.com",
-      phone: "+1-202-555-0198",
-      gender: "Female",
-      name: "bitcoin",
-      date_of_birth: "1990-01-05",
-      street: "789 Pine St",
-      city: "Columbus",
-      state: "OH",
-      country: "USA",
-      zipcode: "43215",
-      longitude: -82.9988,
-      latitude: 39.9612,
-      job: "Data Analyst",
-      profile_picture: "https://example.com/profile/alice.jpg",
-      price: "$1965",
-      day: "+6.04%",
-    },
-    {
-      id: 5,
-      first_name: "Alice",
-      last_name: "Johnson",
-      email: "alice.johnson@example.com",
-      phone: "+1-202-555-0198",
-      gender: "Female",
-      name: "bitcoin",
-      date_of_birth: "1990-01-05",
-      street: "789 Pine St",
-      city: "Columbus",
-      state: "OH",
-      country: "USA",
-      zipcode: "43215",
-      longitude: -82.9988,
-      latitude: 39.9612,
-      job: "Data Analyst",
-      profile_picture: "https://example.com/profile/alice.jpg",
-      price: "$1965",
-      day: "+6.04%",
-    },
-  ];
   useEffect(() => {
     const checkToken = () => {
       const token = localStorage.getItem("token");
@@ -157,7 +53,7 @@ export default function Page() {
         <h6
           className={`font-semibold text-[24px] leading-10 ${lexend.className}`}
         >
-          Dashboard
+          Statistics
         </h6>
         <Breadcrumbs items={breadcrumbItems} />
 
@@ -219,112 +115,154 @@ export default function Page() {
           <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
-                24h Low & High
+                Risk/Reward (TP/SL)
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700] font-inter">
-                <Image src="/imgs/24hbar.svg" alt="" width={250} height={50} />
-              </div>
+              <div className="text-[24px] font-[700] font-inter">1.5/-1.0</div>
             </CardContent>
           </Card>
           <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
-                All Time High
+                Coin Name
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700] font-inter">$73,867</div>
+              <div className="text-[24px] font-[700] font-inter">ADAUSDT</div>
             </CardContent>
           </Card>
           <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
-                Price Change (1h)
+                Time Frame
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700] font-inter">-1.13%</div>
+              <div className="text-[24px] font-[700] font-inter">4h</div>
             </CardContent>
           </Card>
           <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
-                Price Change (24h)
+                Total Trade
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700] font-inter">+1.63%</div>
+              <div className="text-[24px] font-[700] font-inter">918</div>
             </CardContent>
           </Card>
           <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
-                Price Change (7d)
+                Strategies
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-[24px] font-[700] font-inter">+7.89%</div>
+              <div className="text-[24px] font-[700] font-inter">May 24</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Avg. Trade Time From Open to Close
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">13:03:18</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Average Bars in Trades
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">3</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Average Bars in Winning Trades
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">5</div>
+            </CardContent>
+          </Card>
+          <Card className="border-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Average Bars in Losing Trades
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-[24px] font-[700] font-inter">3</div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-1 lg:grid-cols-2 border-0">
-          <Card className=" border-0">
-            <CardHeader>
-              <CardTitle className="text-base text-muted-foreground flex">
-                <div className="bg-[#FE0FE2] text-white text-lg rounded p-1 mr-2">
-                  <HiOutlineDocumentText />
-                </div>
-                <span
-                  className={`${jakarta.className} text-[14px] dark:text-[white]`}
-                >
-                  Live Notification
-                </span>
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 border-0">
+          <Card className="border-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Trades Ratio
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <Notification />
+            <CardContent className="flex justify-center items-center gap-10">
+              <RatioChart />
             </CardContent>
           </Card>
-          <Card className=" border-0">
-            <CardHeader>
-              <CardTitle className="text-base text-muted-foreground flex">
-                <span
-                  className={`${jakarta.className} text-[14px] dark:text-[white]`}
-                >
-                  Global Markets
-                </span>
+          <Card className="border-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Total Longs & Shorts
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <Image src="/imgs/map.svg" alt="map" width={500} height={250} />
+            <CardContent className="flex items-center justify-center gap-10">
+              <DoughnutChart />
             </CardContent>
           </Card>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
-          <Card className="col-span-4 md:col-span-3 border-0">
-            <CardContent>
-              <DashboardTable
-                title="Top Gain Count"
-                searchKey="anything here"
-                columns={dashboardColumns}
-                totalUsers={totalUsers}
-                data={employee}
-              />
+          <Card className="border-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Total Positive & Negative Short
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center justify-center gap-5">
+              <BarChart />
             </CardContent>
           </Card>
-          <Card className="col-span-4 md:col-span-3 border-0">
-            <CardContent>
-              <DashboardTable
-                title="Top Lose Count"
-                searchKey="anything here"
-                columns={dashboardColumns}
-                totalUsers={totalUsers}
-                data={employee}
-              />
+          <Card className="border-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Total Longs & Shorts
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center gap-10">
+              <PieChart />
+            </CardContent>
+          </Card>
+          <Card className="border-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Trade Longest & Shortest
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center gap-10 h-full">
+              <LineChart />
+            </CardContent>
+          </Card>
+          <Card className="border-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
+                Longs & Shorts Win Ratio
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex justify-center items-center gap-10">
+              <RatioChart />
             </CardContent>
           </Card>
         </div>

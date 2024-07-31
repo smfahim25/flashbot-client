@@ -47,11 +47,10 @@ export default function NavNotification() {
           <div className="flex item-center justify-between">
             <div className="flex items-center">
               <span className="text-[16px] font-[500]">Notification</span>
-              <div className="relative">
+              <div className="relative" ref={btnRef}>
                 <span
                   className="ml-5 flex items-center cursor-pointer"
                   onClick={handleAllClick}
-                  ref={btnRef}
                 >
                   {selectedValue}
                   <span className="ml-2">
@@ -59,15 +58,15 @@ export default function NavNotification() {
                   </span>
                 </span>
                 {showOptions && (
-                  <div className="absolute mt-2 bg-white border border-gray-300 rounded shadow-md">
+                  <div className="absolute mt-2 bg-white border border-gray-300 dark:bg-[#09090b] rounded shadow-md">
                     <div
-                      className="px-2 py-1 cursor-pointer hover:bg-[#fe0fe2] hover:text-white"
+                      className="px-3 py-1 cursor-pointer hover:bg-[#fe0fe2] hover:text-white"
                       onClick={() => handleOptionClick("Custom")}
                     >
                       Custom
                     </div>
                     <div
-                      className="px-2 py-1 cursor-pointer hover:bg-[#fe0fe2] hover:text-white"
+                      className="px-3 py-1 cursor-pointer hover:bg-[#fe0fe2] hover:text-white"
                       onClick={() => handleOptionClick("All")}
                     >
                       All

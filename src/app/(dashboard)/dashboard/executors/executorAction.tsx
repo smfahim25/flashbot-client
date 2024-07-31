@@ -266,12 +266,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <div className="">
           <div className="mb-5">
             <Label className="text-xs">Start Date</Label>
-            <CalendarDateRangePicker />
+            <CalendarDateRangePicker className="w-full" />
           </div>
 
           <div className="mb-5">
             <Label className="text-xs">End Date</Label>
-            <CalendarDateRangePicker />
+            <CalendarDateRangePicker className="w-full" />
           </div>
 
           <div className="mb-5">
