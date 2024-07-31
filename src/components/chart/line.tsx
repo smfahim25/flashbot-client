@@ -45,6 +45,14 @@ const LineChart: React.FC = () => {
         borderWidth: 3,
         pointBackgroundColor: "#FF5733",
       },
+      {
+        label: "My Second Dataset",
+        data: [70, 85, 82, 40, 45],
+        borderColor: "#2DD2CE",
+        backgroundColor: "#2DD2CE",
+        borderWidth: 3,
+        pointBackgroundColor: "#2DD2CE",
+      },
     ],
   };
   const options = {
