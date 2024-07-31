@@ -101,7 +101,9 @@ export function StrategyTable<Strategies, TValue>({
           <span className="bg-[#FE0FE2] text-white p-2 rounded-lg mr-2">
             <IoIosDocument size={18} />
           </span>
-          <span className={`${jakarta.className} font-[600]  text-[14px] text-[#6F7277] dark:text-white `}>
+          <span
+            className={`${jakarta.className} font-[600]  text-[14px] text-[#6F7277] dark:text-white `}
+          >
             All Strategy
           </span>
         </div>
@@ -130,7 +132,7 @@ export function StrategyTable<Strategies, TValue>({
                 </Button>
               </PopoverTrigger>
               {show && (
-                <div className="absolute z-50 w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 2xl:top-[180px] sm:top-[130px] right-[350px]">
+                <div className="absolute z-50 w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 2xl:top-[170px] sm:top-[120px] right-[150px]">
                   <FilterOption />
                   <Button
                     variant={"secondary"}
@@ -153,7 +155,10 @@ export function StrategyTable<Strategies, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-center border-none">
+                    <TableHead
+                      key={header.id}
+                      className="text-center border-none"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -183,7 +188,7 @@ export function StrategyTable<Strategies, TValue>({
                           <div
                             className={
                               buy
-                                ? "w-[42px] h-[22px] bg-[#FFE6FC] dark:bg-[#3D0135] text-[#FE0FE2] dakr:text-[#FE0FE2] font-inner font-[500] text-[12px] border border-[1px] border-[#FE0FE2] dark:border-[#FE0FE2] text-center rounded-full"
+                                ? "w-[42px] h-[22px] bg-[#FFE6FC] dark:bg-[#3D0135] text-[#FE0FE2] dakr:text-[#FE0FE2] font-inner font-[500] text-[12px]  border-[1px] border-[#FE0FE2] dark:border-[#FE0FE2] text-center rounded-full"
                                 : ""
                             }
                           >
