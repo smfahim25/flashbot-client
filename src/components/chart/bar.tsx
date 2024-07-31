@@ -13,18 +13,18 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const BarChart: React.FC = () => {
   const data = {
-    labels: ["January", "February", "March", "April", "March", "April", "June"],
+    labels: ["January", "February", "March", "April", "March", "April"],
     datasets: [
       {
         label: "Total Positive Shorts",
-        data: [65, -59, 86, -81, 56, -55, 40],
+        data: [65, 59, 86, 81, 56, 55],
         backgroundColor: "#FFE6FC",
         borderColor: "#FFE6FC",
         borderWidth: 1,
       },
       {
         label: "Total Negative Shorts",
-        data: [-28, 48, -40, 19, -86, 27, -90],
+        data: [-28, -48, -40, -19, -86, -27],
         backgroundColor: "#FE0FE2",
         borderColor: "#FE0FE2",
         borderWidth: 1,
@@ -52,7 +52,7 @@ const BarChart: React.FC = () => {
       },
       y: {
         stacked: true, // Stack the bars on the y-axis
-        reverse: true,
+        reverse: false,
         min: maxNegativeValue,
         max: maxPositiveValue,
       },
