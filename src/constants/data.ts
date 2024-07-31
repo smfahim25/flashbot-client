@@ -123,6 +123,14 @@ export type Executor = {
   startposition: string;
   createdDate?: string;
 };
+export type Strategies = {
+  id: number;
+  name: string;
+  purchase: string;
+  creation: string;
+  updated: string;
+};
+
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",
@@ -151,7 +159,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Live Executions",
-    href: "/dashboard/table",
+    href: "/dashboard/livex",
     icon: "live",
     label: "table",
   },
@@ -175,7 +183,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Strategy Builder",
-    href: "/",
+    href: "/dashboard/strategy",
     icon: "reader",
     label: "login",
   },
