@@ -38,20 +38,20 @@ const LineChart: React.FC = () => {
     labels: ["10", "11", "12", "13", "15"],
     datasets: [
       {
-        label: "My First Dataset",
-        data: [65, 59, 80, 81, 50],
-        borderColor: "#FE0FE2",
-        backgroundColor: "#FE0FE2",
-        borderWidth: 3,
-        pointBackgroundColor: "#FF5733",
-      },
-      {
-        label: "My Second Dataset",
+        label: "Longest",
         data: [70, 85, 82, 40, 45],
         borderColor: "#2DD2CE",
         backgroundColor: "#2DD2CE",
         borderWidth: 3,
         pointBackgroundColor: "#2DD2CE",
+      },
+      {
+        label: "Shortest",
+        data: [65, 59, 80, 81, 50],
+        borderColor: "#FE0FE2",
+        backgroundColor: "#FE0FE2",
+        borderWidth: 3,
+        pointBackgroundColor: "#FF5733",
       },
     ],
   };

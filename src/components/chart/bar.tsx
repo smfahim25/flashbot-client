@@ -37,7 +37,6 @@ const BarChart: React.FC = () => {
   const maxNegativeValue = Math.min(...allData.filter((value) => value < 0), 0);
 
   const options = {
-    // indexAxis: "y" as const, // This makes the bar chart horizontal
     plugins: {
       legend: {
         position: "bottom" as const,
@@ -47,11 +46,10 @@ const BarChart: React.FC = () => {
     maintainAspectRatio: false,
     scales: {
       x: {
-        // beginAtZero: true,
         stacked: true,
       },
       y: {
-        stacked: true, // Stack the bars on the y-axis
+        stacked: true,
         reverse: false,
         min: maxNegativeValue,
         max: maxPositiveValue,
