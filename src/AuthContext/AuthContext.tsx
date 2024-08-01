@@ -1,4 +1,5 @@
 "use client";
+
 import React, {
   createContext,
   useState,
@@ -9,6 +10,7 @@ import React, {
 
 interface AuthContextType {
   token: string | null;
+  loading: boolean;
   login: (newToken: string) => void;
   logout: () => void;
 }
@@ -21,26 +23,36 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
+    const token = sessionStorage.getItem("token");
+    const cookieToken = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("_token="))
+      ?.split("=")[1];
+
+    if (cookieToken && token) {
+      setToken(cookieToken);
     }
+    setLoading(false);
   }, []);
 
   const login = (newToken: string) => {
-    localStorage.setItem("token", newToken);
+    document.cookie = `_token=${newToken}; path=/; SameSite=Strict`;
+    sessionStorage.setItem("token", newToken);
     setToken(newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    document.cookie = `_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
+    sessionStorage.removeItem("token");
     setToken(null);
   };
 
   const value: AuthContextType = {
     token,
+    loading,
     login,
     logout,
   };
