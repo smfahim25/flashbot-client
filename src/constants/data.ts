@@ -126,9 +126,10 @@ export type Executor = {
 export type Strategies = {
   id: number;
   name: string;
-  purchase: string;
+  purchase: string[];
   creation: string;
   updated: string;
+  value?: string[];
 };
 
 export const navItems: NavItem[] = [

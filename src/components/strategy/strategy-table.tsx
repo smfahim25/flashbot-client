@@ -181,17 +181,9 @@ export function StrategyTable<Strategies, TValue>({
                     className="text-center font-[600] text-[14px] text-[#3E3F42] dark:text-white border-none"
                   >
                     {row.getVisibleCells().map((cell) => {
-                      const buy = cell.column.id.includes("purchase");
-                      const sell = cell.column.id.includes("Sell");
                       return (
                         <TableCell key={cell.id}>
-                          <div
-                            className={
-                              buy
-                                ? "w-[42px] h-[22px] bg-[#FFE6FC] dark:bg-[#3D0135] text-[#FE0FE2] dakr:text-[#FE0FE2] font-inner font-[500] text-[12px]  border-[1px] border-[#FE0FE2] dark:border-[#FE0FE2] text-center rounded-full"
-                                : ""
-                            }
-                          >
+                          <div>
                             {flexRender(
                               cell.column.columnDef.cell,
                               cell.getContext()
