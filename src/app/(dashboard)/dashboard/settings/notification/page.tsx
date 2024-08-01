@@ -94,14 +94,14 @@ export default function Page() {
                 className={`relative w-10 h-6 rounded-full ${
                   proNoti === true
                     ? "bg-[#00D066] dark:bg-[#00D066]"
-                    : "dark:bg-gray-700"
+                    : "dark:bg-gray-700 bg-gray-500"
                 } `}
               >
                 <div
-                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 bg-white  rounded-full shadow-md transform transition-transform ${
                     proNoti === false
-                      ? "translate-x-[-6px] bg-black"
-                      : "translate-x-[6px] bg-white"
+                      ? "translate-x-[-6px]"
+                      : "translate-x-[6px]"
                   }`}
                 />
               </Toggle>
@@ -122,14 +122,14 @@ export default function Page() {
                 className={`relative w-10 h-6 rounded-full ${
                   receiveMsg === true
                     ? "bg-[#00D066] dark:bg-[#00D066]"
-                    : "dark:bg-gray-700"
+                    : "dark:bg-gray-700 bg-gray-500"
                 } `}
               >
                 <div
-                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 bg-white  rounded-full shadow-md transform transition-transform ${
                     receiveMsg === false
-                      ? "translate-x-[-6px] bg-black"
-                      : "translate-x-[6px] bg-white"
+                      ? "translate-x-[-6px]"
+                      : "translate-x-[6px]"
                   }`}
                 />
               </Toggle>
@@ -149,14 +149,14 @@ export default function Page() {
                 className={`relative w-10 h-6  rounded-full ${
                   getPush === true
                     ? "bg-[#00D066] dark:bg-[#00D066]"
-                    : "dark:bg-gray-700"
+                    : "dark:bg-gray-700 bg-gray-500"
                 } `}
               >
                 <div
-                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
                     getPush === false
-                      ? "translate-x-[-6px] bg-black"
-                      : "translate-x-[6px] bg-white"
+                      ? "translate-x-[-6px]"
+                      : "translate-x-[6px]"
                   }`}
                 />
               </Toggle>
@@ -178,14 +178,14 @@ export default function Page() {
                 className={`relative w-10 h-6 rounded-full ${
                   receiveCupon === true
                     ? "bg-[#00D066] dark:bg-[#00D066]"
-                    : "dark:bg-gray-700"
+                    : "dark:bg-gray-700 bg-gray-500"
                 } `}
               >
                 <div
-                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
                     receiveCupon === false
-                      ? "translate-x-[-6px] bg-black"
-                      : "translate-x-[6px] bg-white"
+                      ? "translate-x-[-6px] "
+                      : "translate-x-[6px] "
                   }`}
                 />
               </Toggle>
@@ -207,14 +207,14 @@ export default function Page() {
                 className={`relative w-10 h-6 rounded-full ${
                   receiveAccount === true
                     ? "bg-[#00D066] dark:bg-[#00D066]"
-                    : "dark:bg-gray-700"
+                    : "dark:bg-gray-700 bg-gray-500"
                 }`}
               >
                 <div
-                  className={`block w-4 h-4 rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
                     receiveAccount === false
-                      ? "translate-x-[-6px] bg-black"
-                      : "translate-x-[6px] bg-white"
+                      ? "translate-x-[-6px]"
+                      : "translate-x-[6px] "
                   }`}
                 />
               </Toggle>
