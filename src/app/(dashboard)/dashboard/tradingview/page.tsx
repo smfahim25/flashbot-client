@@ -268,17 +268,17 @@ export default function Page() {
               <Toggle
                 pressed={proSel === false}
                 onPressedChange={handleProSel}
-                className={`relative w-10 h-6 rounded-full ${
+                className={`relative w-10 h-6 rounded-full  ${
                   proSel === true
                     ? "bg-[#FE0FE2] dark:bg-[#FE0FE2]"
-                    : "dark:bg-gray-700"
+                    : "bg-gray-500 dark:bg-gray-700"
                 } `}
               >
                 <div
-                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
                     proSel === false
-                      ? "translate-x-[-6px] dark:bg-white"
-                      : "translate-x-[6px] bg-white"
+                      ? "translate-x-[-6px] "
+                      : "translate-x-[6px] "
                   }`}
                 />
               </Toggle>
@@ -601,17 +601,17 @@ export default function Page() {
               <Toggle
                 pressed={proSel === false}
                 onPressedChange={handleProSel}
-                className={`relative w-10 h-6 rounded-full ${
+                className={`relative w-10 h-6 rounded-full dark:bg-gray-700 ${
                   proSel === true
                     ? "bg-[#FE0FE2] dark:bg-[#FE0FE2]"
-                    : "dark:bg-gray-700"
+                    : "bg-gray-500"
                 } `}
               >
                 <div
-                  className={`block w-4 h-4  rounded-full shadow-md transform transition-transform ${
+                  className={`block w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
                     proSel === false
-                      ? "translate-x-[-6px] dark:bg-white"
-                      : "translate-x-[6px] bg-white"
+                      ? "translate-x-[-6px] "
+                      : "translate-x-[6px] "
                   }`}
                 />
               </Toggle>

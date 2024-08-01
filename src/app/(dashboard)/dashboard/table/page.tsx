@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { CalendarDateRangePicker } from "@/components/date-pick-ranger";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
@@ -91,27 +92,13 @@ export default function Page() {
               <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B] dark:text-white">
                 Start Date
               </Label>
-              <Select>
-                <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#19191A]">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+              <CalendarDateRangePicker className="w-full" />
             </div>
             <div>
               <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B] dark:text-white">
                 End Date
               </Label>
-              <Select>
-                <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#19191A]">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+              <CalendarDateRangePicker className="w-full" />
             </div>
             <div>
               <Label className="text-xs font-[500] font-inner text-[14px] text-[#37383B] dark:text-white">
@@ -136,9 +123,9 @@ export default function Page() {
         <Card className="border-none px-5 mx-auto rounded-xl p-4 mt-5 flex justify-center items-center h-[566px]">
           <div className="flex flex-col items-center justify-center">
             <Image src="/imgs/robot.png" alt="" width={152} height={155} />
-          <Label className="font-inner font-[400] text-[16px] text-[#888C91] dark:text-white text-center">
-            Ask me anything
-          </Label>
+            <Label className="font-inner font-[400] text-[16px] text-[#888C91] dark:text-white text-center">
+              Ask me anything
+            </Label>
           </div>
         </Card>
 
