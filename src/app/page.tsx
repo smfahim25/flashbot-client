@@ -48,7 +48,6 @@ const Page = () => {
       }
     );
     const user = await res.json();
-    console.log(user);
     if (res.ok) {
       router.push("/auth/login");
       setLoading(false);
