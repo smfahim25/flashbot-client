@@ -131,7 +131,12 @@ export type Strategies = {
   updated: string;
   value?: string[];
 };
-
+export type dataState = {
+  data: any[];
+  isLoading: boolean;
+  error: string | null;
+  getData: () => Promise<void>;
+};
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",

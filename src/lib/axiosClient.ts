@@ -9,7 +9,6 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   (config) => {
-    // Attach the authorization token from localStorage if it exists
     const token =
       typeof window !== "undefined" ? sessionStorage.getItem("token") : "";
     if (token) {
