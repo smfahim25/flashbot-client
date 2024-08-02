@@ -113,6 +113,17 @@ export type Employee = {
   price: string; // Profile picture can be a string (URL) or null (if no picture)
   day: string;
 };
+export interface Parameter {
+  PeriodoRSI: number;
+  EMA: boolean;
+  "High Limit": number;
+  "Low Limit": number;
+}
+export interface Strategy {
+  name: string;
+  parameters: Parameter;
+  timeframe: string;
+}
 export type Executor = {
   id: number;
   name: string;
@@ -127,7 +138,7 @@ export type Executor = {
   quantity?: string;
   start_mode?: string;
   close_mode?: string;
-  strategys?: any[];
+  strategys?: Strategy[] | null | undefined;
 };
 export type Strategies = {
   id: number;
@@ -143,6 +154,11 @@ export type dataState = {
   isLoading: boolean;
   error: string | null;
   getData: () => Promise<void>;
+  cloneExecutor: (body: {
+    executor_id: string;
+    clone_mode: string;
+    symbols: string[];
+  }) => Promise<void>;
 };
 export const navItems: NavItem[] = [
   {

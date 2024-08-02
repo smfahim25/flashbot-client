@@ -36,11 +36,11 @@ const manarop = Manrope({
   subsets: ["vietnamese"],
 });
 export default function Page() {
-  const { data, isLoading, error, getData } = useExecutorStore();
+  const { data: executorData, isLoading, error, getData } = useExecutorStore();
   useEffect(() => {
     getData();
   }, [getData]);
-  console.log(data);
+
   const totalUsers = 20;
   const pageLimit = 10;
   const page = 1;
@@ -92,7 +92,7 @@ dark:bg-[#3D0135]"
               pageNo={page}
               columns={columns}
               totalUsers={totalUsers}
-              data={data}
+              data={executorData}
               pageCount={pageCount}
             />
           </Card>

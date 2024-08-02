@@ -10,7 +10,7 @@ const useSymbolStore = create<dataState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axiosClient.get("/info/available_symbols");
-      set({ data: response.data, isLoading: false });
+      set({ data: response.data.symbols, isLoading: false });
     } catch (error) {
       set({
         error: (error as any).detail || "Unknown error",

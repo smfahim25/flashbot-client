@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
-import { Executor } from "@/constants/data";
+import { Executor, Strategy } from "@/constants/data";
 import {
-  Select,
+  Select as UiSelect,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -21,15 +21,20 @@ import {
 
 import { EllipsisVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CalendarDateRangePicker } from "@/components/date-pick-ranger";
+
+import useSymbolStore from "@/app/store/useSymbolStore";
+import MultipleSelector, { Option } from "@/components/ui/multiselector";
+import useExecutorStore from "@/app/store/useExecutorStore";
 
 interface CellActionProps {
   data: Executor;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+  const [cloneMode, setCloneMode] = useState<string>("");
   const [viewOpen, setViewOpen] = useState(false);
   const [viewMore, setViewMore] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -38,9 +43,60 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [cloneOpen, setCloneOpen] = useState(false);
   const [runBacksetOpen, setRunBacksetOpen] = useState(false);
+  const [options, setOptions] = useState<Option[]>([]);
+  const [coinValue, setCoinValue] = useState<Option[]>([]);
   const router = useRouter();
-  console.log(data);
-  const onConfirm = async () => {};
+  const { data: symbolData, getData } = useSymbolStore();
+  const cloneExecutor = useExecutorStore((state) => state.cloneExecutor);
+  const strategies = data.strategys ?? [];
+  const [selectedStrategy, setSelectedStrategy] = useState<Strategy | null>(
+    null
+  );
+  const [showDetails, setShowDetails] = useState(false);
+  const [displayDetails, setDisplayDetails] = useState(false);
+
+  const handleSelectChange = (value: any) => {
+    const strategy = strategies.find((s) => s.name === value);
+    setSelectedStrategy(strategy || null);
+    setShowDetails(true); // Show details when a new strategy is selected
+    setDisplayDetails(true);
+  };
+
+  const handleExportExecutor = async () => {
+    const fileName = `${data?.name}.json`;
+    const jsonData = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setOpenExport(false);
+  };
+  useEffect(() => {
+    getData();
+  }, [getData]);
+  useEffect(() => {
+    const symbolOptions: Option[] = symbolData
+      .sort((a, b) => a.symbol_name.localeCompare(b.symbol_name))
+      .map((symbol) => ({
+        label: symbol.symbol_name,
+        value: symbol.symbol_name,
+      }));
+    setOptions(symbolOptions);
+  }, [symbolData]);
+
+  const handleCloneExecutor = async (clone_mode: string) => {
+    const body = {
+      executor_id: data?.id.toString(), // Ensure data?.id is not undefined
+      clone_mode: clone_mode,
+      symbols: coinValue.map((obj) => obj.value),
+    };
+    await cloneExecutor(body); // Ensure you await the promise
+  };
 
   return (
     <>
@@ -92,7 +148,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           >
             Cancel
           </Button>
-          <Button>Export Executor</Button>
+          <Button onClick={handleExportExecutor}>Export Executor</Button>
         </div>
       </Modal>
       <SideModal
@@ -113,7 +169,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </div>
       </SideModal>
       <SideModal
-        title="May Test 13"
+        title={data?.name}
         description="View more"
         isOpen={viewMore}
         onClose={() => setViewMore(false)}
@@ -137,7 +193,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">{data?.quantity}</div>
+                <div className="text-[14px] font-[600]">{data?.quantity}%</div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -186,28 +242,53 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             </Card>
           </div>
           <div>
-            <h2 className="py-4 text-xl text-gray-500">Strategies Assigned</h2>
-            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Select>
-                  <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
-                    <SelectValue placeholder="rsi" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="light">rsi</SelectItem>
-                  </SelectContent>
-                </Select>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm p-4 text-gray-500 dark:text-white innertext">
-                  <h4>PeriodRSI: 13</h4>
-                  <h4>EMA : True</h4>
-                  <h4>High Limit : 85</h4>
-                  <h4>Low Limit : 15</h4>
-                  <h4>30m</h4>
-                </div>
-              </CardContent>
-            </Card>
+            <h2 className="py-4 text-xl text-gray-500">
+              {strategies.length > 0
+                ? "Strategies Assigned"
+                : "No Strategies Assigned"}
+            </h2>
+            {strategies.length > 0 && (
+              <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <UiSelect
+                    value={selectedStrategy ? selectedStrategy.name : ""}
+                    onValueChange={handleSelectChange}
+                  >
+                    <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
+                      <SelectValue placeholder="Select Strategy" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {strategies.map((strategy) => (
+                        <SelectItem key={strategy.name} value={strategy.name}>
+                          {strategy.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </UiSelect>
+                </CardHeader>
+                {selectedStrategy && showDetails && displayDetails && (
+                  <CardContent
+                    className={`text-sm p-4 ml-5 text-gray-500 dark:text-white innertext transition-opacity duration-500 ease-in ${
+                      showDetails && displayDetails
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }`}
+                  >
+                    <h4>PeriodRSI: {selectedStrategy.parameters.PeriodoRSI}</h4>
+                    <h4>
+                      EMA: {selectedStrategy.parameters.EMA ? "True" : "False"}
+                    </h4>
+                    <h4>
+                      High Limit: {selectedStrategy.parameters["High Limit"]}
+                    </h4>
+                    <h4>
+                      Low Limit: {selectedStrategy.parameters["Low Limit"]}
+                    </h4>
+                    <h4>{selectedStrategy.timeframe}</h4>
+                  </CardContent>
+                )}
+              </Card>
+            )}
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
@@ -220,17 +301,32 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setCloneOpen(false)}
       >
         <div className="">
-          <Label className="text-lg">Coin</Label>
-          <Select>
-            <SelectTrigger className="w-full dark:bg-[#56595C]">
-              <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="One coin">One coin</SelectItem>
-              <SelectItem value="Miltiple Coins">Multiple Coins</SelectItem>
-              <SelectItem value="All Coins">All Coins</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex flex-col p-4 md:flex-col justify-evenly gap-3">
+            <UiSelect onValueChange={setCloneMode} defaultValue={cloneMode}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select clone mode:" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="oneCoin">One Coin</SelectItem>
+                <SelectItem value="multipleCoins">Multiple Coins</SelectItem>
+                <SelectItem value="allCoins">All Coins</SelectItem>
+              </SelectContent>
+            </UiSelect>
+
+            {cloneMode === "multipleCoins" && (
+              <MultipleSelector
+                value={coinValue}
+                onChange={setCoinValue}
+                defaultOptions={options}
+                placeholder="Select Coins..."
+                emptyIndicator={
+                  <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                    no results found.
+                  </p>
+                }
+              />
+            )}
+          </div>
           <div className="flex gap-5 justify-end mt-10">
             <Button
               variant={"ghost"}
@@ -239,7 +335,30 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             >
               Cancel
             </Button>
-            <Button>Clone Executor</Button>
+            <Button
+              onClick={() => {
+                switch (cloneMode) {
+                  case "oneCoin":
+                    router.push(
+                      `/dashboard/executors/clone-executor/?id=${data?.id}`
+                    );
+                    break;
+                  case "multipleCoins":
+                    handleCloneExecutor("multiple_coins");
+                    console.log("multiple coins");
+                    break;
+                  case "allCoins":
+                    handleCloneExecutor("all_coins");
+                    console.log("all coins");
+                    break;
+                  default:
+                    console.log("default");
+                    break;
+                }
+              }}
+            >
+              Clone Executor
+            </Button>
           </div>
         </div>
       </SideModal>
@@ -263,7 +382,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
           <div className="mb-5">
             <Label className="text-xs">Coin</Label>
-            <Select>
+            <UiSelect>
               <SelectTrigger className="w-full dark:bg-[#56595C]">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -272,7 +391,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 <SelectItem value="Multiple Coins">Multiple Coins</SelectItem>
                 <SelectItem value="All Coins">All Coins</SelectItem>
               </SelectContent>
-            </Select>
+            </UiSelect>
           </div>
           <Label className="text-sm underline">
             You are backtesting on ---
