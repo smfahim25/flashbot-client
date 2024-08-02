@@ -39,7 +39,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [cloneOpen, setCloneOpen] = useState(false);
   const [runBacksetOpen, setRunBacksetOpen] = useState(false);
   const router = useRouter();
-
+  console.log(data);
   const onConfirm = async () => {};
 
   return (
@@ -127,7 +127,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">ADAUSDT</div>
+                <div className="text-[14px] font-[600]">{data?.symbol}</div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -137,7 +137,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">1000ADA</div>
+                <div className="text-[14px] font-[600]">{data?.quantity}</div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -147,7 +147,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">2:-1</div>
+                <div className="text-[14px] font-[600]">
+                  {data?.take_profit}:{data?.stop_loss}
+                </div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -157,7 +159,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">NEUTRAL</div>
+                <div className="text-[14px] font-[600]">{data?.start_mode}</div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -168,7 +170,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
               </CardHeader>
               <CardContent>
                 <div className="text-[14px] font-[600] bg-orange-100 text-center text-orange-500 me-[60px]">
-                  Pause
+                  {data?.paused === true ? "Paused" : "Running"}
                 </div>
               </CardContent>
             </Card>
@@ -179,7 +181,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">TP/SL</div>
+                <div className="text-[14px] font-[600]">{data?.close_mode}</div>
               </CardContent>
             </Card>
           </div>
@@ -193,8 +195,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="light">rsi</SelectItem>
-                    <SelectItem value="dark">rsi</SelectItem>
-                    <SelectItem value="system">rsi</SelectItem>
                   </SelectContent>
                 </Select>
               </CardHeader>
@@ -207,19 +207,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                   <h4>30m</h4>
                 </div>
               </CardContent>
-            </Card>
-
-            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] mt-4">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                <Select>
-                  <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
-                    <SelectValue placeholder="rsi" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rsi">rsi</SelectItem>
-                  </SelectContent>
-                </Select>
-              </CardHeader>
             </Card>
           </div>
           <ScrollBar orientation="horizontal" />

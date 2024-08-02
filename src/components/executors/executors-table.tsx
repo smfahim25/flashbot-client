@@ -93,6 +93,19 @@ export function ExecutorTable<Executor, TValue>({
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
   // Handle server-side pagination
+  const handleExport = () => {
+    const fileName = `all_executors.json`;
+    const jsonData = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <>
@@ -145,7 +158,11 @@ export function ExecutorTable<Executor, TValue>({
           </div>
 
           <div>
-            <Button variant={"secondary"} className="ml-4">
+            <Button
+              variant={"secondary"}
+              className="ml-4"
+              onClick={handleExport}
+            >
               <span className="px-2">
                 <PiExport size={18} />
               </span>
@@ -185,7 +202,7 @@ export function ExecutorTable<Executor, TValue>({
                     className="text-center"
                   >
                     {row.getVisibleCells().map((cell) => {
-                      const status = cell.column.id.includes("status");
+                      const status = cell.column.id.includes("pause");
                       return (
                         <TableCell key={cell.id}>
                           <div

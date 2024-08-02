@@ -1,5 +1,5 @@
 import { dataState } from "@/constants/data";
-import axiosClientWithoutToken from "@/lib/axiosClientWithoutToken";
+import axiosClient from "@/lib/axiosClient";
 import create from "zustand";
 
 const useAvailableStrategiesStore = create<dataState>((set) => ({
@@ -9,9 +9,7 @@ const useAvailableStrategiesStore = create<dataState>((set) => ({
   getData: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axiosClientWithoutToken.get(
-        "/info/available_strategies"
-      );
+      const response = await axiosClient.get("/info/available_strategies");
       set({ data: response.data, isLoading: false });
     } catch (error) {
       set({

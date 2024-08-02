@@ -116,12 +116,18 @@ export type Employee = {
 export type Executor = {
   id: number;
   name: string;
-  tp: string;
+  take_profit?: string;
+  stop_loss?: string;
+  paused?: boolean;
   status: string;
   ticker: string;
-  size: string; // Consider using a proper date type if possible
   startposition: string;
   createdDate?: string;
+  symbol?: string;
+  quantity?: string;
+  start_mode?: string;
+  close_mode?: string;
+  strategys?: any[];
 };
 export type Strategies = {
   id: number;
@@ -133,6 +139,7 @@ export type Strategies = {
 };
 export type dataState = {
   data: any[];
+  executors?: any[];
   isLoading: boolean;
   error: string | null;
   getData: () => Promise<void>;
