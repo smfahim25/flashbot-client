@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useSidebar } from "@/hooks/useSidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSymbolStore from "@/app/store/useSymbolStore";
 import useAvailableStrategiesStore from "@/app/store/useAvailableStrategies";
+
 interface Executor {
   id: number;
   name: string;
@@ -42,6 +43,17 @@ interface FormData {
   leverage: number;
 }
 
+interface StrategyFormData {
+  id: number;
+  strategy: string;
+  periodoRSI: string;
+  ema: string;
+  highLimit: string;
+  lowLimit: string;
+  timeframe: string;
+}
+
+
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
   { title: "Executor List", link: "/dashboard/executors" },
@@ -55,30 +67,58 @@ const manarop = Manrope({
   weight: "700",
   subsets: ["vietnamese"],
 });
+
 // Define the types for the props
 interface StrategyFormProps {
   onRemove: () => void;
   onAdd: () => void;
   showAddButton: boolean;
+  formData: StrategyFormData;
+  onChange: (id: number, fieldName: string, value: string) => void;
 }
 
-function StrategyForm({ onRemove, onAdd, showAddButton }: StrategyFormProps) {
+interface StrategyFormData {
+  id: number;
+  strategy: string;
+  periodoRSI: string;
+  ema: string;
+  highLimit: string;
+  lowLimit: string;
+  timeframe: string;
+}
+
+function StrategyForm({
+  onRemove,
+  onAdd,
+  showAddButton,
+  formData,
+  onChange,
+}: StrategyFormProps) {
+  // Handle individual form change
+  const handleSelectChange = (fieldName: string, value: string) => {
+    onChange(formData.id, fieldName, value);
+  };
 
   return (
     <Card className="w-full border-none p-2 px-5 mb-5">
       <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
         <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
-          rsi
+          {formData.strategy || "rsi"}
         </h2>
       </div>
       <div className="mb-5">
         <Label className="text-xs">Add Strategy</Label>
-        <Select>
+        <Select
+          value={formData.strategy}
+          onValueChange={(value) => handleSelectChange("strategy", value)}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="rsi">rsi</SelectItem>
+            <SelectItem value="macd">macd</SelectItem>
+            <SelectItem value="bollinger">bollinger</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -86,59 +126,79 @@ function StrategyForm({ onRemove, onAdd, showAddButton }: StrategyFormProps) {
       <div className="grid grid-cols-2 gap-x-4 justify-center items-center">
         <div className="mb-5">
           <Label className="text-xs">PeriodoRSI</Label>
-          <Select>
+          <Select
+            value={formData.periodoRSI}
+            onValueChange={(value) => handleSelectChange("periodoRSI", value)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="rsi">rsi</SelectItem>
+              <SelectItem value="14">14</SelectItem>
+              <SelectItem value="21">21</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="mb-5">
           <Label className="text-xs">EMA</Label>
-          <Select>
+          <Select
+            value={formData.ema}
+            onValueChange={(value) => handleSelectChange("ema", value)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="rsi">rsi</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+              <SelectItem value="100">100</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="mb-5">
           <Label className="text-xs">High Limit</Label>
-          <Select>
+          <Select
+            value={formData.highLimit}
+            onValueChange={(value) => handleSelectChange("highLimit", value)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="rsi">rsi</SelectItem>
+              <SelectItem value="70">70</SelectItem>
+              <SelectItem value="80">80</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="mb-5">
           <Label className="text-xs">Low Limit</Label>
-          <Select>
+          <Select
+            value={formData.lowLimit}
+            onValueChange={(value) => handleSelectChange("lowLimit", value)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="rsi">rsi</SelectItem>
+              <SelectItem value="30">30</SelectItem>
+              <SelectItem value="20">20</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="mb-5">
           <Label className="text-xs">Timeframe</Label>
-          <Select>
+          <Select
+            value={formData.timeframe}
+            onValueChange={(value) => handleSelectChange("timeframe", value)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="rsi">rsi</SelectItem>
+              <SelectItem value="1D">1 Day</SelectItem>
+              <SelectItem value="1W">1 Week</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -162,40 +222,101 @@ function StrategyForm({ onRemove, onAdd, showAddButton }: StrategyFormProps) {
   );
 }
 
-function StrategyFormManager() {
-  const [forms, setForms] = useState([{ id: Date.now() }]);
-
-  const addForm = () => {
-    setForms([...forms, { id: Date.now() }]);
-  };
-
-  const removeForm = (id: number) => {
-    if (forms.length > 1) {
-      setForms(forms.filter((form) => form.id !== id));
-    }
-  };
+function StrategyFormManager({
+  strategyForms,
+  addForm,
+  removeForm,
+  handleFormChange,
+}: {
+  strategyForms: StrategyFormData[];
+  addForm: () => void;
+  removeForm: (id: number) => void;
+  handleFormChange: (id: number, fieldName: string, value: string) => void;
+}) {
+  
 
   return (
     <div>
-      {forms.map((form, index) => (
+      {strategyForms.map((form, index) => (
         <StrategyForm
           key={form.id}
           onRemove={() => removeForm(form.id)}
           onAdd={addForm}
-          showAddButton={index === forms.length - 1}
+          showAddButton={index === strategyForms.length - 1}
+          formData={form}
+          onChange={handleFormChange}
         />
       ))}
+      <button
+        onClick={() => console.log(strategyForms)}
+        className="bg-blue-500 text-white py-2 px-4 rounded"
+      >
+        Log Form Data
+      </button>
     </div>
   );
 }
+
+
 export default function Page() {
   const { isMinimized } = useSidebar();
-  const symbols = useSymbolStore();
-  const strategies = useAvailableStrategiesStore();
-  console.log(symbols);
-  console.log("All strategies are : ",strategies);
+  const {data:strategies,isLoading:strategyLoading,error:strategyError,getData:strategyData} = useAvailableStrategiesStore();
+  const {data:symbols,isLoading,error,getData} = useSymbolStore();
 
-   // Initialize state for form data
+  useEffect(()=>{
+    strategyData();
+    getData();
+
+    
+  },[getData,strategyData])
+  
+
+// Initialize strategy form data
+  const [strategyForms, setStrategyForms] = useState<StrategyFormData[]>([
+    {
+      id: Date.now(),
+      strategy: "rsi",
+      periodoRSI: "",
+      ema: "",
+      highLimit: "",
+      lowLimit: "",
+      timeframe: "",
+    },
+  ]);
+
+  // Add a new strategy  form
+  const addForm = () => {
+    setStrategyForms([
+      ...strategyForms,
+      {
+        id: Date.now(),
+        strategy: "",
+        periodoRSI: "",
+        ema: "",
+        highLimit: "",
+        lowLimit: "",
+        timeframe: "",
+      },
+    ]);
+  };
+
+  // Remove a strategy form by ID
+  const removeForm = (id: number) => {
+    if (strategyForms.length > 1) {
+      setStrategyForms(strategyForms.filter((form) => form.id !== id));
+    }
+  };
+
+  // Handle change for each strategy form
+  const handleFormChange = (id: number, fieldName: string, value: string) => {
+    setStrategyForms((prevForms) =>
+      prevForms.map((form) =>
+        form.id === id ? { ...form, [fieldName]: value } : form
+      )
+    );
+  };
+
+
    const [formData, setFormData] = useState<FormData>({
     executorName: '',
     tickerSymbol: '',
@@ -230,6 +351,9 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("You have entered: ",formData);
+
+      // Access strategyForms here
+      console.log("Strategy Forms Data: ", strategyForms);
     
     // try {
     //   const response = await fetch('/v1/user/create_executer', {
@@ -269,7 +393,7 @@ export default function Page() {
 
         <div className=" w-full flex justify-center gap-4 rounded-xl p-4 mt-5">
           <ScrollArea className="h-[70vh] mt-4">
-          <form onSubmit={handleSubmit}>
+          <form >
           <Card className="border-none w-full p-2 px-5">
             <div className="mb-5">
             <Label className="text-xs">Executor Name</Label>
@@ -455,19 +579,17 @@ export default function Page() {
                 </span>
               </div>
             </div>
-
-            <button
-              type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded"
-            >
-              Submit
-            </button>
             </Card>
           </form>
           </ScrollArea>
           <div className="w-1/2">
             <ScrollArea className="h-[70vh] mt-4">
-              <StrategyFormManager />
+              <StrategyFormManager
+              strategyForms={strategyForms}
+              addForm={addForm}
+              removeForm={removeForm}
+              handleFormChange={handleFormChange}
+               />
             </ScrollArea>
           </div>
         </div>
@@ -484,7 +606,7 @@ export default function Page() {
           >
             Clear
           </Button>
-          <Button className="md:w-[200px] h-[50px] rounded-md">
+          <Button onClick={handleSubmit} className="md:w-[200px] h-[50px] rounded-md">
             Add Executor
           </Button>
         </div>
