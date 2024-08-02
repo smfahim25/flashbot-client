@@ -1,8 +1,8 @@
-import { dataState } from "@/constants/data";
+import { dataSymbol } from "@/constants/data";
 import axiosClient from "@/lib/axiosClient";
 import create from "zustand";
 
-const useSymbolStore = create<dataState>((set) => ({
+const useSymbolStore = create<dataSymbol>((set) => ({
   data: [],
   isLoading: false,
   error: null,
@@ -10,7 +10,7 @@ const useSymbolStore = create<dataState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axiosClient.get("/info/available_symbols");
-      set({ data: response.data.symbols, isLoading: false });
+      set({ data: response.data, isLoading: false });
     } catch (error) {
       set({
         error: (error as any).detail || "Unknown error",

@@ -160,6 +160,13 @@ export type dataState = {
     symbols: string[];
   }) => Promise<void>;
 };
+export type dataSymbol = {
+  data: any[];
+  executors?: any[];
+  isLoading: boolean;
+  error: string | null;
+  getData: () => Promise<void>;
+};
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",
