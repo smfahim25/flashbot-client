@@ -125,7 +125,7 @@ export interface Strategy {
   timeframe: string;
 }
 export type Executor = {
-  id: number;
+  id: string;
   name: string;
   take_profit?: string;
   stop_loss?: string;
@@ -159,6 +159,7 @@ export type dataState = {
     clone_mode: string;
     symbols: string[];
   }) => Promise<void>;
+  deleteExecutor: (id: string) => Promise<void>;
 };
 export type dataSymbol = {
   data: any[];

@@ -92,7 +92,7 @@ dark:bg-[#3D0135]"
               pageNo={page}
               columns={columns}
               totalUsers={totalUsers}
-              data={executorData}
+              data={!isLoading ? executorData : []}
               pageCount={pageCount}
             />
           </Card>

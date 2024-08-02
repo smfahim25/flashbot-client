@@ -48,6 +48,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
   const { data: symbolData, getData } = useSymbolStore();
   const cloneExecutor = useExecutorStore((state) => state.cloneExecutor);
+  const { deleteExecutor } = useExecutorStore();
   const strategies = data.strategys ?? [];
   const [selectedStrategy, setSelectedStrategy] = useState<Strategy | null>(
     null
@@ -90,13 +91,18 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     setOptions(symbolOptions);
   }, [symbolData]);
 
-  const handleCloneExecutor = async (clone_mode: string) => {
+  const handleCloneExecutor = (clone_mode: string) => {
     const body = {
       executor_id: data?.id.toString(), // Ensure data?.id is not undefined
       clone_mode: clone_mode,
       symbols: coinValue.map((obj) => obj.value),
     };
-    await cloneExecutor(body); // Ensure you await the promise
+    cloneExecutor(body);
+    setCloneOpen(false);
+  };
+  const handleDelete = (id: string) => {
+    deleteExecutor(id);
+    setOpenDelete(false);
   };
 
   return (
@@ -115,7 +121,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           >
             Cancel
           </Button>
-          <Button>Delete Executor</Button>
+          <Button onClick={() => handleDelete(data?.id)}>
+            Delete Executor
+          </Button>
         </div>
       </Modal>
       <Modal
@@ -152,23 +160,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <Button onClick={handleExportExecutor}>Export Executor</Button>
         </div>
       </Modal>
-      <SideModal
-        title="Export"
-        description="Exporting Executor tomsfklsdaklfjklj JSON"
-        isOpen={viewOpen}
-        onClose={() => setViewOpen(false)}
-      >
-        <div className="flex gap-4 justify-end">
-          <Button
-            variant={"ghost"}
-            className="border-2"
-            onClick={() => setViewOpen(false)}
-          >
-            Cancel
-          </Button>
-          <Button>Export Executor</Button>
-        </div>
-      </SideModal>
       <SideModal
         title={data?.name}
         description="View more"

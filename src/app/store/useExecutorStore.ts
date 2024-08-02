@@ -35,6 +35,20 @@ const useExecutorStore = create<dataState>((set, get) => ({
       });
     }
   },
+  deleteExecutor: async (id: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      await axiosClient.delete(`/user/delete_executer/${id}`);
+      const currentData = get().data; // Access the current state
+      const updatedData = currentData.filter((executor) => executor.id !== id);
+      set({ data: updatedData, isLoading: false });
+    } catch (error) {
+      set({
+        error: (error as any).detail || "Unknown error",
+        isLoading: false,
+      });
+    }
+  },
 }));
 
 export default useExecutorStore;
