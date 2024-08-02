@@ -79,9 +79,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   useEffect(() => {
     getData();
   }, [getData]);
+
   useEffect(() => {
     const symbolOptions: Option[] = symbolData
-      .sort((a, b) => a.symbol_name.localeCompare(b.symbol_name))
+      ?.sort((a, b) => a.symbol_name.localeCompare(b.symbol_name))
       .map((symbol) => ({
         label: symbol.symbol_name,
         value: symbol.symbol_name,
