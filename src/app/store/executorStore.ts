@@ -19,7 +19,10 @@ const useExecutorStore = create<DataState>((set) => ({
       const response = await axiosClient.get("/user/executers");
       set({ data: response.data, isLoading: false });
     } catch (error) {
-      set({ error: (error as Error).message, isLoading: false });
+      set({
+        error: (error as any).detail || "Unknown error",
+        isLoading: false,
+      });
     }
   },
 }));
