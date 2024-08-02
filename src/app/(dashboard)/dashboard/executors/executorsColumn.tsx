@@ -16,27 +16,39 @@ export const columns: ColumnDef<Executor>[] = [
     header: "Name",
   },
   {
-    accessorKey: "ticker",
+    accessorKey: "symbol",
     header: "Ticker/Coin/Symbol",
   },
   {
-    accessorKey: "size",
+    accessorKey: "quantity",
     header: "Size",
   },
   {
-    accessorKey: "tp",
+    id: "tp",
     header: "TP/SL",
+    cell: ({ row }) => (
+      <div>
+        <div>
+          {row.original.take_profit}:{row.original.stop_loss}
+        </div>
+      </div>
+    ),
   },
   {
-    accessorKey: "startposition",
+    accessorKey: "start_mode",
     header: "Start Position",
   },
   {
-    accessorKey: "status",
+    id: "paused",
     header: "Status",
+    cell: ({ row }) => (
+      <div>
+        <div>{row.original.paused === true ? "Paused" : "Running"}</div>
+      </div>
+    ),
   },
   {
-    accessorKey: "strategy",
+    accessorKey: "strategys",
     header: "Strategy",
   },
   {

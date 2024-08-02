@@ -26,15 +26,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const sessionToken = sessionStorage.getItem("token");
     const cookieToken = document.cookie
       .split("; ")
       .find((row) => row.startsWith("_token="))
       ?.split("=")[1];
 
-    if (cookieToken && token) {
+    if (cookieToken) {
       setToken(cookieToken);
+    } else if (sessionToken) {
+      setToken(sessionToken);
     }
+
     setLoading(false);
   }, []);
 
@@ -42,12 +45,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     document.cookie = `_token=${newToken}; path=/; SameSite=Strict`;
     sessionStorage.setItem("token", newToken);
     setToken(newToken);
+    setLoading(false);
   };
 
   const logout = () => {
     document.cookie = `_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
     sessionStorage.removeItem("token");
     setToken(null);
+    setLoading(false);
   };
 
   const value: AuthContextType = {

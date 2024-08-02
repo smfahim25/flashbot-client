@@ -1,3 +1,4 @@
+"use client";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -8,6 +9,9 @@ import { Card } from "@/components/ui/card";
 import { ExecutorTable } from "../../../../components/executors/executors-table";
 import { Lexend, Manrope } from "next/font/google";
 import Link from "next/link";
+import useExecutorStore from "@/app/store/useExecutorStore";
+import { useEffect } from "react";
+import Loader from "@/components/ui/loader";
 interface Executor {
   id: number;
   name: string;
@@ -31,45 +35,24 @@ const manarop = Manrope({
   weight: "700",
   subsets: ["vietnamese"],
 });
-export default function page() {
+export default function Page() {
+  const { data, isLoading, error, getData } = useExecutorStore();
+  useEffect(() => {
+    getData();
+  }, [getData]);
+  console.log(data);
   const totalUsers = 20;
   const pageLimit = 10;
   const page = 1;
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Executor[] = [
-    {
-      id: 1,
-      name: "RSI Testing",
-      ticker: "1000BONKUSDT",
-      size: "1USDT",
-      tp: "1:-1",
-      startposition: "LONG",
-      status: "Pause",
-      strategy: "RSI Testing",
-    },
-    {
-      id: 2,
-      name: "KRP Testing",
-      ticker: "1000BONKUSDT",
-      size: "1USDT",
-      tp: "1:-1",
-      startposition: "LONG",
-      status: "Pause",
-      strategy: "RSI Testing",
-    },
-    {
-      id: 3,
-      name: "ZEP Testing",
-      ticker: "1000BONKUSDT",
-      size: "1USDT",
-      tp: "1:-1",
-      startposition: "LONG",
-      status: "Pause",
-      strategy: "RSI Testing",
-    },
-  ];
+
   return (
-    <ScrollArea className="h-full">
+    <ScrollArea className="h-full relative">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+          <Loader />
+        </div>
+      )}
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
         <div className="flex justify-between items-center">
           <div>
@@ -109,7 +92,7 @@ dark:bg-[#3D0135]"
               pageNo={page}
               columns={columns}
               totalUsers={totalUsers}
-              data={employee}
+              data={data}
               pageCount={pageCount}
             />
           </Card>
