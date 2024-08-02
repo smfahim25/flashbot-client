@@ -27,7 +27,6 @@ export default function Page() {
   const totalUsers = 20;
   const pageLimit = 10;
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const router = useRouter();
   const employee: Employee[] = [
     {
       id: 1,
@@ -135,22 +134,6 @@ export default function Page() {
       day: "+6.04%",
     },
   ];
-  useEffect(() => {
-    const checkToken = () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // Redirect to login if token doesn't exist
-        router.push("/auth/login");
-      }
-    };
-    // Set an interval to check the token every 5 seconds
-    const intervalId = setInterval(checkToken, 2000);
-
-    checkToken();
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [router]);
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
