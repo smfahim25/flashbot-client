@@ -175,6 +175,7 @@ export type dataState = {
   isLoading: boolean;
   error: string | null;
   getData: () => Promise<void>;
+  createExecutor: (requestBody: CreateExecutorRequestBody) => Promise<void>;
   cloneExecutor: (body: {
     executor_id: string;
     clone_mode: string;
@@ -188,7 +189,6 @@ export type dataSymbol = {
   isLoading: boolean;
   error: string | null;
   getData: () => Promise<void>;
-  createExecutor: (requestBody: CreateExecutorRequestBody) => Promise<void>;
 };
 export const navItems: NavItem[] = [
   {

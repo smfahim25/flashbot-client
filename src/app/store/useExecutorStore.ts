@@ -1,4 +1,4 @@
-import { dataState, Executor } from "@/constants/data";
+import { CreateExecutorRequestBody, dataState, Executor } from "@/constants/data";
 import axiosClient from "@/lib/axiosClient";
 import create from "zustand";
 
