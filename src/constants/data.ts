@@ -137,12 +137,34 @@ export type Strategies = {
   updated: string;
   value?: string[];
 };
+export type CreateExecutorRequestBody = {
+  name: string;
+  symbol: string;
+  quantity: number;
+  take_profit: number;
+  stop_loss: number;
+  paused: string;
+  close_mode: string;
+  consensus_treshold: number;
+  start_mode: string;
+  leverage: number;
+  quantity_mode: string;
+  strategys: Array<{
+    name: string;
+    parameters: Record<string, any>;
+    timeframe: string;
+    is_custom: boolean;
+    custom_strategy_id: string;
+  }>;
+};
+
 export type dataState = {
   data: any[];
   executors?: any[];
   isLoading: boolean;
   error: string | null;
   getData: () => Promise<void>;
+  createExecutor: (requestBody: CreateExecutorRequestBody) => Promise<void>;
 };
 export const navItems: NavItem[] = [
   {

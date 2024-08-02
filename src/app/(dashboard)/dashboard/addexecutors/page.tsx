@@ -17,17 +17,7 @@ import { useSidebar } from "@/hooks/useSidebar";
 import { useEffect, useState } from "react";
 import useSymbolStore from "@/app/store/useSymbolStore";
 import useAvailableStrategiesStore from "@/app/store/useAvailableStrategies";
-
-interface Executor {
-  id: number;
-  name: string;
-  tp: string;
-  status: string;
-  ticker: string;
-  size: string; // Consider using a proper date type if possible
-  startposition: string;
-  strategy: string;
-}
+import useExecutorStore from "@/app/store/useExecutorStore";
 
 interface FormData {
   executorName: string;
@@ -68,6 +58,84 @@ const manarop = Manrope({
   subsets: ["vietnamese"],
 });
 
+const timeFrame = [
+  {
+    id: 1,
+    name: "1 Minutes",
+    value: "1m",
+  },
+  {
+    id: 2,
+    name: "3 Minutes",
+    value: "3m",
+  },
+  {
+    id: 3,
+    name: "5 Minutes",
+    value: "5m",
+  },
+  {
+    id: 4,
+    name: "15 Minutes",
+    value: "15m",
+  },
+  {
+    id: 5,
+    name: "30 Minutes",
+    value: "30m",
+  },
+  {
+    id: 6,
+    name: "1 Hour",
+    value: "1h",
+  },
+  {
+    id: 7,
+    name: "2 Hours",
+    value: "2h",
+  },
+  {
+    id: 8,
+    name: "4 Hours",
+    value: "4h",
+  },
+  {
+    id: 9,
+    name: "6 Hours",
+    value: "6h",
+  },
+  {
+    id: 10,
+    name: "8 Hours",
+    value: "8h",
+  },
+  {
+    id: 11,
+    name: "12 Hours",
+    value: "12h",
+  },
+  {
+    id: 12,
+    name: "1 Day",
+    value: "1d",
+  },
+  {
+    id: 13,
+    name: "3 Days",
+    value: "3d",
+  },
+  {
+    id: 14,
+    name: "1 Week",
+    value: "1w",
+  },
+  {
+    id: 15,
+    name: "1 Month",
+    value: "1M",
+  },
+];
+
 // Define the types for the props
 interface StrategyFormProps {
   onRemove: () => void;
@@ -99,6 +167,11 @@ function StrategyForm({
     onChange(formData.id, fieldName, value);
   };
 
+  const {data:strategies,isLoading:strategyLoading,error:strategyError,getData:strategyData} = useAvailableStrategiesStore();
+  useEffect(()=>{
+    strategyData();    
+  },[strategyData])
+
   return (
     <Card className="w-full border-none p-2 px-5 mb-5">
       <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
@@ -116,9 +189,13 @@ function StrategyForm({
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="rsi">rsi</SelectItem>
-            <SelectItem value="macd">macd</SelectItem>
-            <SelectItem value="bollinger">bollinger</SelectItem>
+          <ScrollArea className="h-[30vh]">
+                  {strategies?.map((strategy) => (
+                    <SelectItem key={strategy.name} value={strategy.name}>
+                      {strategy.name}
+                    </SelectItem>
+                  ))}
+                  </ScrollArea>
           </SelectContent>
         </Select>
       </div>
@@ -150,8 +227,8 @@ function StrategyForm({
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="50">50</SelectItem>
-              <SelectItem value="100">100</SelectItem>
+              <SelectItem value="True">True</SelectItem>
+              <SelectItem value="False">False</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -197,8 +274,13 @@ function StrategyForm({
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1D">1 Day</SelectItem>
-              <SelectItem value="1W">1 Week</SelectItem>
+            <ScrollArea className="h-[30vh]">
+                  {timeFrame?.map((timeFrame) => (
+                    <SelectItem key={timeFrame.id} value={timeFrame.value}>
+                      {timeFrame.name}
+                    </SelectItem>
+                  ))}
+                  </ScrollArea>
             </SelectContent>
           </Select>
         </div>
@@ -247,12 +329,6 @@ function StrategyFormManager({
           onChange={handleFormChange}
         />
       ))}
-      <button
-        onClick={() => console.log(strategyForms)}
-        className="bg-blue-500 text-white py-2 px-4 rounded"
-      >
-        Log Form Data
-      </button>
     </div>
   );
 }
@@ -260,15 +336,11 @@ function StrategyFormManager({
 
 export default function Page() {
   const { isMinimized } = useSidebar();
-  const {data:strategies,isLoading:strategyLoading,error:strategyError,getData:strategyData} = useAvailableStrategiesStore();
   const {data:symbols,isLoading,error,getData} = useSymbolStore();
 
   useEffect(()=>{
-    strategyData();
     getData();
-
-    
-  },[getData,strategyData])
+  },[getData])
   
 
 // Initialize strategy form data
@@ -331,7 +403,6 @@ export default function Page() {
     leverage: 0,
   });
 
-  // Handle input change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -347,34 +418,41 @@ export default function Page() {
       [fieldName]: value,
     }));
   };
-  // Handle form submission
+  
+  const { createExecutor, error:addExError, isLoading:addExLoader } = useExecutorStore();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("You have entered: ",formData);
 
-      // Access strategyForms here
-      console.log("Strategy Forms Data: ", strategyForms);
+    const requestBody = {
+      name: formData.executorName, 
+      symbol: formData.tickerSymbol,
+      quantity: formData.type,
+      take_profit: formData.tp,
+      stop_loss: formData.sl,
+      paused: formData.status, 
+      close_mode: formData.closeMode,
+      consensus_treshold: formData.consensus,
+      start_mode: formData.startPosition,
+      leverage: formData.leverage,
+      quantity_mode: formData.sizePerTrade,
+      strategys: strategyForms.map((strategyForm) => ({
+        name: strategyForm.strategy,
+        parameters: {
+          periodoRSI: strategyForm.periodoRSI,
+          ema: strategyForm.ema,
+          highLimit: strategyForm.highLimit,
+          lowLimit: strategyForm.lowLimit,
+        },
+        timeframe: strategyForm.timeframe,
+        is_custom: false, 
+        custom_strategy_id: formData.executorName.split(':')[1], 
+      })),
+    };
+  
+
+    console.log("API Request Body: ", requestBody);
+    await createExecutor(requestBody);
     
-    // try {
-    //   const response = await fetch('/v1/user/create_executer', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   if (response.ok) {
-    //     // Handle successful response
-    //     const result = await response.json();
-    //     console.log('API Response:', result);
-    //   } else {
-    //     // Handle error response
-    //     console.error('API Error:', response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error('Request failed:', error);
-    // }
   };
 
   return (
@@ -415,10 +493,14 @@ export default function Page() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="rsi">RSI</SelectItem>
-                  <SelectItem value="btc">BTC</SelectItem>
-                  <SelectItem value="eth">ETH</SelectItem>
-                  {/* Add more options as needed */}
+                  <ScrollArea className="h-[30vh]">
+                  {symbols?.map((symbol) => (
+                    <SelectItem key={symbol.symbol_name} value={symbol.symbol_name}>
+                      {symbol.symbol_name}
+                    </SelectItem>
+                  ))}
+                  </ScrollArea>
+                  
                 </SelectContent>
               </Select>
             </div>
@@ -433,9 +515,8 @@ export default function Page() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="manual">Manual</SelectItem>
-                  <SelectItem value="auto">Auto</SelectItem>
-                  {/* Add more options as needed */}
+                  <SelectItem value="SL/TP">TP/SL</SelectItem>
+                  <SelectItem value="STRATEGY">STRATEGY</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -485,10 +566,10 @@ export default function Page() {
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="small">Small</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="large">Large</SelectItem>
-                    {/* Add more options as needed */}
+                    <SelectItem value="COIN">COIN</SelectItem>
+                    <SelectItem value="CURRENCY">CURRENCY</SelectItem>
+                    <SelectItem value="PERCENTAGE">PERCENTAGE</SelectItem>
+
                   </SelectContent>
                 </Select>
               </div>
@@ -521,10 +602,9 @@ export default function Page() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="start">Start</SelectItem>
-                  <SelectItem value="middle">Middle</SelectItem>
-                  <SelectItem value="end">End</SelectItem>
-                  {/* Add more options as needed */}
+                  <SelectItem value="LONG">LONG</SelectItem>
+                  <SelectItem value="SHORT">SHORT</SelectItem>
+                  <SelectItem value="NEUTRAL">NEUTRAL</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -539,9 +619,8 @@ export default function Page() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactive">Inactive</SelectItem>
-                  {/* Add more options as needed */}
+                  <SelectItem value="true">Paused</SelectItem>
+                  <SelectItem value="false">Not Paused</SelectItem>
                 </SelectContent>
               </Select>
             </div>

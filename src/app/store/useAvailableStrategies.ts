@@ -10,7 +10,7 @@ const useAvailableStrategiesStore = create<dataState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axiosClient.get("/info/available_strategies");
-      set({ data: response.data, isLoading: false });
+      set({ data: response.data.strategies, isLoading: false });
     } catch (error) {
       set({
         error: (error as any).detail || "Unknown error",
