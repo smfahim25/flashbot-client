@@ -26,8 +26,8 @@ const useExecutorStore = create<dataState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axiosClient.post("/user/clone_executor", body);
-      const currentData = get().data; // Access the current state
-      set({ data: [...currentData, response.data], isLoading: false });
+      await get().getData(); // Refresh data after cloning
+      set({ isLoading: false });
     } catch (error) {
       set({
         error: (error as any).detail || "Unknown error",
@@ -39,9 +39,8 @@ const useExecutorStore = create<dataState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       await axiosClient.delete(`/user/delete_executer/${id}`);
-      const currentData = get().data; // Access the current state
-      const updatedData = currentData.filter((executor) => executor.id !== id);
-      set({ data: updatedData, isLoading: false });
+      await get().getData(); // Refresh data after deletion
+      set({ isLoading: false });
     } catch (error) {
       set({
         error: (error as any).detail || "Unknown error",

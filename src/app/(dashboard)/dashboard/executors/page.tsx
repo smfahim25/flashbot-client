@@ -88,11 +88,10 @@ dark:bg-[#3D0135]"
         <div className="w-full rounded-xl">
           <Card className="border-none px-5 py-5">
             <ExecutorTable
-              searchKey="size"
               pageNo={page}
               columns={columns}
               totalUsers={totalUsers}
-              data={!isLoading ? executorData : []}
+              data={executorData}
               pageCount={pageCount}
             />
           </Card>
