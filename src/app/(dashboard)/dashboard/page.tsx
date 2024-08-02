@@ -12,6 +12,7 @@ import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import useAvailableStrategiesStore from "@/app/store/useAvailableStrategies";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 
 const lexend = Lexend({
@@ -24,6 +25,11 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export default function Page() {
+  const { data, isLoading, error, getData } = useAvailableStrategiesStore();
+  useEffect(() => {
+    getData();
+  }, [getData]);
+  console.log(data);
   const totalUsers = 20;
   const pageLimit = 10;
   const pageCount = Math.ceil(totalUsers / pageLimit);
