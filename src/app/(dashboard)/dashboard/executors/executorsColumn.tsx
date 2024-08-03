@@ -48,8 +48,13 @@ export const columns: ColumnDef<Executor>[] = [
     ),
   },
   {
-    accessorKey: "strategys",
+    id: "strategys",
     header: "Strategy",
+    cell: ({ row }) => (
+      <div>
+        <div>{row.original.strategys[0]?.name}</div>
+      </div>
+    ),
   },
   {
     id: "actions",
