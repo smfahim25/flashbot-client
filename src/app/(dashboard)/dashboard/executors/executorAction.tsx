@@ -105,6 +105,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     setOpenDelete(false);
   };
 
+  const handleEdit = (id: string) => {
+    router.push("/dashboard/executors/editexecutor")
+  };
+
+
   return (
     <>
       <Modal
@@ -427,7 +432,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             View More
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push("/dashboard/addexecutors")}
+            onClick={() => handleEdit(data?.id)}
           >
             Edit Executor
           </DropdownMenuItem>
