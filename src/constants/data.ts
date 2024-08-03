@@ -113,25 +113,90 @@ export type Employee = {
   price: string; // Profile picture can be a string (URL) or null (if no picture)
   day: string;
 };
-export type Executor = {
-  id: number;
+export interface Parameter {
+  PeriodoRSI: number;
+  EMA: boolean;
+  "High Limit": number;
+  "Low Limit": number;
+}
+export type Strategy = {
   name: string;
-  tp: string;
-  status: string;
-  ticker: string;
-  size: string; // Consider using a proper date type if possible
-  startposition: string;
-  createdDate?: string;
-};
-export type Strategies = {
-  id: number;
-  name: string;
-  purchase: string[];
-  creation: string;
-  updated: string;
-  value?: string[];
+  parameters: { [k: string]: string | number | boolean };
+  timeframe: string;
+  is_custom: boolean;
+  custom_strategy_id: string;
 };
 
+export type Executor = {
+  id: string;
+  last_change: string;
+  name: string;
+  symbol: string;
+  quantity: number;
+  take_profit: number;
+  stop_loss: number;
+  paused: boolean;
+  close_mode: string;
+  consensus_treshold: number;
+  start_mode: string;
+  leverage: number;
+  quantity_mode: string;
+  strategys: Strategy[];
+};
+
+type BacktestTargets = {
+  symbol: string;
+  quantity: number | null;
+};
+
+export type RunBacktestRequestBody = {
+  end_time: string;
+  start_time: string;
+  executer: Executor;
+  targets: Array<BacktestTargets> | string;
+};
+export type CreateExecutorRequestBody = {
+  name: string;
+  symbol: string;
+  quantity: number;
+  take_profit: number;
+  stop_loss: number;
+  paused: boolean;
+  close_mode: string;
+  consensus_treshold: number;
+  start_mode: string;
+  leverage: number;
+  quantity_mode: string;
+  strategys: Array<{
+    name: string;
+    parameters: { [k: string]: string | number | boolean };
+    timeframe: string;
+  }>;
+};
+
+export type dataState = {
+  data: any[];
+  executors?: any[];
+  isLoading: boolean;
+  error: string | null;
+  getData: () => Promise<void>;
+  createExecutor: (requestBody: CreateExecutorRequestBody) => Promise<void>;
+  editExecutor: (requestBody: CreateExecutorRequestBody) => Promise<void>;
+  cloneExecutor: (body: {
+    executor_id: string;
+    clone_mode: string;
+    symbols: string[];
+  }) => Promise<void>;
+  deleteExecutor: (id: string) => Promise<void>;
+  runBacktest: (requestBody: RunBacktestRequestBody) => Promise<void>;
+};
+export type dataSymbol = {
+  data: any[];
+  executors?: any[];
+  isLoading: boolean;
+  error: string | null;
+  getData: () => Promise<void>;
+};
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",

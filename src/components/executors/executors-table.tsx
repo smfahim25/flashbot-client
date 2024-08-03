@@ -5,6 +5,7 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -47,7 +48,6 @@ import FilterOption from "./executorFilter";
 interface DataTableProps<Executor, TValue> {
   columns: ColumnDef<Executor, TValue>[];
   data: Executor[];
-  searchKey: string;
   pageNo: number;
   totalUsers: number;
   pageSizeOptions?: number[];
@@ -65,10 +65,12 @@ const jakarta = Plus_Jakarta_Sans({
 export function ExecutorTable<Executor, TValue>({
   columns,
   data,
-  searchKey,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<Executor, TValue>) {
+  const [show, setShow] = useState(false);
+  const btnRef = useRef<HTMLDivElement | null>(null);
+
   const table = useReactTable({
     data,
     columns,
@@ -78,9 +80,9 @@ export function ExecutorTable<Executor, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
     manualFiltering: true,
+    getSortedRowModel: getSortedRowModel(),
   });
-  const [show, setShow] = useState(false);
-  const btnRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const closeMenu = (e: MouseEvent) => {
       if (btnRef.current && !btnRef.current.contains(e.target as HTMLElement)) {
@@ -93,6 +95,19 @@ export function ExecutorTable<Executor, TValue>({
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
   // Handle server-side pagination
+  const handleExport = () => {
+    const fileName = `all_executors.json`;
+    const jsonData = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <>
@@ -107,12 +122,10 @@ export function ExecutorTable<Executor, TValue>({
         </div>
         <div className="flex">
           <Input
-            placeholder={`Search ${searchKey}...`}
-            value={
-              (table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
-            }
+            placeholder="Search ..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn(searchKey)?.setFilterValue(event.target.value)
+              table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="w-[250px] md:max-w-sm mb-2 mr-6"
           />
@@ -145,7 +158,11 @@ export function ExecutorTable<Executor, TValue>({
           </div>
 
           <div>
-            <Button variant={"secondary"} className="ml-4">
+            <Button
+              variant={"secondary"}
+              className="ml-4"
+              onClick={handleExport}
+            >
               <span className="px-2">
                 <PiExport size={18} />
               </span>
@@ -185,7 +202,7 @@ export function ExecutorTable<Executor, TValue>({
                     className="text-center"
                   >
                     {row.getVisibleCells().map((cell) => {
-                      const status = cell.column.id.includes("status");
+                      const status = cell.column.id.includes("pause");
                       return (
                         <TableCell key={cell.id}>
                           <div

@@ -12,6 +12,7 @@ import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import useAvailableStrategiesStore from "@/app/store/useAvailableStrategies";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 
 const lexend = Lexend({
@@ -24,10 +25,14 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export default function Page() {
+  const { data, isLoading, error, getData } = useAvailableStrategiesStore();
+  useEffect(() => {
+    getData();
+  }, [getData]);
+  console.log(data);
   const totalUsers = 20;
   const pageLimit = 10;
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const router = useRouter();
   const employee: Employee[] = [
     {
       id: 1,
@@ -135,22 +140,6 @@ export default function Page() {
       day: "+6.04%",
     },
   ];
-  useEffect(() => {
-    const checkToken = () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // Redirect to login if token doesn't exist
-        router.push("/auth/login");
-      }
-    };
-    // Set an interval to check the token every 5 seconds
-    const intervalId = setInterval(checkToken, 2000);
-
-    checkToken();
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [router]);
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
