@@ -1,6 +1,6 @@
-import { CreateExecutorRequestBody, dataState, Executor } from "@/constants/data";
+import { CreateExecutorRequestBody, dataState } from "@/constants/data";
 import axiosClient from "@/lib/axiosClient";
-import create from "zustand";
+import { create } from "zustand";
 
 const useExecutorStore = create<dataState>((set, get) => ({
   data: [],
@@ -52,7 +52,11 @@ const useExecutorStore = create<dataState>((set, get) => ({
   createExecutor: async (requestBody: CreateExecutorRequestBody) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axiosClient.post("/user/create_executer", requestBody);
+      const response = await axiosClient.post(
+        "/user/create_executer",
+        requestBody
+      );
+      await get().getData();
 
       if (response.status === 201) {
         set((state) => ({

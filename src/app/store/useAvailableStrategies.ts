@@ -1,6 +1,6 @@
 import { dataSymbol } from "@/constants/data";
 import axiosClient from "@/lib/axiosClient";
-import create from "zustand";
+import { create } from "zustand";
 
 const useAvailableStrategiesStore = create<dataSymbol>((set) => ({
   data: [],

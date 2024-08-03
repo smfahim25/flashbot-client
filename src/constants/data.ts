@@ -121,7 +121,7 @@ export interface Parameter {
 }
 export interface Strategy {
   name: string;
-  parameters: Parameter;
+  parameters: { [k: string]: string | number | boolean };
   timeframe: string;
 }
 export type Executor = {
@@ -154,7 +154,7 @@ export type CreateExecutorRequestBody = {
   quantity: number;
   take_profit: number;
   stop_loss: number;
-  paused: string;
+  paused: boolean;
   close_mode: string;
   consensus_treshold: number;
   start_mode: string;
@@ -162,10 +162,8 @@ export type CreateExecutorRequestBody = {
   quantity_mode: string;
   strategys: Array<{
     name: string;
-    parameters: Record<string, any>;
+    parameters: { [k: string]: string | number | boolean };
     timeframe: string;
-    is_custom: boolean;
-    custom_strategy_id: string;
   }>;
 };
 

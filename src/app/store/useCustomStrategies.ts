@@ -2,15 +2,15 @@ import { dataSymbol } from "@/constants/data";
 import axiosClient from "@/lib/axiosClient";
 import { create } from "zustand";
 
-const useSymbolStore = create<dataSymbol>((set) => ({
+const useCustomStrategiesStore = create<dataSymbol>((set) => ({
   data: [],
   isLoading: false,
   error: null,
   getData: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axiosClient.get("/info/available_symbols");
-      set({ data: response.data.symbols, isLoading: false });
+      const response = await axiosClient.get("/user/custom_strategies");
+      set({ data: response.data.custom_strategies, isLoading: false });
     } catch (error) {
       set({
         error: (error as any).detail || "Unknown error",
@@ -20,4 +20,4 @@ const useSymbolStore = create<dataSymbol>((set) => ({
   },
 }));
 
-export default useSymbolStore;
+export default useCustomStrategiesStore;

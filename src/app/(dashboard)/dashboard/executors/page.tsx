@@ -40,7 +40,6 @@ export default function Page() {
   useEffect(() => {
     getData();
   }, [getData]);
-
   const totalUsers = 20;
   const pageLimit = 10;
   const page = 1;
@@ -74,7 +73,7 @@ dark:bg-[#3D0135]"
               </span>
               <span className={manarop.className}> Import Executors</span>
             </Button>
-            <Link href="/dashboard/addexecutors">
+            <Link href="/dashboard/executors/addexecutors">
               <Button className="text-[16px]">
                 <span className="px-2">
                   <FiPlus />
@@ -91,7 +90,7 @@ dark:bg-[#3D0135]"
               pageNo={page}
               columns={columns}
               totalUsers={totalUsers}
-              data={executorData}
+              data={!isLoading ? executorData : []}
               pageCount={pageCount}
             />
           </Card>
