@@ -258,7 +258,59 @@ export type NewBacktest = {
    */
   start_time: string;
 
-  executer: schemas.UserExecutor;
+  executor: {
+    /**
+     * Name
+     * @maxLength 50
+     */
+    name: string;
+    /**
+     * Symbol
+     * @maxLength 50
+     */
+    symbol: string;
+    /**
+     * Quantity
+     * @minimum 0.00001
+     */
+    quantity: number;
+
+    take_profit: number | unknown;
+
+    stop_loss: number | unknown;
+    /**
+     * Paused
+     */
+    paused?: boolean;
+
+    close_mode?: schemas.CloseMode;
+    /**
+     * Consensus Treshold
+     * @default 100
+     */
+    consensus_treshold?: number;
+
+    start_mode?: schemas.StartMode;
+
+    leverage: number | unknown;
+
+    quantity_mode?: schemas.ExecuterQuantityMode;
+    /**
+     * Strategys
+     */
+    strategys?: Array<schemas.UserStrategy>;
+    /**
+     * Id
+     * @maxLength 24
+     * @minLength 24
+     */
+    id: string;
+    /**
+     * Last Change
+     * @format date-time
+     */
+    last_change: string;
+  };
 
   targets: Array<schemas.BacktestTargets> | string;
 };
