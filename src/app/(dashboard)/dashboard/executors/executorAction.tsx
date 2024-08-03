@@ -499,145 +499,147 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         isOpen={runBacksetOpen}
         onClose={() => setRunBacksetOpen(false)}
       >
-        <div className="">
-          <div className="flex gap-3 flex-col mb-5">
-            <Label htmlFor="">Start Date</Label>
-            <div ref={startDateRef}>
-              <Popover open={startDateShow} onOpenChange={setStartDateShow}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal dark:bg-darkbg-2 dark:text-white",
-                      !startDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {startDate ? (
-                      format(startDate, "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={startDate}
-                    onSelect={handleStart}
-                    initialFocus
-                    fromYear={2005}
-                    toYear={2025}
-                  />
-                </PopoverContent>
-              </Popover>
+        <ScrollArea className="h-[85vh]">
+          <div className="">
+            <div className="flex gap-3 flex-col mb-5">
+              <Label htmlFor="">Start Date</Label>
+              <div ref={startDateRef}>
+                <Popover open={startDateShow} onOpenChange={setStartDateShow}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal dark:bg-darkbg-2 dark:text-white",
+                        !startDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {startDate ? (
+                        format(startDate, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={startDate}
+                      onSelect={handleStart}
+                      initialFocus
+                      fromYear={2005}
+                      toYear={2025}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-3 mb-5">
-            <Label htmlFor="">End Date</Label>
-            <div ref={endDateRef}>
-              <Popover open={endDateShow} onOpenChange={setEndDateShow}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal dark:bg-darkbg-2 dark:text-white",
-                      !endDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {endDate ? (
-                      format(endDate, "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={endDate}
-                    onSelect={handleEnd}
-                    initialFocus
-                    fromYear={2005}
-                    toYear={2025}
-                  />
-                </PopoverContent>
-              </Popover>
+            <div className="flex flex-col gap-3 mb-5">
+              <Label htmlFor="">End Date</Label>
+              <div ref={endDateRef}>
+                <Popover open={endDateShow} onOpenChange={setEndDateShow}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal dark:bg-darkbg-2 dark:text-white",
+                        !endDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {endDate ? (
+                        format(endDate, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={endDate}
+                      onSelect={handleEnd}
+                      initialFocus
+                      fromYear={2005}
+                      toYear={2025}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
-          </div>
 
-          <div className="mb-5">
-            <Label className="text-xs">Coin</Label>
-            <UiSelect onValueChange={changeCoinType} defaultValue="one coin">
-              <SelectTrigger className="w-full dark:bg-[#56595C]">
-                <SelectValue placeholder="Select coin" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="one coin">One Coin</SelectItem>
-                <SelectItem value="multiple">Multiple Coins</SelectItem>
-                <SelectItem value="allcoins">All Coins</SelectItem>
-              </SelectContent>
-            </UiSelect>
-          </div>
-          <div>
-            {coinType === "multiple" && (
-              <>
-                {/* <label htmlFor="">Select multiple coins : </label> */}
-                <MultipleSelector
-                  value={value}
-                  onChange={setValue}
-                  defaultOptions={options}
-                  placeholder="Select Coins..."
-                  emptyIndicator={
-                    <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                      no results found.
-                    </p>
-                  }
-                />
-              </>
-            )}
-          </div>
-          <Label className="text-sm underline">
-            You are backtesting on ---
-          </Label>
+            <div className="mb-5">
+              <Label className="text-xs">Coin</Label>
+              <UiSelect onValueChange={changeCoinType} defaultValue="one coin">
+                <SelectTrigger className="w-full dark:bg-[#56595C]">
+                  <SelectValue placeholder="Select coin" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="one coin">One Coin</SelectItem>
+                  <SelectItem value="multiple">Multiple Coins</SelectItem>
+                  <SelectItem value="allcoins">All Coins</SelectItem>
+                </SelectContent>
+              </UiSelect>
+            </div>
+            <div>
+              {coinType === "multiple" && (
+                <>
+                  {/* <label htmlFor="">Select multiple coins : </label> */}
+                  <MultipleSelector
+                    value={value}
+                    onChange={setValue}
+                    defaultOptions={options}
+                    placeholder="Select Coins..."
+                    emptyIndicator={
+                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                        no results found.
+                      </p>
+                    }
+                  />
+                </>
+              )}
+            </div>
+            <Label className="text-sm underline">
+              You are backtesting on ---
+            </Label>
 
-          <div className="my-2">
-            <h2 className="text-lg font-[700]">{data.name}</h2>
-          </div>
+            <div className="my-2">
+              <h2 className="text-lg font-[700]">{data.name}</h2>
+            </div>
 
-          <div className="my-2">
-            <h2 className="text-lg font-[700]">
-              {data.symbol}:{data.quantity}
-              {data.quantity_mode === "PERCENTAGE"
-                ? "%"
-                : data.quantity_mode === "CURRENCY"
-                ? "USDT"
-                : ""}{" "}
-              {data.take_profit}:{data.stop_loss} - {data.start_mode}
-            </h2>
-
-            <div className="mt-5">
-              <Label className="text-md">Strategies</Label>
+            <div className="my-2">
               <h2 className="text-lg font-[700]">
-                {getStrategies(data.strategys)}
+                {data.symbol}:{data.quantity}
+                {data.quantity_mode === "PERCENTAGE"
+                  ? "%"
+                  : data.quantity_mode === "CURRENCY"
+                  ? "USDT"
+                  : ""}{" "}
+                {data.take_profit}:{data.stop_loss} - {data.start_mode}
               </h2>
+
+              <div className="mt-5">
+                <Label className="text-md">Strategies</Label>
+                <h2 className="text-lg font-[700]">
+                  {getStrategies(data.strategys)}
+                </h2>
+              </div>
+            </div>
+
+            <div className="flex gap-4 justify-center mx-auto mt-14 mb-5">
+              <Button
+                variant={"ghost"}
+                className="px-12 w-[200px] bg-[#F2F2F3] dark:bg-[#252628] hover:bg-gray-200"
+                onClick={() => setRunBacksetOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button className="w-[200px]" onClick={handleRunBacktest}>
+                Run Backtest
+              </Button>
             </div>
           </div>
-
-          <div className="flex gap-4 justify-center mx-auto mt-14">
-            <Button
-              variant={"ghost"}
-              className="px-12 w-[200px] bg-[#F2F2F3] dark:bg-[#252628] hover:bg-gray-200"
-              onClick={() => setRunBacksetOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button className="w-[200px]" onClick={handleRunBacktest}>
-              Run Backtest
-            </Button>
-          </div>
-        </div>
+        </ScrollArea>
       </SideModal>
 
       <DropdownMenu modal={false}>
