@@ -405,7 +405,7 @@ export type StrategyDescription = {
    */
   name: string;
 
-  description: string | unknown;
+  description?: string | unknown;
   /**
    * Parameters
    */
