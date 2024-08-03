@@ -79,18 +79,13 @@ const lexend = Lexend({
 function Page() {
   const { isMinimized } = useSidebar();
   const params = useSearchParams();
-<<<<<<< HEAD
   const executorId = params?.get('id') || "";
-=======
-  const executorId = params?.get("id");
->>>>>>> dd04bf5401251f4e7a26087933160be6cef2cb1a
   const router = useRouter();
   const url = "https://flashbot-staging-bb3v6.ondigitalocean.app/";
   const { data, isLoading, error, getData } =
     useExecuterByIdV1UserExecutersIdGet();
 
   useEffect(() => {
-<<<<<<< HEAD
     if(executorId){
       
       getData(executorId);
@@ -98,10 +93,6 @@ function Page() {
     }
     
   }, [executorId,getData]);
-=======
-    getData(id);
-  }, [id, getData]);
->>>>>>> dd04bf5401251f4e7a26087933160be6cef2cb1a
 
   const [executorStrategy, setExecutorStrategy] = useState<cutomeStrategies[]>([]);
   const [updatedStrategies, setUpdatedStrategies] = React.useState({ data: { strategies: [] } });
@@ -137,7 +128,7 @@ function Page() {
           timeframe: strategy.timeframe,
         })
       });
-      setExecutorStrategy(strategies);
+      setExecutorStrategy(strategies);.
     }
   }, [data]);
 
