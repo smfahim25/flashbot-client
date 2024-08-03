@@ -128,11 +128,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   };
 
   const handleEdit = (id: string) => {
-<<<<<<< HEAD
     router.push(`/dashboard/executors/editexecutor?id=${id}`);
-=======
-    router.push(`/dashboard/executors/editexecutor/?id=${id}`);
->>>>>>> dd04bf5401251f4e7a26087933160be6cef2cb1a
   };
 
   const getStrategies = (strategys: any) => {

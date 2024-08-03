@@ -76,71 +76,109 @@ const lexend = Lexend({
   weight: "600",
   subsets: ["vietnamese"],
 });
+
+const timeFrame = [
+  {
+    id: 1,
+    name: "1 Minutes",
+    value: "1m",
+  },
+  {
+    id: 2,
+    name: "3 Minutes",
+    value: "3m",
+  },
+  {
+    id: 3,
+    name: "5 Minutes",
+    value: "5m",
+  },
+  {
+    id: 4,
+    name: "15 Minutes",
+    value: "15m",
+  },
+  {
+    id: 5,
+    name: "30 Minutes",
+    value: "30m",
+  },
+  {
+    id: 6,
+    name: "1 Hour",
+    value: "1h",
+  },
+  {
+    id: 7,
+    name: "2 Hours",
+    value: "2h",
+  },
+  {
+    id: 8,
+    name: "4 Hours",
+    value: "4h",
+  },
+  {
+    id: 9,
+    name: "6 Hours",
+    value: "6h",
+  },
+  {
+    id: 10,
+    name: "8 Hours",
+    value: "8h",
+  },
+  {
+    id: 11,
+    name: "12 Hours",
+    value: "12h",
+  },
+  {
+    id: 12,
+    name: "1 Day",
+    value: "1d",
+  },
+  {
+    id: 13,
+    name: "3 Days",
+    value: "3d",
+  },
+  {
+    id: 14,
+    name: "1 Week",
+    value: "1w",
+  },
+  {
+    id: 15,
+    name: "1 Month",
+    value: "1M",
+  },
+];
+
 function Page() {
   const { isMinimized } = useSidebar();
   const params = useSearchParams();
-  const executorId = params?.get('id') || "";
+  const executorId = params?.get("id");
   const router = useRouter();
   const url = "https://flashbot-staging-bb3v6.ondigitalocean.app/";
   const { data, isLoading, error, getData } =
     useExecuterByIdV1UserExecutersIdGet();
 
   useEffect(() => {
-    if(executorId){
-      
+    if (executorId) {
       getData(executorId);
-      console.log("The data by executor id is ", data);
+      // console.log("The data by executor id is ", data);
     }
-    
-  }, [executorId,getData]);
+  }, [executorId, getData]);
 
-  const [executorStrategy, setExecutorStrategy] = useState<cutomeStrategies[]>([]);
-  const [updatedStrategies, setUpdatedStrategies] = React.useState({ data: { strategies: [] } });
-
-  useEffect(() => {
-    if (data) {
-      let strategies = data?.strategys?.map((strategy: any) => {
-        // if (url === process.env.NEXT_PUBLIC_API_BASE_URL_TESTING) {
-        //   if (strategy.is_custom) {
-        //     return {
-        //       name: `${strategy.name}:${strategy.custom_strategy_id}`,
-        //       parameters: Object.entries(strategy.parameters).reduce((acc, [key, value]) => ({ ...acc, [`${strategy.name}`]: value }), {}),
-        //       timeframe: strategy.timeframe,
-        //     }
-        //   } else {
-        //     return {
-        //       name: strategy.name,
-        //       parameters: Object.entries(strategy.parameters).reduce((acc, [key, value]) => ({ ...acc, [`${strategy.name}`]: value }), {}),
-        //       timeframe: strategy.timeframe,
-        //     }
-        //   }
-        // } else {
-        //   return {
-        //     name: strategy.name,
-        //     parameters: Object.entries(strategy.parameters).reduce((acc, [key, value]) => ({ ...acc, [`${strategy.name}`]: value }), {}),
-        //     timeframe: strategy.timeframe,
-        //   }
-        // }
-
-        return ({
-          name: strategy.name,
-          parameters: strategy.parameters,
-          timeframe: strategy.timeframe,
-        })
-      });
-      setExecutorStrategy(strategies);.
-    }
-  }, [data]);
-
-  
   const hookForm = useForm<FormState>({
     resolver: zodResolver(executorFormSchema),
     values: {
       ...data,
-      paused: data?.paused ? 'paused' : '',
+      paused: data?.paused ? "paused" : "",
     },
   });
-  const qtyMode = hookForm.watch('quantity_mode');
+  const qtyMode = hookForm.watch("quantity_mode");
 
   const [availableStrategies, setAvailableStrategies] = React.useState<
     cutomeStrategies[]
@@ -227,17 +265,19 @@ function Page() {
   };
 
   const handleEditExecutor = async (state: FormState) => {
-
     let formValues = hookForm.getValues();
 
-    if(hookForm.getValues('consensus_treshold') > 100 || hookForm.getValues('consensus_treshold') < 0) {
-      toast.error('Accepted values ​​for Consensus must be between 0 and 100');
+    if (
+      hookForm.getValues("consensus_treshold") > 100 ||
+      hookForm.getValues("consensus_treshold") < 0
+    ) {
+      toast.error("Accepted values ​​for Consensus must be between 0 and 100");
       return;
     }
 
     let _strategys = [...formValues.strategys];
 
-    console.log('_strategys', _strategys);
+    console.log("_strategys", _strategys);
 
     let strategys = _strategys.map((strategy) => {
       let newCustomStrategy: cutomeStrategies = {
@@ -245,36 +285,43 @@ function Page() {
         is_custom: strategy.is_custom,
         //@ts-ignore
         custom_strategy_id: strategy.custom_strategy_id,
-        name: strategy.name.split(':')[0],
+        name: strategy.name.split(":")[0],
         parameters: Object.entries(strategy.parameters)
-          .filter(([key]) => key.split(' + ')[0] === strategy.name.split(':')[0])
-          .reduce((acc, [key, value]) => ({ ...acc, [key.split(' + ')[1]]: convertValue(value) }), {}),
+          .filter(
+            ([key]) => key.split(" + ")[0] === strategy.name.split(":")[0]
+          )
+          .reduce(
+            (acc, [key, value]) => ({
+              ...acc,
+              [key.split(" + ")[1]]: convertValue(value),
+            }),
+            {}
+          ),
         timeframe: strategy.timeframe,
-      }
+      };
       return newCustomStrategy;
     });
 
-    if(data?.strategys?.length > 0) {
-     if(strategys.length > data?.strategys?.length) {
-       strategys.pop();
-     }
+    if (data?.strategys?.length > 0) {
+      if (strategys.length > data?.strategys?.length) {
+        strategys.pop();
+      }
     }
 
     const body = {
       ...formValues,
       strategys,
-      stop_loss: -Math.abs(hookForm.getValues('stop_loss')),
-      paused: hookForm.getValues().paused === 'paused',
-    }
+      stop_loss: -Math.abs(hookForm.getValues("stop_loss")),
+      paused: hookForm.getValues().paused === "paused",
+    };
 
     try {
       await editExecutor(body);
-      toast.success('Executor updated successfully');
-      router.push('/dashboard/executors');
+      toast.success("Executor updated successfully");
+      router.push("/dashboard/executors");
     } catch (error) {
-      toast.error('Error updating executor');
+      toast.error("Error updating executor");
     }
-    router.push('/dashboard/executors');
   };
 
   const handleValidation = (error: any) => {
@@ -312,89 +359,11 @@ function Page() {
     }
   }
 
-  const timeFrame = [
-    {
-      id: 1,
-      name: "1 Minutes",
-      value: "1m",
-    },
-    {
-      id: 2,
-      name: "3 Minutes",
-      value: "3m",
-    },
-    {
-      id: 3,
-      name: "5 Minutes",
-      value: "5m",
-    },
-    {
-      id: 4,
-      name: "15 Minutes",
-      value: "15m",
-    },
-    {
-      id: 5,
-      name: "30 Minutes",
-      value: "30m",
-    },
-    {
-      id: 6,
-      name: "1 Hour",
-      value: "1h",
-    },
-    {
-      id: 7,
-      name: "2 Hours",
-      value: "2h",
-    },
-    {
-      id: 8,
-      name: "4 Hours",
-      value: "4h",
-    },
-    {
-      id: 9,
-      name: "6 Hours",
-      value: "6h",
-    },
-    {
-      id: 10,
-      name: "8 Hours",
-      value: "8h",
-    },
-    {
-      id: 11,
-      name: "12 Hours",
-      value: "12h",
-    },
-    {
-      id: 12,
-      name: "1 Day",
-      value: "1d",
-    },
-    {
-      id: 13,
-      name: "3 Days",
-      value: "3d",
-    },
-    {
-      id: 14,
-      name: "1 Week",
-      value: "1w",
-    },
-    {
-      id: 15,
-      name: "1 Month",
-      value: "1M",
-    },
-  ];
-
   useEffect(() => {
     if (qtyMode === "COIN") {
       hookForm.setValue("quantity", 0.00001);
     } else {
-      hookForm.setValue("quantity", 0);
+      hookForm.setValue("quantity", 1);
     }
   }, [qtyMode, hookForm]);
 
@@ -559,7 +528,7 @@ function Page() {
                           type="number"
                           {...hookForm.register("quantity", {
                             required: true,
-                            min: "0",
+                            min: "1",
                             onChange: (e) =>
                               handleNumericValues(e, {
                                 percent: qtyMode === "PERCENTAGE",
