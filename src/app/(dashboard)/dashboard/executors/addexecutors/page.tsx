@@ -25,7 +25,7 @@ import Loader from "@/components/ui/loader";
 const executorFormSchema = z.object({
   name: z.string().min(3),
   symbol: z.string(),
-  quantity: z.number(),
+  quantity: z.number().min(0.00001),
   take_profit: z.number(),
   stop_loss: z.number(),
   paused: z.string(),
@@ -593,7 +593,9 @@ function Page() {
                     control={hookForm.control}
                     containerClass=""
                     className="focus-visible:ring-0"
-                    {...hookForm.register("leverage", { required: true })}
+                    {...hookForm.register("leverage", {
+                      required: true,
+                    })}
                   />
                 </div>
               </Card>
