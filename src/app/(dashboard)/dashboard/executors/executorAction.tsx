@@ -128,9 +128,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   };
 
   const handleEdit = (id: string) => {
-    router.push("/dashboard/executors/editexecutor")
+    router.push(`/dashboard/executors/editexecutor/?id=${id}`);
   };
-
 
   const getStrategies = (strategys: any) => {
     let str = "";
@@ -475,16 +474,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 switch (cloneMode) {
                   case "oneCoin":
                     router.push(
-                      `/dashboard/executors/clone-executor/?id=${data?.id}`
+                      `/dashboard/executors/clone_executor/?id=${data?.id}`
                     );
                     break;
                   case "multipleCoins":
                     handleCloneExecutor("multiple_coins");
-                    console.log("multiple coins");
                     break;
                   case "allCoins":
                     handleCloneExecutor("all_coins");
-                    console.log("all coins");
                     break;
                   default:
                     console.log("default");
@@ -658,9 +655,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => setViewMore(true)}>
             View More
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => handleEdit(data?.id)}
-          >
+          <DropdownMenuItem onClick={() => handleEdit(data?.id)}>
             Edit Executor
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setCloneOpen(true)}>

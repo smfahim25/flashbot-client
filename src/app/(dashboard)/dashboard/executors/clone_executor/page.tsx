@@ -4,11 +4,9 @@ import Link from "next/link";
 import React, { Fragment, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Symbol } from "@/lib/schemas";
-import { addExecutorAction } from "@/lib/action";
+import { StrategyDescription, Symbol } from "@/lib/schemas";
 import { useRouter, useSearchParams } from "next/navigation";
 import useAvailableStrategiesStore from "@/app/store/useAvailableStrategies";
-import useCustomStrategiesStore from "@/app/store/useCustomStrategies";
 import { ControlledInput } from "@/components/ui/controlInput";
 import useSymbolStore from "@/app/store/useSymbolStore";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -70,59 +68,111 @@ type strategies = {
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
   { title: "Executors", link: "/dashboard/executors" },
-  { title: "Edit Executors", link: "/dashboard/executors/editexecutor" },
 ];
 const lexend = Lexend({
   weight: "600",
   subsets: ["vietnamese"],
 });
-function Page({ id }: { id: string }) {
+const timeFrame = [
+  {
+    id: 1,
+    name: "1 Minutes",
+    value: "1m",
+  },
+  {
+    id: 2,
+    name: "3 Minutes",
+    value: "3m",
+  },
+  {
+    id: 3,
+    name: "5 Minutes",
+    value: "5m",
+  },
+  {
+    id: 4,
+    name: "15 Minutes",
+    value: "15m",
+  },
+  {
+    id: 5,
+    name: "30 Minutes",
+    value: "30m",
+  },
+  {
+    id: 6,
+    name: "1 Hour",
+    value: "1h",
+  },
+  {
+    id: 7,
+    name: "2 Hours",
+    value: "2h",
+  },
+  {
+    id: 8,
+    name: "4 Hours",
+    value: "4h",
+  },
+  {
+    id: 9,
+    name: "6 Hours",
+    value: "6h",
+  },
+  {
+    id: 10,
+    name: "8 Hours",
+    value: "8h",
+  },
+  {
+    id: 11,
+    name: "12 Hours",
+    value: "12h",
+  },
+  {
+    id: 12,
+    name: "1 Day",
+    value: "1d",
+  },
+  {
+    id: 13,
+    name: "3 Days",
+    value: "3d",
+  },
+  {
+    id: 14,
+    name: "1 Week",
+    value: "1w",
+  },
+  {
+    id: 15,
+    name: "1 Month",
+    value: "1M",
+  },
+];
+
+function Page() {
   const { isMinimized } = useSidebar();
   const params = useSearchParams();
   const executorId = params?.get("id");
   const router = useRouter();
-  const url = "https://flashbot-staging-bb3v6.ondigitalocean.app/";
-  const { data, isLoading, error, getData } =
-    useExecuterByIdV1UserExecutersIdGet();
-
-  useEffect(() => {
-    getData(id);
-  }, [id, getData]);
-
-  console.log("Fetched data by id : ", data);
-
-  const hookForm = useForm<FormState>({
-    resolver: zodResolver(executorFormSchema),
-    defaultValues: {
-      close_mode: "",
-      consensus_treshold: 0,
-      leverage: 0,
-      name: "",
-      paused: "",
-      quantity: 0,
-      quantity_mode: "",
-      start_mode: "",
-      stop_loss: 0,
-      symbol: "",
-      take_profit: 0,
-      strategys: [{ name: undefined, parameters: {}, timeframe: "" }], // Change the default value here
-    },
-  });
-
-  const qtyMode = hookForm.watch("quantity_mode");
-  const [availableStrategies, setAvailableStrategies] = React.useState<
-    cutomeStrategies[]
-  >([]);
   const { data: availableStrategiesData, getData: getAvailStregies } =
     useAvailableStrategiesStore();
-  const { data: customStrategiesData, getData: getCustomStregies } =
-    useCustomStrategiesStore();
   const { data: symbolData, getData: getSymbolData } = useSymbolStore();
-  const {
-    createExecutor,
-    error: addExError,
-    isLoading: addExLoader,
-  } = useExecutorStore();
+  const [updatedStrategies, setUpdatedStrategies] = React.useState<{
+    data: { strategies: StrategyDescription[] };
+  }>({
+    data: { strategies: [] },
+  });
+
+  const { data: executorData, getData } = useExecuterByIdV1UserExecutersIdGet();
+  const { createExecutor, isLoading: addExLoader } = useExecutorStore();
+
+  useEffect(() => {
+    if (executorId !== null) {
+      getData(executorId);
+    }
+  }, [executorId, getData]);
 
   useEffect(() => {
     getSymbolData();
@@ -132,46 +182,15 @@ function Page({ id }: { id: string }) {
     getAvailStregies();
   }, [getAvailStregies]);
 
-  useEffect(() => {
-    getCustomStregies();
-  }, [getCustomStregies]);
-  console.log(availableStrategiesData);
+  const hookForm = useForm<FormState>({
+    resolver: zodResolver(executorFormSchema),
+    values: {
+      ...executorData,
+      paused: executorData.paused ? "paused" : "",
+    },
+  });
 
-  useEffect(() => {
-    let newStrategies: any[] = [];
-
-    if (availableStrategiesData) {
-      newStrategies = availableStrategiesData.map((strategy: any) => ({
-        id: strategy.id,
-        description: strategy.description,
-        filter_available: strategy.filter_available,
-        indicator_parameters_schema: strategy.indicator_parameters_schema,
-        name: strategy.name,
-        parameters: strategy.parameters,
-      }));
-    }
-
-    if (url === "https://flashbot-staging-bb3v6.ondigitalocean.app/") {
-      if (customStrategiesData) {
-        const customStrategies = customStrategiesData.map((strategy: any) => ({
-          id: strategy.id,
-          description: null,
-          filter_available: true,
-          indicator_parameters_schema: strategy.indicator_parameters_schema,
-          name: strategy.name,
-          parameters: {},
-        }));
-        newStrategies = [...newStrategies, ...customStrategies];
-      }
-    }
-
-    setAvailableStrategies(newStrategies);
-    console.log("newStrategies", newStrategies);
-  }, [availableStrategiesData, customStrategiesData]);
-
-  useEffect(() => {
-    console.log(availableStrategies);
-  }, [availableStrategies]);
+  const qtyMode = hookForm.watch("quantity_mode");
 
   const arrayFields = useFieldArray({
     name: "strategys",
@@ -180,22 +199,8 @@ function Page({ id }: { id: string }) {
 
   const strategies = hookForm.watch("strategys");
 
-  const filterParameters = (
-    strategyName: string,
-    parameters: { [key: string]: any }
-  ) => {
-    const filteredParameters: { [key: string]: any } = {};
-    for (const key in parameters) {
-      if (key.startsWith(strategyName)) {
-        const newKey = key.replace(`${strategyName} + `, "");
-        filteredParameters[newKey] = parameters[key];
-      }
-    }
-    return filteredParameters;
-  };
-
-  const handleAddExecutor = async () => {
-    const formValues = hookForm.getValues();
+  const handleSubmit = async (state: FormState) => {
+    let formValues = hookForm.getValues();
 
     if (
       hookForm.getValues("consensus_treshold") > 100 ||
@@ -204,54 +209,90 @@ function Page({ id }: { id: string }) {
       toast.error("Accepted values ​​for Consensus must be between 0 and 100");
       return;
     }
-    const strategys = formValues.strategys
-      .map((strategy) => {
-        return {
+
+    let _strategys = [...formValues.strategys];
+
+    let strategys = _strategys.map((strategy) => {
+      //@ts-ignore
+      if (strategy.is_custom !== undefined) {
+        let newCustomStrategy: cutomeStrategies = {
+          //@ts-ignore
+          is_custom: strategy.is_custom,
+          //@ts-ignore
+          custom_strategy_id: strategy.custom_strategy_id,
           name: strategy.name.split(":")[0],
-          parameters: Object.fromEntries(
-            Object.entries(strategy.parameters).map(([key, value]) => [
-              key.split(" + ")[1],
-              convertValue(value),
-            ])
-          ),
+          parameters: Object.entries(strategy.parameters)
+            .filter(
+              ([key]) => key.split(" + ")[0] === strategy.name.split(":")[0]
+            )
+            .reduce(
+              (acc, [key, value]) => ({
+                ...acc,
+                [key.split(" + ")[1]]: convertValue(value),
+              }),
+              {}
+            ),
           timeframe: strategy.timeframe,
         };
-      })
-      .filter((strategy) => {
-        // Check if the strategy object has all the necessary properties with non-empty values
-        const hasValidName = strategy.name.trim() !== "";
-        const hasValidTimeframe = strategy.timeframe.trim() !== "";
-        const hasValidParameters = Object.values(strategy.parameters).some(
-          (value) => value !== "" && value !== null && value !== undefined
-        );
+        return newCustomStrategy;
+      } else {
+        // if (strategy.name.split(':')[1] !== "undefined") {
+        let newCustomStrategy: cutomeStrategies = {
+          is_custom: false,
+          custom_strategy_id: null,
+          name: strategy.name,
+          parameters: Object.entries(strategy.parameters)
+            .filter(
+              ([key]) => key.split(" + ")[0] === strategy.name.split(":")[0]
+            )
+            .reduce(
+              (acc, [key, value]) => ({
+                ...acc,
+                [key.split(" + ")[1]]: convertValue(value),
+              }),
+              {}
+            ),
+          timeframe: strategy.timeframe,
+        };
+        return newCustomStrategy;
+      }
+    });
 
-        return hasValidName && hasValidTimeframe && hasValidParameters;
-      });
+    if (executorData.strategys.length > 0) {
+      if (strategys.length > executorData.strategys.length) {
+        strategys.pop();
+      }
+    }
 
-    const body = {
+    function convertValue(value: string) {
+      if (!isNaN(Number(value))) {
+        return Number(value);
+      } else if (
+        value.toLowerCase() === "true" ||
+        value.toLowerCase() === "false"
+      ) {
+        return value.toLowerCase() === "true";
+      } else {
+        return value;
+      }
+    }
+
+    //   const strategys = hookForm.getValues().strategys;
+    const bodyData = {
       ...formValues,
       strategys,
-      stop_loss: -Math.abs(formValues.stop_loss),
-      paused: formValues.paused === "paused",
+      paused: state.paused === "paused",
+      last_change: new Date().toISOString(),
     };
-    console.log(JSON.stringify(body), "data");
     try {
-      const res = await createExecutor(body);
-      toast.success("Executor created successfully");
+      const res = await createExecutor(bodyData);
+      toast.success("Executor cloned successfully");
       setTimeout(() => {
-        window.location.href = "/dashboard/executors";
-      }, 3000);
+        router.push("/dashboard/executors");
+      }, 2000);
     } catch (error) {
-      toast.error("Failed to add executor");
+      toast.error("Error adding executor");
     }
-  };
-
-  const handleValidation = (error: any) => {
-    console.error("Please fill all the required fields");
-  };
-
-  const handleAddStrategy = () => {
-    arrayFields.append({ name: "", parameters: {}, timeframe: "" });
   };
 
   const handleNumericValues = (
@@ -268,104 +309,28 @@ function Page({ id }: { id: string }) {
     }
   };
 
-  function convertValue(value: string) {
-    if (!isNaN(Number(value))) {
-      return Number(value);
-    } else if (
-      value.toLowerCase() === "true" ||
-      value.toLowerCase() === "false"
-    ) {
-      return value.toLowerCase() === "true";
-    } else {
-      return value;
-    }
-  }
-
-  const timeFrame = [
-    {
-      id: 1,
-      name: "1 Minutes",
-      value: "1m",
-    },
-    {
-      id: 2,
-      name: "3 Minutes",
-      value: "3m",
-    },
-    {
-      id: 3,
-      name: "5 Minutes",
-      value: "5m",
-    },
-    {
-      id: 4,
-      name: "15 Minutes",
-      value: "15m",
-    },
-    {
-      id: 5,
-      name: "30 Minutes",
-      value: "30m",
-    },
-    {
-      id: 6,
-      name: "1 Hour",
-      value: "1h",
-    },
-    {
-      id: 7,
-      name: "2 Hours",
-      value: "2h",
-    },
-    {
-      id: 8,
-      name: "4 Hours",
-      value: "4h",
-    },
-    {
-      id: 9,
-      name: "6 Hours",
-      value: "6h",
-    },
-    {
-      id: 10,
-      name: "8 Hours",
-      value: "8h",
-    },
-    {
-      id: 11,
-      name: "12 Hours",
-      value: "12h",
-    },
-    {
-      id: 12,
-      name: "1 Day",
-      value: "1d",
-    },
-    {
-      id: 13,
-      name: "3 Days",
-      value: "3d",
-    },
-    {
-      id: 14,
-      name: "1 Week",
-      value: "1w",
-    },
-    {
-      id: 15,
-      name: "1 Month",
-      value: "1M",
-    },
-  ];
+  const handleAddStrategy = () => {
+    arrayFields.append({ name: "", parameters: {}, timeframe: "" });
+  };
 
   useEffect(() => {
-    if (qtyMode === "COIN") {
-      hookForm.setValue("quantity", 0.00001);
-    } else {
-      hookForm.setValue("quantity", 0);
-    }
-  }, [qtyMode, hookForm]);
+    const updatedStrategies = availableStrategiesData.map(
+      (strategy: StrategyDescription) => {
+        const executorStrategy = executorData.strategys.find(
+          (exStrategy: StrategyDescription) => exStrategy.name === strategy.name
+        );
+        if (executorStrategy) {
+          return {
+            ...strategy,
+            parameters: executorStrategy.parameters,
+          };
+        }
+        return strategy;
+      }
+    );
+
+    setUpdatedStrategies({ data: { strategies: updatedStrategies } });
+  }, [executorData, availableStrategiesData]);
 
   return (
     <ScrollArea className="h-full">
@@ -379,13 +344,11 @@ function Page({ id }: { id: string }) {
           <h6
             className={`font-semibold text-[24px] leading-10 ${lexend.className}`}
           >
-            Edit Executors
+            Clone Executors
           </h6>
           <Breadcrumbs items={breadcrumbItems} />
         </div>
-        <form
-          onSubmit={hookForm.handleSubmit(handleAddExecutor, handleValidation)}
-        >
+        <form onSubmit={hookForm.handleSubmit(handleSubmit)}>
           <div className="w-full grid grid-cols-2 gap-5 mt-5">
             <ScrollArea className="h-[70vh] mt-4">
               <Card className="w-full px-8 py-3 rounded-lg">
@@ -626,7 +589,7 @@ function Page({ id }: { id: string }) {
                             {name && (
                               <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
                                 <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
-                                  {name || "rsi"}
+                                  {name}
                                 </h2>
                               </div>
                             )}
@@ -644,62 +607,67 @@ function Page({ id }: { id: string }) {
                         className="border-2 py-2 rounded-md text-sm"
                       >
                         <option value="">Select Strategy</option>
-                        {availableStrategies.map((strategy: any) => (
-                          <option
-                            key={strategy.name}
-                            value={`${strategy.name}:${strategy.id}`}
-                          >
-                            {(strategy.description || strategy.name) as string}
-                          </option>
-                        ))}
+                        {availableStrategiesData.map(
+                          (strategy: StrategyDescription) => (
+                            <option key={strategy.name} value={strategy.name}>
+                              {
+                                (strategy.description ||
+                                  strategy.name) as string
+                              }
+                            </option>
+                          )
+                        )}
                       </select>
                     </div>
                     {/* Render fields based on selected strategy */}
                     {strategies[index]?.name &&
                       strategies[index]?.name !== "Select Strategy" && (
                         <>
-                          {availableStrategies.map((strategy: any) => (
-                            <div
-                              key={strategy.name}
-                              style={{
-                                display:
-                                  strategies[index].name.split(":")[0] ===
-                                  strategy.name
-                                    ? "block"
-                                    : "none",
-                              }}
-                            >
-                              {/* Render fields based on strategy */}
-                              <div className="grid grid-cols-2 gap-5">
-                                {Object.entries(strategy.parameters).map(
-                                  ([paramName, paramValue]) => (
-                                    <div
-                                      key={paramName}
-                                      className="col-span-1 flex flex-col"
-                                    >
-                                      <Label
-                                        htmlFor={paramName}
-                                        className="text-sm"
-                                      >
-                                        {paramName} :{" "}
-                                      </Label>
-                                      <ControlledInput
-                                        placeholder={`Enter ${paramName}`}
-                                        type="text"
-                                        control={hookForm.control}
-                                        containerClass="h-[40px]"
-                                        className="focus-visible:ring-0"
-                                        {...hookForm.register(
-                                          `strategys.${index}.parameters.${paramName}`
-                                        )}
-                                        defaultValue={paramValue}
-                                      />
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            </div>
-                          ))}
+                          {updatedStrategies.data.strategies &&
+                            updatedStrategies.data.strategies.map(
+                              (strategy: StrategyDescription) => (
+                                <div
+                                  key={strategy.name}
+                                  style={{
+                                    display:
+                                      strategies[index].name.split(":")[0] ===
+                                      strategy.name
+                                        ? "block"
+                                        : "none",
+                                  }}
+                                >
+                                  {/* Render fields based on strategy */}
+                                  <div className="grid grid-cols-2 gap-5">
+                                    {Object.entries(strategy.parameters).map(
+                                      ([paramName, paramValue]) => (
+                                        <div
+                                          key={paramName}
+                                          className="col-span-1 flex flex-col"
+                                        >
+                                          <Label
+                                            htmlFor={paramName}
+                                            className="text-sm"
+                                          >
+                                            {paramName} :{" "}
+                                          </Label>
+                                          <ControlledInput
+                                            placeholder={`Enter ${paramName}`}
+                                            type="text"
+                                            control={hookForm.control}
+                                            containerClass="h-[40px]"
+                                            className="focus-visible:ring-0"
+                                            {...hookForm.register(
+                                              `strategys.${index}.parameters.${paramName}`
+                                            )}
+                                            defaultValue={paramValue}
+                                          />
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              )
+                            )}
                           <div className="flex flex-col mt-5">
                             <Label htmlFor="" className="dtext-sm">
                               Timeframe
@@ -751,23 +719,7 @@ function Page({ id }: { id: string }) {
                     </div>
                   </Card>
                 ))}
-                {/* </Card> */}
               </div>
-              {/* <div className="flex gap-3 mb-3 items-center ">
-                <button
-                  type="submit"
-                  className="bg-blueaccent text-white px-5 py-2 rounded-md"
-                >
-                  Add Executor
-                </button>
-                <button
-                  type="reset"
-                  className="bg-redaccent text-white px-5 py-2 rounded-md"
-                  onClick={() => hookForm.reset()}
-                >
-                  Clear
-                </button>
-              </div> */}
             </ScrollArea>
           </div>
           <div
@@ -788,7 +740,7 @@ function Page({ id }: { id: string }) {
                 type="submit"
                 className="md:w-[200px] h-[50px] rounded-md"
               >
-                Edit Executor
+                Clone Executor
               </Button>
             </div>
           </div>

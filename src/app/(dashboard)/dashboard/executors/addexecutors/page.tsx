@@ -77,6 +77,7 @@ const lexend = Lexend({
 });
 function Page() {
   const { isMinimized } = useSidebar();
+  const router = useRouter();
   const url = "https://flashbot-staging-bb3v6.ondigitalocean.app/";
   const hookForm = useForm<FormState>({
     resolver: zodResolver(executorFormSchema),
@@ -105,11 +106,7 @@ function Page() {
   const { data: customStrategiesData, getData: getCustomStregies } =
     useCustomStrategiesStore();
   const { data: symbolData, getData: getSymbolData } = useSymbolStore();
-  const {
-    createExecutor,
-    error: addExError,
-    isLoading: addExLoader,
-  } = useExecutorStore();
+  const { createExecutor, isLoading: addExLoader } = useExecutorStore();
 
   useEffect(() => {
     getSymbolData();
@@ -225,9 +222,10 @@ function Page() {
     try {
       const res = await createExecutor(body);
       toast.success("Executor created successfully");
+      hookForm.reset();
       setTimeout(() => {
-        window.location.href = "/dashboard/executors";
-      }, 3000);
+        router.push("/dashboard/executors");
+      }, 2000);
     } catch (error) {
       toast.error("Failed to add executor");
     }
