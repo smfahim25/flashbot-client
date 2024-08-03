@@ -1,7 +1,7 @@
 "use client";
-import { Executor } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./executorAction";
+import { Executor } from "@/constants/data";
 
 export const columns: ColumnDef<Executor>[] = [
   {

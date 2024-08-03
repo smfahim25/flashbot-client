@@ -1,5 +1,6 @@
 import { CreateExecutorRequestBody, dataState } from "@/constants/data";
 import axiosClient from "@/lib/axiosClient";
+import { toast } from "react-toastify";
 import { create } from "zustand";
 
 const useExecutorStore = create<dataState>((set, get) => ({
@@ -57,29 +58,31 @@ const useExecutorStore = create<dataState>((set, get) => ({
         requestBody
       );
       await get().getData();
-
+      set({ isLoading: false });
+    } catch (error) {
+      set({
+        error: (error as any).detail || "Unknown error",
+        isLoading: false,
+      });
+    }
+  },
+  runBacktest: async (requestBody: any) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosClient.post(
+        "/jobs/new_bath_backtest",
+        requestBody
+      );
+      await get().getData();
+      set({ isLoading: false });
       if (response.status === 201) {
-        set((state) => ({
-          data: [...state.data, response.data.executor],
-          isLoading: false,
-          error: null,
-        }));
-        console.log("Executor created successfully.");
+        toast.success("backtest created successfully.");
       }
     } catch (error) {
-      const status = (error as any).response?.status;
-
-      if (status === 422) {
-        set({
-          error: "Validation error: Please check your input data.",
-          isLoading: false,
-        });
-      } else {
-        set({
-          error: (error as any).response?.data?.message || "Unknown error",
-          isLoading: false,
-        });
-      }
+      set({
+        error: (error as any).detail || "Unknown error",
+        isLoading: false,
+      });
     }
   },
 }));

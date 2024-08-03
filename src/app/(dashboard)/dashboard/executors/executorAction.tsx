@@ -19,15 +19,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { EllipsisVertical } from "lucide-react";
+import { CalendarIcon, EllipsisVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CalendarDateRangePicker } from "@/components/date-pick-ranger";
 
 import useSymbolStore from "@/app/store/useSymbolStore";
 import MultipleSelector, { Option } from "@/components/ui/multiselector";
 import useExecutorStore from "@/app/store/useExecutorStore";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calender";
+import { toast } from "react-toastify";
 
 interface CellActionProps {
   data: Executor;
@@ -45,9 +54,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [runBacksetOpen, setRunBacksetOpen] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [coinValue, setCoinValue] = useState<Option[]>([]);
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  const [coinType, setCoinType] = useState("Default");
+  const [value, setValue] = useState<Option[]>([]);
+  const [_options, _setOptions] = useState<Option[]>([]);
   const router = useRouter();
   const { data: symbolData, getData } = useSymbolStore();
   const cloneExecutor = useExecutorStore((state) => state.cloneExecutor);
+  const runBacktest = useExecutorStore((state) => state.runBacktest);
   const { deleteExecutor } = useExecutorStore();
   const strategies = data.strategys ?? [];
   const [selectedStrategy, setSelectedStrategy] = useState<Strategy | null>(
@@ -55,6 +70,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   );
   const [showDetails, setShowDetails] = useState(false);
   const [displayDetails, setDisplayDetails] = useState(false);
+  const [startDateShow, setStartDateShow] = useState(false);
+  const [endDateShow, setEndDateShow] = useState(false);
+  const startDateRef = useRef<HTMLDivElement | null>(null);
+  const endDateRef = useRef<HTMLDivElement | null>(null);
+  const startRef = useRef<HTMLDivElement | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   const handleSelectChange = (value: any) => {
     const strategy = strategies.find((s) => s.name === value);
@@ -89,6 +110,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         value: symbol.symbol_name,
       }));
     setOptions(symbolOptions);
+    _setOptions(symbolOptions);
   }, [symbolData]);
 
   const handleCloneExecutor = (clone_mode: string) => {
@@ -110,6 +132,122 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   };
 
 
+  const getStrategies = (strategys: any) => {
+    let str = "";
+    strategys?.forEach(
+      (strategy: any) =>
+        (str = `${str ? `${str} |` : ""} ${strategy.name}( ${
+          strategy.timeframe
+        } )`)
+    );
+
+    return str;
+  };
+  const changeCoinType = (coin: string) => {
+    setCoinType(coin);
+  };
+
+  useEffect(() => {
+    const closeMenu = (e: MouseEvent) => {
+      if (
+        startDateRef.current &&
+        !startDateRef.current.contains(e.target as HTMLElement) &&
+        startRef.current &&
+        !startRef.current.contains(e.target as HTMLElement)
+      ) {
+        setStartDateShow(false);
+      }
+    };
+
+    document.body.addEventListener("mousedown", closeMenu);
+
+    return () => document.body.removeEventListener("mousedown", closeMenu);
+  }, []);
+  useEffect(() => {
+    const closeMenu = (e: MouseEvent) => {
+      if (
+        endDateRef.current &&
+        !endDateRef.current.contains(e.target as HTMLElement) &&
+        endRef.current &&
+        !endRef.current.contains(e.target as HTMLElement)
+      ) {
+        setEndDateShow(false);
+      }
+    };
+
+    document.body.addEventListener("mousedown", closeMenu);
+
+    return () => document.body.removeEventListener("mousedown", closeMenu);
+  }, []);
+
+  const handleStart = (data: any) => {
+    setStartDate(data);
+    setStartDateShow(false);
+  };
+  const handleEnd = (data: any) => {
+    setEndDate(data);
+    setEndDateShow(false);
+  };
+  const handleRunBacktest = () => {
+    const endDateISO =
+      endDate instanceof Date
+        ? endDate.toISOString()
+        : new Date().toISOString();
+    const startDateISO =
+      startDate instanceof Date
+        ? startDate.toISOString()
+        : new Date().toISOString();
+    if (endDateISO < startDateISO) {
+      toast.error("End date must be greater than start date");
+      return;
+    }
+    const twoDaysFromNow = new Date();
+    twoDaysFromNow.setDate(twoDaysFromNow.getDate() - 2);
+
+    if (new Date(endDateISO) > twoDaysFromNow) {
+      toast.error("Cannot backtest less than 2 days in the past");
+      return;
+    }
+
+    if (coinType === "allCoins") {
+      runBacktest({
+        end_time: endDateISO,
+        start_time: startDateISO,
+        executer: {
+          ...data,
+          symbol: data.symbol,
+        },
+        targets: "all_symbols",
+      });
+    } else if (coinType === "multiple" && value.length > 0) {
+      // value.forEach((coin) => {
+      runBacktest({
+        end_time: endDateISO,
+        start_time: startDateISO,
+        executer: {
+          ...data,
+          symbol: data.symbol,
+        },
+        targets: value.map((coin) => ({
+          symbol: coin.value,
+          quantity: null,
+        })),
+      });
+      // });
+      return;
+    } else {
+      runBacktest({
+        end_time: endDateISO,
+        start_time: startDateISO,
+        executer: {
+          ...data,
+          symbol: data.symbol,
+        },
+        targets: [{ symbol: data.symbol, quantity: null }],
+      });
+    }
+    setRunBacksetOpen(false);
+  };
   return (
     <>
       <Modal
@@ -366,58 +504,147 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         isOpen={runBacksetOpen}
         onClose={() => setRunBacksetOpen(false)}
       >
-        <div className="">
-          <div className="mb-5">
-            <Label className="text-xs">Start Date</Label>
-            <CalendarDateRangePicker className="w-full" />
-          </div>
+        <ScrollArea className="h-[85vh]">
+          <div className="">
+            <div className="flex gap-3 flex-col mb-5">
+              <Label htmlFor="">Start Date</Label>
+              <div ref={startDateRef}>
+                <Popover open={startDateShow} onOpenChange={setStartDateShow}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal dark:bg-darkbg-2 dark:text-white",
+                        !startDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {startDate ? (
+                        format(startDate, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={startDate}
+                      onSelect={handleStart}
+                      initialFocus
+                      fromYear={2005}
+                      toYear={2025}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 mb-5">
+              <Label htmlFor="">End Date</Label>
+              <div ref={endDateRef}>
+                <Popover open={endDateShow} onOpenChange={setEndDateShow}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal dark:bg-darkbg-2 dark:text-white",
+                        !endDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {endDate ? (
+                        format(endDate, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={endDate}
+                      onSelect={handleEnd}
+                      initialFocus
+                      fromYear={2005}
+                      toYear={2025}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
 
-          <div className="mb-5">
-            <Label className="text-xs">End Date</Label>
-            <CalendarDateRangePicker className="w-full" />
-          </div>
+            <div className="mb-5">
+              <Label className="text-xs">Coin</Label>
+              <UiSelect onValueChange={changeCoinType} defaultValue="one coin">
+                <SelectTrigger className="w-full dark:bg-[#56595C]">
+                  <SelectValue placeholder="Select coin" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="one coin">One Coin</SelectItem>
+                  <SelectItem value="multiple">Multiple Coins</SelectItem>
+                  <SelectItem value="allcoins">All Coins</SelectItem>
+                </SelectContent>
+              </UiSelect>
+            </div>
+            <div>
+              {coinType === "multiple" && (
+                <>
+                  {/* <label htmlFor="">Select multiple coins : </label> */}
+                  <MultipleSelector
+                    value={value}
+                    onChange={setValue}
+                    defaultOptions={options}
+                    placeholder="Select Coins..."
+                    emptyIndicator={
+                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                        no results found.
+                      </p>
+                    }
+                  />
+                </>
+              )}
+            </div>
+            <Label className="text-sm underline">
+              You are backtesting on ---
+            </Label>
 
-          <div className="mb-5">
-            <Label className="text-xs">Coin</Label>
-            <UiSelect>
-              <SelectTrigger className="w-full dark:bg-[#56595C]">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="One Coin">One Coin</SelectItem>
-                <SelectItem value="Multiple Coins">Multiple Coins</SelectItem>
-                <SelectItem value="All Coins">All Coins</SelectItem>
-              </SelectContent>
-            </UiSelect>
-          </div>
-          <Label className="text-sm underline">
-            You are backtesting on ---
-          </Label>
+            <div className="my-2">
+              <h2 className="text-lg font-[700]">{data.name}</h2>
+            </div>
 
-          <div className="my-2">
-            <Label className="text-xs">Custom Strategy</Label>
-            <h2 className="text-lg font-[700]">
-              {" "}
-              1000BONKUSDT: 1 USDT -1: -1- LONG
-            </h2>
-          </div>
+            <div className="my-2">
+              <h2 className="text-lg font-[700]">
+                {data.symbol}:{data.quantity}
+                {data.quantity_mode === "PERCENTAGE"
+                  ? "%"
+                  : data.quantity_mode === "CURRENCY"
+                  ? "USDT"
+                  : ""}{" "}
+                {data.take_profit}:{data.stop_loss} - {data.start_mode}
+              </h2>
 
-          <div className="my-2">
-            <Label className="text-xs">Strategies</Label>
-            <h2 className="text-lg font-[700]"> macd( 5m ) | rsi( 12h ) </h2>
-          </div>
+              <div className="mt-5">
+                <Label className="text-md">Strategies</Label>
+                <h2 className="text-lg font-[700]">
+                  {getStrategies(data.strategys)}
+                </h2>
+              </div>
+            </div>
 
-          <div className="flex gap-4 justify-center mx-auto mt-14">
-            <Button
-              variant={"ghost"}
-              className="px-12 w-[200px] bg-[#F2F2F3] dark:bg-[#252628] hover:bg-gray-200"
-              onClick={() => setRunBacksetOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button className="w-[200px]">Run Backtest</Button>
+            <div className="flex gap-4 justify-center mx-auto mt-14 mb-5">
+              <Button
+                variant={"ghost"}
+                className="px-12 w-[200px] bg-[#F2F2F3] dark:bg-[#252628] hover:bg-gray-200"
+                onClick={() => setRunBacksetOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button className="w-[200px]" onClick={handleRunBacktest}>
+                Run Backtest
+              </Button>
+            </div>
           </div>
-        </div>
+        </ScrollArea>
       </SideModal>
 
       <DropdownMenu modal={false}>

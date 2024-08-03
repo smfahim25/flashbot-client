@@ -119,34 +119,41 @@ export interface Parameter {
   "High Limit": number;
   "Low Limit": number;
 }
-export interface Strategy {
+export type Strategy = {
   name: string;
   parameters: { [k: string]: string | number | boolean };
   timeframe: string;
-}
+  is_custom: boolean;
+  custom_strategy_id: string;
+};
+
 export type Executor = {
   id: string;
+  last_change: string;
   name: string;
-  take_profit?: string;
-  stop_loss?: string;
-  paused?: boolean;
-  status: string;
-  ticker: string;
-  startposition: string;
-  createdDate?: string;
-  symbol?: string;
-  quantity?: string;
-  start_mode?: string;
-  close_mode?: string;
-  strategys?: Strategy[] | null | undefined;
+  symbol: string;
+  quantity: number;
+  take_profit: number;
+  stop_loss: number;
+  paused: boolean;
+  close_mode: string;
+  consensus_treshold: number;
+  start_mode: string;
+  leverage: number;
+  quantity_mode: string;
+  strategys: Strategy[];
 };
-export type Strategies = {
-  id: number;
-  name: string;
-  purchase: string[];
-  creation: string;
-  updated: string;
-  value?: string[];
+
+type BacktestTargets = {
+  symbol: string;
+  quantity: number | null;
+};
+
+export type RunBacktestRequestBody = {
+  end_time: string;
+  start_time: string;
+  executer: Executor;
+  targets: Array<BacktestTargets> | string;
 };
 export type CreateExecutorRequestBody = {
   name: string;
@@ -180,6 +187,7 @@ export type dataState = {
     symbols: string[];
   }) => Promise<void>;
   deleteExecutor: (id: string) => Promise<void>;
+  runBacktest: (requestBody: RunBacktestRequestBody) => Promise<void>;
 };
 export type dataSymbol = {
   data: any[];
