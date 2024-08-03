@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Symbol } from "@/lib/schemas";
@@ -76,39 +76,71 @@ const lexend = Lexend({
   weight: "600",
   subsets: ["vietnamese"],
 });
-function Page({ id }: { id: string }) {
+function Page() {
   const { isMinimized } = useSidebar();
   const params = useSearchParams();
-  const executorId = params?.get('id');
+  const executorId = params?.get('id') || "";
   const router = useRouter();
   const url = "https://flashbot-staging-bb3v6.ondigitalocean.app/";
   const { data, isLoading, error, getData } = useExecuterByIdV1UserExecutersIdGet();
 
   useEffect(() => {
-    getData(id);
-  }, [id,getData]);
+    if(executorId){
+      
+      getData(executorId);
+      console.log("The data by executor id is ", data);
+    }
+    
+  }, [executorId,getData]);
 
-  console.log("Fetched data by id : ", data);
+  const [executorStrategy, setExecutorStrategy] = useState<cutomeStrategies[]>([]);
+  const [updatedStrategies, setUpdatedStrategies] = React.useState({ data: { strategies: [] } });
 
+  useEffect(() => {
+    if (data) {
+      let strategies = data?.strategys?.map((strategy: any) => {
+        // if (url === process.env.NEXT_PUBLIC_API_BASE_URL_TESTING) {
+        //   if (strategy.is_custom) {
+        //     return {
+        //       name: `${strategy.name}:${strategy.custom_strategy_id}`,
+        //       parameters: Object.entries(strategy.parameters).reduce((acc, [key, value]) => ({ ...acc, [`${strategy.name}`]: value }), {}),
+        //       timeframe: strategy.timeframe,
+        //     }
+        //   } else {
+        //     return {
+        //       name: strategy.name,
+        //       parameters: Object.entries(strategy.parameters).reduce((acc, [key, value]) => ({ ...acc, [`${strategy.name}`]: value }), {}),
+        //       timeframe: strategy.timeframe,
+        //     }
+        //   }
+        // } else {
+        //   return {
+        //     name: strategy.name,
+        //     parameters: Object.entries(strategy.parameters).reduce((acc, [key, value]) => ({ ...acc, [`${strategy.name}`]: value }), {}),
+        //     timeframe: strategy.timeframe,
+        //   }
+        // }
+
+        return ({
+          name: strategy.name,
+          parameters: strategy.parameters,
+          timeframe: strategy.timeframe,
+        })
+      });
+      setExecutorStrategy(strategies);
+    }
+  }, [data]);
+
+  
   const hookForm = useForm<FormState>({
     resolver: zodResolver(executorFormSchema),
-    defaultValues: {
-      close_mode: "",
-      consensus_treshold: 0,
-      leverage: 0,
-      name: "",
-      paused: "",
-      quantity: 0,
-      quantity_mode: "",
-      start_mode: "",
-      stop_loss: 0,
-      symbol: "",
-      take_profit: 0,
-      strategys: [{ name: undefined, parameters: {}, timeframe: "" }], // Change the default value here
+    values: {
+      ...data,
+      paused: data?.paused ? 'paused' : '',
     },
   });
+  const qtyMode = hookForm.watch('quantity_mode');
 
-  const qtyMode = hookForm.watch("quantity_mode");
   const [availableStrategies, setAvailableStrategies] = React.useState<
     cutomeStrategies[]
   >([]);
@@ -118,9 +150,9 @@ function Page({ id }: { id: string }) {
     useCustomStrategiesStore();
   const { data: symbolData, getData: getSymbolData } = useSymbolStore();
   const {
-    createExecutor,
-    error: addExError,
-    isLoading: addExLoader,
+    editExecutor,
+    error: editExError,
+    isLoading: editExLoader,
   } = useExecutorStore();
 
   useEffect(() => {
@@ -134,7 +166,7 @@ function Page({ id }: { id: string }) {
   useEffect(() => {
     getCustomStregies();
   }, [getCustomStregies]);
-  console.log(availableStrategiesData);
+  // console.log(availableStrategiesData);
 
   useEffect(() => {
     let newStrategies: any[] = [];
@@ -165,11 +197,11 @@ function Page({ id }: { id: string }) {
     }
 
     setAvailableStrategies(newStrategies);
-    console.log("newStrategies", newStrategies);
+    // console.log("newStrategies", newStrategies);
   }, [availableStrategiesData, customStrategiesData]);
 
   useEffect(() => {
-    console.log(availableStrategies);
+    // console.log(availableStrategies);
   }, [availableStrategies]);
 
   const arrayFields = useFieldArray({
@@ -193,56 +225,55 @@ function Page({ id }: { id: string }) {
     return filteredParameters;
   };
 
-  const handleAddExecutor = async () => {
-    const formValues = hookForm.getValues();
+  const handleEditExecutor = async (state: FormState) => {
 
-    if (
-      hookForm.getValues("consensus_treshold") > 100 ||
-      hookForm.getValues("consensus_treshold") < 0
-    ) {
-      toast.error("Accepted values ​​for Consensus must be between 0 and 100");
+    let formValues = hookForm.getValues();
+
+    if(hookForm.getValues('consensus_treshold') > 100 || hookForm.getValues('consensus_treshold') < 0) {
+      toast.error('Accepted values ​​for Consensus must be between 0 and 100');
       return;
     }
-    const strategys = formValues.strategys
-      .map((strategy) => {
-        return {
-          name: strategy.name.split(":")[0],
-          parameters: Object.fromEntries(
-            Object.entries(strategy.parameters).map(([key, value]) => [
-              key.split(" + ")[1],
-              convertValue(value),
-            ])
-          ),
-          timeframe: strategy.timeframe,
-        };
-      })
-      .filter((strategy) => {
-        // Check if the strategy object has all the necessary properties with non-empty values
-        const hasValidName = strategy.name.trim() !== "";
-        const hasValidTimeframe = strategy.timeframe.trim() !== "";
-        const hasValidParameters = Object.values(strategy.parameters).some(
-          (value) => value !== "" && value !== null && value !== undefined
-        );
 
-        return hasValidName && hasValidTimeframe && hasValidParameters;
-      });
+    let _strategys = [...formValues.strategys];
+
+    console.log('_strategys', _strategys);
+
+    let strategys = _strategys.map((strategy) => {
+      let newCustomStrategy: cutomeStrategies = {
+        //@ts-ignore
+        is_custom: strategy.is_custom,
+        //@ts-ignore
+        custom_strategy_id: strategy.custom_strategy_id,
+        name: strategy.name.split(':')[0],
+        parameters: Object.entries(strategy.parameters)
+          .filter(([key]) => key.split(' + ')[0] === strategy.name.split(':')[0])
+          .reduce((acc, [key, value]) => ({ ...acc, [key.split(' + ')[1]]: convertValue(value) }), {}),
+        timeframe: strategy.timeframe,
+      }
+      return newCustomStrategy;
+    });
+
+    if(data?.strategys?.length > 0) {
+     if(strategys.length > data?.strategys?.length) {
+       strategys.pop();
+     }
+    }
 
     const body = {
       ...formValues,
       strategys,
-      stop_loss: -Math.abs(formValues.stop_loss),
-      paused: formValues.paused === "paused",
-    };
-    console.log(JSON.stringify(body), "data");
-    try {
-      const res = await createExecutor(body);
-      toast.success("Executor created successfully");
-      setTimeout(() => {
-        window.location.href = "/dashboard/executors";
-      }, 3000);
-    } catch (error) {
-      toast.error("Failed to add executor");
+      stop_loss: -Math.abs(hookForm.getValues('stop_loss')),
+      paused: hookForm.getValues().paused === 'paused',
     }
+
+    try {
+      await editExecutor(body);
+      toast.success('Executor updated successfully');
+      router.push('/dashboard/executors');
+    } catch (error) {
+      toast.error('Error updating executor');
+    }
+    router.push('/dashboard/executors');
   };
 
   const handleValidation = (error: any) => {
@@ -368,7 +399,7 @@ function Page({ id }: { id: string }) {
 
   return (
     <ScrollArea className="h-full">
-      {addExLoader && (
+      {editExLoader && (
         <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
           <Loader />
         </div>
@@ -383,7 +414,7 @@ function Page({ id }: { id: string }) {
           <Breadcrumbs items={breadcrumbItems} />
         </div>
         <form
-          onSubmit={hookForm.handleSubmit(handleAddExecutor, handleValidation)}
+          onSubmit={hookForm.handleSubmit(handleEditExecutor, handleValidation)}
         >
           <div className="w-full grid grid-cols-2 gap-5 mt-5">
             <ScrollArea className="h-[70vh] mt-4">

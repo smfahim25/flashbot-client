@@ -128,7 +128,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   };
 
   const handleEdit = (id: string) => {
-    router.push("/dashboard/executors/editexecutor")
+    router.push(`/dashboard/executors/editexecutor?id=${id}`);
   };
 
 

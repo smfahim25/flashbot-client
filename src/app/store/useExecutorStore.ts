@@ -66,6 +66,24 @@ const useExecutorStore = create<dataState>((set, get) => ({
       });
     }
   },
+
+  editExecutor: async (requestBody: CreateExecutorRequestBody) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosClient.post(
+        "/user/edit_executer",
+        requestBody
+      );
+      await get().getData();
+      set({ isLoading: false });
+    } catch (error) {
+      set({
+        error: (error as any).detail || "Unknown error",
+        isLoading: false,
+      });
+    }
+  },
+
   runBacktest: async (requestBody: any) => {
     set({ isLoading: true, error: null });
     try {

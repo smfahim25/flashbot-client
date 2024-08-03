@@ -16,7 +16,7 @@ const useExecuterByIdV1UserExecutersIdGet = create<ExecuterState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axiosClient.get(`/user/executers/${id}`);
-      set({ data: response.data.custom_strategies, isLoading: false });
+      set({ data: response.data, isLoading: false });
     } catch (error) {
       set({
         error: (error as any).response?.data?.detail || "Unknown error",
