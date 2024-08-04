@@ -9,15 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Modal } from "@/components/ui/modal";
-import { Executor, Strategy } from "@/constants/data";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SelectSeparator } from "@/components/ui/select";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { EllipsisVertical } from "lucide-react";
