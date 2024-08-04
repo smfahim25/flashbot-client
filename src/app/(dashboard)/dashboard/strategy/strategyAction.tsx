@@ -8,34 +8,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
-import { Executor, Strategies } from "@/constants/data";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SelectSeparator } from "@/components/ui/select";
+import { Strategy } from "@/constants/data";
 
-import { EllipsisVertical } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { CalendarDateRangePicker } from "@/components/date-pick-ranger";
-import {
-  FiDelete,
-  FiEdit,
-  FiEdit2,
-  FiEye,
-  FiTrash,
-  FiTrash2,
-} from "react-icons/fi";
+import { EllipsisVertical } from "lucide-react";
+import { useState } from "react";
+import { FiEdit2, FiEye, FiTrash2 } from "react-icons/fi";
 
 interface CellActionProps {
-  data: Strategies;
+  data: Strategy;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -348,3 +331,4 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     </>
   );
 };
+
