@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Executor } from "@/constants/data";
+import { Executor, Job } from "@/constants/data";
 import {
   Select,
   SelectContent,
@@ -20,26 +20,52 @@ import {
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { UserJob } from "@/lib/schemas";
+import axiosClient from "@/lib/axiosClient";
+import { toast } from "react-toastify";
+import Loader from "@/components/ui/loader";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface CellActionProps {
-  data: Executor;
+  data: UserJob;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [viewMore, setViewMore] = useState(false);
+  const [load, setLoad] = useState(false);
 
+  const getDownloadUrl = async (id: string) => {
+    setLoad(true);
+    try {
+      const response = await axiosClient.get(
+        `/jobs/backtest_download_url/${id}`
+      );
+      setLoad(false);
+      window.open(response.data.url, "_blank");
+    } catch (error: any) {
+      toast.error("An error occurred while fetching executors");
+    }
+  };
   return (
     <>
+      {load && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+          <Loader />
+        </div>
+      )}
       <SideModal
-        title="May Test 13"
+        title={data?.metadata?.backtest_metadata?.executor_copy?.name}
         description="View more"
         isOpen={viewMore}
         onClose={() => setViewMore(false)}
       >
         <ScrollArea className="h-[85vh]">
-          <h2 className="py-4 text-[16px] text-gray-500">
-            id: 666123ce0df0f0f0f129038bdsfg0984bnfv9
-          </h2>
+          <h2 className="py-4 text-[16px] text-gray-500">id: {data?.id}</h2>
           <div className="grid grid-cols-2 gap-4 justify-center items-center">
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -48,7 +74,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">ADAUSDT</div>
+                <div className="text-[14px] font-[600]">
+                  {data?.metadata?.backtest_metadata?.executor_copy?.symbol}
+                </div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -58,7 +86,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">1000ADA</div>
+                <div className="text-[14px] font-[600]">
+                  {data?.metadata?.backtest_metadata?.executor_copy?.quantity}
+                </div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -68,7 +98,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">2:-1</div>
+                <div className="text-[14px] font-[600]">
+                  {
+                    data?.metadata?.backtest_metadata?.executor_copy
+                      ?.take_profit
+                  }
+                  :{data?.metadata?.backtest_metadata?.executor_copy?.stop_loss}
+                </div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -78,7 +114,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">NEUTRAL</div>
+                <div className="text-[14px] font-[600]">
+                  {data?.metadata?.backtest_metadata?.executor_copy?.start_mode}
+                </div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -88,8 +126,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600] bg-[#E5FFEA] text-[#00B21D] text-center me-[60px] py-1 rounded-md">
-                  Completed
+                <div
+                  className={`text-[14px] font-[600]  text-center  me-[60px] ${
+                    data.progress.status === "complete"
+                      ? "bg-[#E5FFEA] text-[#00B21D]"
+                      : "bg-orange-100 text-orange-500"
+                  }`}
+                >
+                  {data?.progress.status}
                 </div>
               </CardContent>
             </Card>
@@ -100,9 +144,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">TP/SL</div>
+                <div className="text-[14px] font-[600]">
+                  {data?.metadata?.backtest_metadata?.executor_copy?.close_mode}
+                </div>
               </CardContent>
             </Card>
+
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-[12px] font-normal text-muted-foreground">
@@ -110,7 +157,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">100% Thresh</div>
+                <div className="text-[14px] font-[600]">
+                  {
+                    data?.metadata?.backtest_metadata?.executor_copy
+                      ?.consensus_treshold
+                  }
+                </div>
               </CardContent>
             </Card>
             <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] h-[90px]">
@@ -120,7 +172,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-[14px] font-[600]">20</div>
+                <div className="text-[14px] font-[600]">
+                  {" "}
+                  {data?.metadata?.backtest_metadata?.executor_copy?.leverage}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -128,48 +183,37 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <h2 className="py-4 text-[16px] text-gray-500">
               Strategies Assigned
             </h2>
-            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                <Select>
-                  <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
-                    <SelectValue placeholder="BB" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="BB">BB</SelectItem>
-                  </SelectContent>
-                </Select>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm p-4 text-gray-500 dark:text-white innertext">
-                  <h4>Period: 13</h4>
-                  <h4>StdDev : 3</h4>
-                  <h4>15</h4>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628] mt-4">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Select>
-                  <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
-                    <SelectValue placeholder="rsi" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="light">rsi</SelectItem>
-                    <SelectItem value="dark">rsi</SelectItem>
-                    <SelectItem value="system">rsi</SelectItem>
-                  </SelectContent>
-                </Select>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm p-4 text-gray-500 dark:text-white innertext">
-                  <h4>PeriodRSI: 13</h4>
-                  <h4>EMA : True</h4>
-                  <h4>High Limit : 85</h4>
-                  <h4>Low Limit : 15</h4>
-                  <h4>30m</h4>
-                </div>
-              </CardContent>
-            </Card>
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full p-4 bg-[#F2F2F3] dark:bg-[#252628] rounded-md mb-10"
+            >
+              {data?.metadata?.backtest_metadata?.executor_copy?.strategys?.map(
+                (strategy: any) => (
+                  <AccordionItem
+                    value="item-1"
+                    key={strategy.id}
+                    className="mb-10"
+                  >
+                    <AccordionTrigger className=" px-4 rounded-lg py-2 bg-[white] dark:text-white dark:bg-[#3E3F42]">
+                      {strategy.name}
+                    </AccordionTrigger>
+                    <AccordionContent className="p-4">
+                      {strategy.parameters &&
+                        Object.entries(strategy.parameters).map(
+                          ([key, value]) => (
+                            <p key={key}>
+                              {key} : {String(value)}
+                            </p>
+                          )
+                        )}
+
+                      <div className=""> {strategy.timeframe}</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                )
+              )}
+            </Accordion>
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
@@ -186,6 +230,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => setViewMore(true)}>
             View More
           </DropdownMenuItem>
+          {data.progress.status === "complete" && (
+            <DropdownMenuItem onClick={() => getDownloadUrl(data.id)}>
+              Download CSV
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

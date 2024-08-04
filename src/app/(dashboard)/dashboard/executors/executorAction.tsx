@@ -37,6 +37,12 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calender";
 import { toast } from "react-toastify";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface CellActionProps {
   data: Executor;
@@ -65,24 +71,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const runBacktest = useExecutorStore((state) => state.runBacktest);
   const { deleteExecutor } = useExecutorStore();
   const strategies = data.strategys ?? [];
-  const [selectedStrategy, setSelectedStrategy] = useState<Strategy | null>(
-    null
-  );
-  const [showDetails, setShowDetails] = useState(false);
-  const [displayDetails, setDisplayDetails] = useState(false);
   const [startDateShow, setStartDateShow] = useState(false);
   const [endDateShow, setEndDateShow] = useState(false);
   const startDateRef = useRef<HTMLDivElement | null>(null);
   const endDateRef = useRef<HTMLDivElement | null>(null);
   const startRef = useRef<HTMLDivElement | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
-
-  const handleSelectChange = (value: any) => {
-    const strategy = strategies.find((s) => s.name === value);
-    setSelectedStrategy(strategy || null);
-    setShowDetails(true); // Show details when a new strategy is selected
-    setDisplayDetails(true);
-  };
 
   const handleExportExecutor = async () => {
     const fileName = `${data?.name}.json`;
@@ -381,48 +375,31 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 ? "Strategies Assigned"
                 : "No Strategies Assigned"}
             </h2>
-            {strategies.length > 0 && (
-              <Card className="border-0 bg-[#F2F2F3] dark:bg-[#252628]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <UiSelect
-                    value={selectedStrategy ? selectedStrategy.name : ""}
-                    onValueChange={handleSelectChange}
-                  >
-                    <SelectTrigger className="w-full bg-[white] dark:text-white dark:bg-[#3E3F42]">
-                      <SelectValue placeholder="Select Strategy" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {strategies.map((strategy) => (
-                        <SelectItem key={strategy.name} value={strategy.name}>
-                          {strategy.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </UiSelect>
-                </CardHeader>
-                {selectedStrategy && showDetails && displayDetails && (
-                  <CardContent
-                    className={`text-sm p-4 ml-5 text-gray-500 dark:text-white innertext transition-opacity duration-500 ease-in ${
-                      showDetails && displayDetails
-                        ? "opacity-100"
-                        : "opacity-0"
-                    }`}
-                  >
-                    <h4>PeriodRSI: {selectedStrategy.parameters.PeriodoRSI}</h4>
-                    <h4>
-                      EMA: {selectedStrategy.parameters.EMA ? "True" : "False"}
-                    </h4>
-                    <h4>
-                      High Limit: {selectedStrategy.parameters["High Limit"]}
-                    </h4>
-                    <h4>
-                      Low Limit: {selectedStrategy.parameters["Low Limit"]}
-                    </h4>
-                    <h4>{selectedStrategy.timeframe}</h4>
-                  </CardContent>
-                )}
-              </Card>
-            )}
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full p-4 bg-[#F2F2F3] dark:bg-[#252628] rounded-md"
+            >
+              {data?.strategys?.map((strategy: any) => (
+                <AccordionItem value="item-1" key={strategy.id}>
+                  <AccordionTrigger className=" px-4 rounded-lg py-2 bg-[white] dark:text-white dark:bg-[#3E3F42]">
+                    {strategy.name}
+                  </AccordionTrigger>
+                  <AccordionContent className="p-4">
+                    {strategy.parameters &&
+                      Object.entries(strategy.parameters).map(
+                        ([key, value]) => (
+                          <p key={key}>
+                            {key} : {String(value)}
+                          </p>
+                        )
+                      )}
+
+                    <div className=""> {strategy.timeframe}</div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>

@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/useSidebar";
 import { toast } from "react-toastify";
 import Loader from "@/components/ui/loader";
-import useExecuterByIdV1UserExecutersIdGet from "@/app/store/useExecuterByIdV1UserExecutersIdGet";
+import useExecutorById from "@/app/store/useExecutorById";
 
 const executorFormSchema = z.object({
   name: z.string().min(3),
@@ -165,7 +165,7 @@ function Page() {
     data: { strategies: [] },
   });
 
-  const { data: executorData, getData } = useExecuterByIdV1UserExecutersIdGet();
+  const { data: executorData, getData } = useExecutorById();
   const { createExecutor, isLoading: addExLoader } = useExecutorStore();
 
   useEffect(() => {

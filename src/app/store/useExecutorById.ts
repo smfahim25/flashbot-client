@@ -25,7 +25,7 @@ const initialExecutorState: Executor = {
   strategys: [],
 };
 
-const useExecuterByIdV1UserExecutersIdGet = create<ExecuterState>((set) => ({
+const useExecutorById = create<ExecuterState>((set) => ({
   data: initialExecutorState,
   isLoading: false,
   error: null,
@@ -43,4 +43,4 @@ const useExecuterByIdV1UserExecutersIdGet = create<ExecuterState>((set) => ({
   },
 }));
 
-export default useExecuterByIdV1UserExecutersIdGet;
+export default useExecutorById;

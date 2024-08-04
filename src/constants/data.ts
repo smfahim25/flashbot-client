@@ -1,3 +1,4 @@
+import { UserJob, UserJobs } from "@/lib/schemas";
 import { NavItem } from "@/types";
 
 export type User = {
@@ -173,6 +174,12 @@ export type CreateExecutorRequestBody = {
     timeframe: string;
   }>;
 };
+export type backtestType = {
+  backtestData: UserJobs;
+  isLoading: boolean;
+  error: string | null;
+  getBacktest: () => Promise<void>;
+};
 
 export type dataState = {
   data: any[];
@@ -197,6 +204,38 @@ export type dataSymbol = {
   error: string | null;
   getData: () => Promise<void>;
 };
+interface Metadata {
+  backtest_metadata: {
+    executor_copy: {
+      name: string;
+      symbol: string;
+      quantity: number;
+      take_profit: number;
+      stop_loss: number;
+      paused: boolean;
+      close_mode: string;
+      consensus_treshold: number;
+      start_mode: string;
+      leverage: number;
+      quantity_mode: string;
+      id: string;
+      last_change: string;
+      strategys: { name: string }[];
+    };
+  };
+}
+export type Job = {
+  id: string;
+  type: string;
+  instructions: string;
+  result: string;
+  user_id: string;
+  settings: string;
+  created_date: string;
+  metadata: Metadata;
+  progress: string;
+};
+
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",
