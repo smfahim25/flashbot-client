@@ -38,10 +38,11 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { useEffect, useMemo, useRef, useState } from "react";
 import FilterOption from "./backtestFilter";
+import { UserJob } from "@/lib/schemas";
 
-interface DataTableProps<Executor, TValue> {
-  columns: ColumnDef<Executor, TValue>[];
-  data: Executor[];
+interface DataTableProps {
+  columns: ColumnDef<UserJob, any>[];
+  data: UserJob[];
   searchKey: string;
   pageNo: number;
   totalUsers: number;
@@ -57,24 +58,33 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ["vietnamese"],
 });
 
-export function BacktestTable<Executor, TValue>({
+export function BacktestTable({
   columns,
   data,
   searchKey,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
-}: DataTableProps<Executor, TValue>) {
+}: DataTableProps) {
   const [show, setShow] = useState(false);
   const [selectOngoing, setSelectOngoing] = useState(true);
   const [selectHistory, setSelectHistory] = useState(false);
+  const [filteredData, setFilteredData] = useState<UserJob[]>([]);
+
+  useEffect(() => {
+    if (selectOngoing) {
+      setFilteredData(
+        data.filter((job) => job.progress.status === "in_progress")
+      );
+    } else if (selectHistory) {
+      setFilteredData(data.filter((job) => job.progress.status === "complete"));
+    }
+  }, [selectOngoing, selectHistory, data]);
 
   // Conditionally adjust columns based on the selectHistory state
   const filteredColumns = useMemo(() => {
     return columns.filter((column) => {
       if (column.id === "download" && selectHistory && !selectOngoing) {
         return true;
-      } else if (column.id === "actions" && selectHistory) {
-        return false;
       } else if (column.id === "download" && selectOngoing) {
         return false;
       }
@@ -83,7 +93,7 @@ export function BacktestTable<Executor, TValue>({
   }, [selectHistory, columns, selectOngoing]);
 
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns: filteredColumns,
     pageCount: pageCount ?? -1,
     getCoreRowModel: getCoreRowModel(),
@@ -105,7 +115,6 @@ export function BacktestTable<Executor, TValue>({
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
-
   return (
     <>
       <div className="flex items-center justify-between mb-3">
@@ -135,13 +144,7 @@ export function BacktestTable<Executor, TValue>({
         </div>
         <div className="flex mt-5">
           <Input
-            placeholder={`Search ${searchKey}...`}
-            value={
-              (table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn(searchKey)?.setFilterValue(event.target.value)
-            }
+            placeholder="search"
             className="w-[250px] md:max-w-sm mb-2 mr-6"
           />
 
@@ -183,7 +186,7 @@ export function BacktestTable<Executor, TValue>({
         </div>
       </div>
 
-      <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
+      <ScrollArea className="h-[calc(80vh-220px)] w-[1050px] rounded-md border">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -214,12 +217,16 @@ export function BacktestTable<Executor, TValue>({
                   >
                     {row.getVisibleCells().map((cell) => {
                       const status = cell.column.id.includes("status");
+                      const statusCol = cell.row.original.progress.status;
+
                       return (
                         <TableCell key={cell.id}>
                           <div
                             className={
-                              status
+                              status && statusCol === "complete"
                                 ? "bg-[#E5FFEA] text-[#00B21D] p-2 text-center rounded-md"
+                                : status && statusCol === "in_progress"
+                                ? "bg-orange-100 text-orange-500"
                                 : ""
                             }
                           >
@@ -240,13 +247,14 @@ export function BacktestTable<Executor, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No backtest on going now
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
         <ScrollBar orientation="horizontal" />
+        <ScrollBar orientation="vertical" />
       </ScrollArea>
 
       <div className="flex flex-col items-center justify-end gap-2 space-x-2 py-4 sm:flex-row">

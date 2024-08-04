@@ -660,37 +660,43 @@ export type UserIntention = "OPEN" | "CLOSE" | "NONE";
  * UserJob
  */
 export type UserJob = {
-  /**
-   * Id
-   * @maxLength 24
-   * @minLength 24
-   */
   id: string;
-
-  type: schemas.JobType;
-
+  type: string;
   instructions: {} | unknown;
-
   result: {} | unknown;
-  /**
-   * User Id
-   * @maxLength 24
-   * @minLength 24
-   */
   user_id: string;
-  /**
-   * Settings
-   */
   settings: {};
-  /**
-   * Created Date
-   * @format date-time
-   */
   created_date: string;
-
-  metadata: schemas.UserJobMetadata | unknown;
-
-  progress: schemas.JobProgress;
+  metadata: {
+    backtest_metadata: {
+      executor_copy: {
+        name: string;
+        symbol: string;
+        quantity: number;
+        take_profit: number;
+        stop_loss: number;
+        paused: boolean;
+        close_mode: string;
+        consensus_treshold: number;
+        start_mode: string;
+        leverage: number;
+        quantity_mode: string;
+        strategys: {
+          name: string;
+          parameters: { [k: string]: string | number | boolean };
+          timeframe: string;
+          is_custom: boolean;
+          custom_strategy_id: string | null;
+        }[];
+        id: string;
+        last_change: string;
+      };
+    };
+  };
+  progress: {
+    status: string;
+    progress_percentage: number;
+  };
 };
 
 /**
