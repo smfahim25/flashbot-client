@@ -10,15 +10,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Modal } from "@/components/ui/modal";
 import { SelectSeparator } from "@/components/ui/select";
-import { Strategy } from "@/constants/data";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { FiEdit2, FiEye, FiTrash2 } from "react-icons/fi";
 
+interface Strategies {
+  id: number;
+  name: string;
+  purchase: string[];
+  creation: string;
+  updated: string;
+}
 interface CellActionProps {
-  data: Strategy;
+  data: Strategies;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

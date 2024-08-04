@@ -1,8 +1,14 @@
 "use client";
-import { Strategies } from "@/constants/data";
+
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./strategyAction";
-
+interface Strategies {
+  id: number;
+  name: string;
+  purchase: string[];
+  creation: string;
+  updated: string;
+}
 export const columns: ColumnDef<Strategies, any>[] = [
   {
     id: "rowNumber",
@@ -52,3 +58,4 @@ export const columns: ColumnDef<Strategies, any>[] = [
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];
+
