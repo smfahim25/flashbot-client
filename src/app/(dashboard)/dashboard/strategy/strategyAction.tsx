@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
-import { Executor, Strategies } from "@/constants/data";
+import { Executor, Strategy } from "@/constants/data";
 import {
   Select,
   SelectContent,
@@ -35,7 +35,7 @@ import {
 } from "react-icons/fi";
 
 interface CellActionProps {
-  data: Strategies;
+  data: Strategy;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
