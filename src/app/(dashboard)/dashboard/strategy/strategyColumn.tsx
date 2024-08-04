@@ -1,9 +1,9 @@
 "use client";
-import { Strategies } from "@/constants/data";
+import { Strategy } from "@/constants/data";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./strategyAction";
 
-export const columns: ColumnDef<Strategies, any>[] = [
+export const columns: ColumnDef<Strategy, any>[] = [
   {
     id: "rowNumber",
     header: "No",
@@ -18,7 +18,7 @@ export const columns: ColumnDef<Strategies, any>[] = [
   {
     accessorKey: "purchase",
     header: "Buy/Sell",
-    cell: ({ getValue }: CellContext<Strategies, string[]>) => {
+    cell: ({ getValue }: CellContext<Strategy, string[]>) => {
       const value = getValue();
       return (
         <div className="flex items-center justify-center gap-3">
