@@ -30,7 +30,7 @@ const executorFormSchema = z.object({
   stop_loss: z.number(),
   paused: z.string(),
   close_mode: z.string().min(1),
-  consensus_treshold: z.number(),
+  consensus_treshold: z.number().gt(0),
   start_mode: z.string().min(1),
   leverage: z.number().gt(0),
   quantity_mode: z.string().min(1),
@@ -350,6 +350,7 @@ function Page() {
     } else {
       hookForm.setValue("quantity", 0);
     }
+    hookForm.setValue("consensus_treshold", 100);
   }, [qtyMode, hookForm]);
 
   return (
@@ -570,12 +571,17 @@ function Page() {
                   <div className="flex">
                     <ControlledInput
                       type="number"
+                      defaultValue={5}
                       control={hookForm.control}
                       containerClass=""
                       className="focus-visible:ring-0"
                       {...hookForm.register("consensus_treshold", {
                         required: true,
-                        onChange: handleNumericValues,
+                        onChange: (e) =>
+                          handleNumericValues(e, {
+                            percent: qtyMode === "PERCENTAGE",
+                            max: qtyMode === "PERCENTAGE" ? 100 : undefined,
+                          }),
                       })}
                     />
                     <span className="px-2.5 py-1.5 bg-gray-100 text-gray-500 rounded-r-md dark:bg-[#3E3F42] h-[41px]">
@@ -595,6 +601,11 @@ function Page() {
                     className="focus-visible:ring-0"
                     {...hookForm.register("leverage", {
                       required: true,
+                      onChange: (e) =>
+                        handleNumericValues(e, {
+                          percent: qtyMode === "PERCENTAGE",
+                          max: qtyMode === "PERCENTAGE" ? 100 : undefined,
+                        }),
                     })}
                   />
                 </div>

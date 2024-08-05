@@ -15,7 +15,6 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { FiEdit2, FiEye, FiTrash2 } from "react-icons/fi";
-
 interface Strategies {
   id: number;
   name: string;
@@ -337,4 +336,3 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     </>
   );
 };
-
