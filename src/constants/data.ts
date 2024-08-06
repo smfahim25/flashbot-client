@@ -236,6 +236,14 @@ export type Job = {
   progress: string;
 };
 
+export type Executions = {
+  name: string;
+  leverage: number;
+  unerealized_Profit: number;
+  start_mode: string;
+  quantity: number;
+};
+
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",
@@ -264,7 +272,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Live Executions",
-    href: "/dashboard/livex",
+    href: "/dashboard/live_execution",
     icon: "live",
     label: "table",
   },

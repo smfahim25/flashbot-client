@@ -20,7 +20,6 @@ import { Button } from "../ui/button";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -37,12 +36,12 @@ import { PiExport } from "react-icons/pi";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { useEffect, useMemo, useRef, useState } from "react";
-import FilterOption from "./backtestFilter";
-import { UserJob } from "@/lib/schemas";
+import FilterOption from "./execution-filter";
+import { Executions } from "@/constants/data";
 
 interface DataTableProps {
-  columns: ColumnDef<UserJob, any>[];
-  data: UserJob[];
+  columns: ColumnDef<Executions, any>[];
+  data: Executions[];
   searchKey: string;
   pageNo: number;
   totalUsers: number;
@@ -58,43 +57,17 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ["vietnamese"],
 });
 
-export function BacktestTable({
+export function ExecutionTable({
   columns,
   data,
-  searchKey,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps) {
   const [show, setShow] = useState(false);
-  const [selectOngoing, setSelectOngoing] = useState(true);
-  const [selectHistory, setSelectHistory] = useState(false);
-  const [filteredData, setFilteredData] = useState<UserJob[]>([]);
-
-  useEffect(() => {
-    if (selectOngoing) {
-      setFilteredData(
-        data.filter((job) => job.progress.status === "in_progress")
-      );
-    } else if (selectHistory) {
-      setFilteredData(data.filter((job) => job.progress.status === "complete"));
-    }
-  }, [selectOngoing, selectHistory, data]);
-
-  // Conditionally adjust columns based on the selectHistory state
-  const filteredColumns = useMemo(() => {
-    return columns.filter((column) => {
-      if (column.id === "download" && selectHistory && !selectOngoing) {
-        return true;
-      } else if (column.id === "download" && selectOngoing) {
-        return false;
-      }
-      return true;
-    });
-  }, [selectHistory, columns, selectOngoing]);
 
   const table = useReactTable({
-    data: filteredData,
-    columns: filteredColumns,
+    data: data,
+    columns: columns,
     pageCount: pageCount ?? -1,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -118,28 +91,47 @@ export function BacktestTable({
   return (
     <>
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center cursor-pointer">
-          <span
-            className={`${jakarta.className} text-[14px] border-b-2 ${
-              selectOngoing && "border-[#FE0FE2] text-[#FE0FE2]"
-            } p-3`}
-            onClick={() => {
-              setSelectHistory(false);
-              setSelectOngoing(true);
-            }}
-          >
-            Ongoing Backtest
+        <div className="flex items-center ">
+          <span className="bg-[#FE0FE2] text-white p-2 rounded-lg mr-2">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.5975 8.50494C10.89 7.27494 9.81748 6.2024 8.58748 6.4949C8.00998 6.6374 7.53749 7.10992 7.39499 7.68742C7.10249 8.91742 8.17498 9.98991 9.40498 9.69741C9.98998 9.55491 10.4625 9.08244 10.5975 8.50494Z"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M13.5075 12.8925C14.79 11.6925 15.5925 9.98998 15.5925 8.09248C15.5925 4.44748 12.6375 1.5 9.00003 1.5C5.36253 1.5 2.40753 4.45498 2.40753 8.09248C2.40753 9.99748 3.21753 11.715 4.51503 12.915"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6.00001 10.9126C5.31001 10.1776 4.88251 9.18759 4.88251 8.09259C4.88251 5.82009 6.72751 3.9751 9.00001 3.9751C11.2725 3.9751 13.1175 5.82009 13.1175 8.09259C13.1175 9.18759 12.69 10.1701 12 10.9126"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7.72498 12.495L6.64498 13.8375C5.78998 14.91 6.54748 16.4925 7.91998 16.4925H10.0725C11.445 16.4925 12.21 14.9025 11.3475 13.8375L10.2675 12.495C9.62248 11.6775 8.37748 11.6775 7.72498 12.495Z"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </span>
-          <span
-            className={`${jakarta.className} text-[14px] border-b-2 p-3 ${
-              selectHistory && "border-[#FE0FE2] text-[#FE0FE2]"
-            }`}
-            onClick={() => {
-              setSelectHistory(true);
-              setSelectOngoing(false);
-            }}
-          >
-            History & Statistics
+          <span className={`${jakarta.className} text-[14px]`}>
+            Live Execution
           </span>
         </div>
         <div className="flex mt-5">
@@ -174,21 +166,12 @@ export function BacktestTable({
               )}
             </Popover>
           </div>
-
-          <div>
-            <Button variant={"secondary"} className="ml-4">
-              <span className="px-2">
-                <PiExport size={18} />
-              </span>
-              Export Backtest
-            </Button>
-          </div>
         </div>
       </div>
 
-      <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
-        <Table className="relative">
-          <TableHeader>
+      <ScrollArea className="h-[calc(80vh-220px)] rounded-md">
+        <Table className="relative border-0">
+          <TableHeader className="[&_tr]:border-b-0">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -213,23 +196,12 @@ export function BacktestTable({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="text-center"
+                    className="text-center border-0"
                   >
                     {row.getVisibleCells().map((cell) => {
-                      const status = cell.column.id.includes("status");
-                      const statusCol = cell.row.original.progress.status;
-
                       return (
                         <TableCell key={cell.id}>
-                          <div
-                            className={
-                              status && statusCol === "complete"
-                                ? "bg-[#E5FFEA] text-[#00B21D] p-2 text-center rounded-md"
-                                : status && statusCol === "in_progress"
-                                ? "bg-orange-100 text-orange-500"
-                                : ""
-                            }
-                          >
+                          <div>
                             {flexRender(
                               cell.column.columnDef.cell,
                               cell.getContext()
@@ -247,7 +219,7 @@ export function BacktestTable({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No backtest on going now
+                  No result found
                 </TableCell>
               </TableRow>
             )}
