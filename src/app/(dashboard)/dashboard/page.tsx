@@ -9,10 +9,10 @@ import { HiOutlineDocumentText } from "react-icons/hi";
 import { DashboardTable } from "@/components/dashboard/dashboardTable/dashboard-table";
 import { dashboardColumns } from "./dashboardSection/dashboardColumns";
 import { Lexend, Plus_Jakarta_Sans } from "next/font/google";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import useAvailableStrategiesStore from "@/app/store/useAvailableStrategies";
+import { LuSettings2 } from "react-icons/lu";
+import TradingMarket from "@/components/dashboard/trading-table";
 const breadcrumbItems = [{ title: "Dashboard", link: "/dashboard" }];
 
 const lexend = Lexend({
@@ -25,11 +25,6 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export default function Page() {
-  const { data, isLoading, error, getData } = useAvailableStrategiesStore();
-  useEffect(() => {
-    getData();
-  }, [getData]);
-  console.log(data);
   const totalUsers = 20;
   const pageLimit = 10;
   const pageCount = Math.ceil(totalUsers / pageLimit);
@@ -205,6 +200,20 @@ export default function Page() {
               </Badge>
             </CardContent>
           </Card>
+        </div>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Image src="/imgs/bitcoin.svg" alt="svg" width={30} height={30} />
+            <p>
+              Bitcoin <span className="text-muted-foreground">BTC</span>
+            </p>
+          </div>
+          <div className="flex items-center gap-3 bg-[#FFFFFF] border-2 px-5 py-2 rounded-md">
+            <LuSettings2 />
+            <span>Filter</span>
+          </div>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <Card className="border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-[12px] font-normal text-muted-foreground font-inter">
@@ -283,12 +292,14 @@ export default function Page() {
                 <span
                   className={`${jakarta.className} text-[14px] dark:text-[white]`}
                 >
-                  Global Markets
+                  Trending Crypto
                 </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Image src="/imgs/map.svg" alt="map" width={500} height={250} />
+              <ScrollArea className="h-[50vh]">
+                <TradingMarket />
+              </ScrollArea>
             </CardContent>
           </Card>
         </div>

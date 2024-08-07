@@ -27,7 +27,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/api/auth/[...nextauth]",
-    "src/AuthContext/AuthContext.tsx"
+    "src/AuthContext/AuthContext.tsx",
+    "src/components/dashboard/trading-table.jsx"
   ],
   "exclude": ["node_modules"]
 }
