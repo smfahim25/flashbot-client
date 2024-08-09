@@ -18,7 +18,9 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import useSettings from "@/app/store/useSettings";
+import { SettingDescription } from "@/lib/schemas";
 
 const breadcrumbItems = [
   { title: "Dashboard", link: "/dashboard" },
@@ -29,14 +31,62 @@ const lexend = Lexend({
   weight: "600",
   subsets: ["vietnamese"],
 });
+interface SettingsData {
+  [key: string]: string | number | boolean | undefined;
+}
+
 export default function Page() {
   const [proNoti, setProNoti] = useState(false);
   const [receiveMsg, setReceiveMsg] = useState(false);
   const [getPush, setGetPush] = useState(false);
   const [receiveCupon, setReceiveCupon] = useState(false);
   const [receiveAccount, setReceiveAccount] = useState(false);
+  const {
+    data: defaultSettings,
+    isLoading: defaultLoad,
+    getAvailable: getDefaultSettings,
+  } = useSettings();
+  const { settingsData, isLoading: normalLoad, getSetting } = useSettings();
+  const { changeSetting } = useSettings();
+
+  useEffect(() => {
+    getDefaultSettings();
+  }, [getDefaultSettings]);
+
+  useEffect(() => {
+    getSetting();
+  }, [getSetting]);
+
+  const getValueByTag = useCallback(
+    (tag: string) => {
+      if (defaultSettings || settingsData) {
+        return (
+          settingsData?.[tag] ||
+          defaultSettings.find(
+            (setting: SettingDescription) => setting.tag === tag
+          )?.value ||
+          ""
+        );
+      }
+    },
+    [defaultSettings, settingsData]
+  );
+
+  useEffect(() => {
+    if (!(defaultLoad || normalLoad)) {
+      const value = getValueByTag("prog_notifications");
+      if (value === "on") {
+        setProNoti(true);
+      }
+    }
+  }, [defaultLoad, normalLoad, getValueByTag]);
+
   const handleProNoti = () => {
     setProNoti(!proNoti);
+    changeSetting({
+      tag: "prog_notifications",
+      new_value: !proNoti === true ? "on" : "off",
+    });
   };
   const handleReceiveMsg = () => {
     setReceiveMsg(!receiveMsg);

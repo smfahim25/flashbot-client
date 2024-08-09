@@ -243,7 +243,26 @@ export type Executions = {
   start_mode: string;
   quantity: number;
 };
-
+export type Settings = {
+  data: any[];
+  settingsData: { [key: string]: any };
+  apiData: ApiBody;
+  isLoading: boolean;
+  error: string | null;
+  getAvailable: () => Promise<void>;
+  getSetting: () => Promise<void>;
+  getApiKeys: () => Promise<void>;
+  changeSetting: (requestBody: settingBody) => Promise<void>;
+  editApiKey: (requestBody: ApiBody) => Promise<void>;
+};
+export type settingBody = {
+  tag: string;
+  new_value: string;
+};
+export type ApiBody = {
+  api_key: string;
+  api_secret: string;
+};
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",

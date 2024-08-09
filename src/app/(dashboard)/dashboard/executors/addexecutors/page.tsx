@@ -119,7 +119,6 @@ function Page() {
   useEffect(() => {
     getCustomStregies();
   }, [getCustomStregies]);
-  console.log(availableStrategiesData);
 
   useEffect(() => {
     let newStrategies: any[] = [];
@@ -150,7 +149,6 @@ function Page() {
     }
 
     setAvailableStrategies(newStrategies);
-    console.log("newStrategies", newStrategies);
   }, [availableStrategiesData, customStrategiesData]);
 
   useEffect(() => {
