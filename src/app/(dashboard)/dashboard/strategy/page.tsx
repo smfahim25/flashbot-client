@@ -84,7 +84,7 @@ export default function page() {
             <Breadcrumbs items={breadcrumbItems} />
           </div>
           <div className="">
-            <Link href="/dashboard/addexecutors">
+            <Link href="#">
               <Button className="text-[16px]">
                 <span className="px-2">
                   <FiPlus />

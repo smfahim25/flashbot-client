@@ -13,6 +13,9 @@ axiosClient.interceptors.request.use(
       typeof window !== "undefined" ? sessionStorage.getItem("token") : "";
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      window.location.replace("/auth/login");
+      return Promise.reject(new Error("No token found. Redirecting to login."));
     }
     return config;
   },

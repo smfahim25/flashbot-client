@@ -186,36 +186,78 @@ function Page() {
       toast.error("Accepted values ​​for Consensus must be between 0 and 100");
       return;
     }
-    const strategys = formValues.strategys
-      .map((strategy) => {
-        return {
+
+    let _strategys = [...formValues.strategys];
+
+    let strategys = _strategys.map((strategy) => {
+      if (url === "https://flashbot-staging-bb3v6.ondigitalocean.app/") {
+        if (strategy.name.split(":")[1] !== "undefined") {
+          let newCustomStrategy: cutomeStrategies = {
+            is_custom: true,
+            custom_strategy_id: strategy.name.split(":")[1],
+            name: strategy.name.split(":")[0],
+            parameters: Object.entries(strategy.parameters)
+              .filter(
+                ([key]) => key.split(" + ")[0] === strategy.name.split(":")[0]
+              )
+              .reduce(
+                (acc, [key, value]) => ({
+                  ...acc,
+                  [key.split(" + ")[1]]: value,
+                }),
+                {}
+              ),
+            timeframe: strategy.timeframe,
+          };
+          return newCustomStrategy;
+        } else {
+          let newCustomStrategy: cutomeStrategies = {
+            is_custom: false,
+            custom_strategy_id: null,
+            name: strategy.name.split(":")[0],
+            parameters: Object.entries(strategy.parameters)
+              .filter(
+                ([key]) => key.split(" + ")[0] === strategy.name.split(":")[0]
+              )
+              .reduce(
+                (acc, [key, value]) => ({
+                  ...acc,
+                  [key.split(" + ")[1]]: convertValue(value),
+                }),
+                {}
+              ),
+            timeframe: strategy.timeframe,
+          };
+          return newCustomStrategy;
+        }
+      } else {
+        let newCustomStrategy: strategies = {
           name: strategy.name.split(":")[0],
-          parameters: Object.fromEntries(
-            Object.entries(strategy.parameters).map(([key, value]) => [
-              key.split(" + ")[1],
-              convertValue(value),
-            ])
-          ),
+          parameters: Object.entries(strategy.parameters)
+            .filter(
+              ([key]) => key.split(" + ")[0] === strategy.name.split(":")[0]
+            )
+            .reduce(
+              (acc, [key, value]) => ({
+                ...acc,
+                [key.split(" + ")[1]]: convertValue(value),
+              }),
+              {}
+            ),
           timeframe: strategy.timeframe,
         };
-      })
-      .filter((strategy) => {
-        // Check if the strategy object has all the necessary properties with non-empty values
-        const hasValidName = strategy.name.trim() !== "";
-        const hasValidTimeframe = strategy.timeframe.trim() !== "";
-        const hasValidParameters = Object.values(strategy.parameters).some(
-          (value) => value !== "" && value !== null && value !== undefined
-        );
-
-        return hasValidName && hasValidTimeframe && hasValidParameters;
-      });
-
+        return newCustomStrategy;
+      }
+    });
+    const strategyBlank = strategys.filter((key) => key.name === "");
+    if (strategyBlank) strategys.pop();
     const body = {
       ...formValues,
       strategys,
       stop_loss: -Math.abs(formValues.stop_loss),
       paused: formValues.paused === "paused",
     };
+
     console.log(JSON.stringify(body), "data");
     try {
       const res = await createExecutor(body);
@@ -223,14 +265,14 @@ function Page() {
       hookForm.reset();
       setTimeout(() => {
         router.push("/dashboard/executors");
-      }, 2000);
+      }, 1000);
     } catch (error) {
       toast.error("Failed to add executor");
     }
   };
 
   const handleValidation = (error: any) => {
-    console.error("Please fill all the required fields");
+    toast.error("Please fill all the required fields");
   };
 
   const handleAddStrategy = () => {
@@ -662,30 +704,32 @@ function Page() {
                                 {/* Render fields based on strategy */}
                                 <div className="grid grid-cols-2 gap-5">
                                   {Object.entries(strategy.parameters).map(
-                                    ([paramName, paramValue]) => (
-                                      <div
-                                        key={paramName}
-                                        className="col-span-1 flex flex-col"
-                                      >
-                                        <Label
-                                          htmlFor={paramName}
-                                          className="text-sm"
+                                    ([paramName, paramValue]) => {
+                                      return (
+                                        <div
+                                          key={paramName}
+                                          className="col-span-1 flex flex-col"
                                         >
-                                          {paramName} :{" "}
-                                        </Label>
-                                        <ControlledInput
-                                          placeholder={`Enter ${paramName}`}
-                                          type="text"
-                                          control={hookForm.control}
-                                          containerClass="h-[40px]"
-                                          className="focus-visible:ring-0"
-                                          {...hookForm.register(
-                                            `strategys.${index}.parameters.${paramName}`
-                                          )}
-                                          defaultValue={paramValue}
-                                        />
-                                      </div>
-                                    )
+                                          <Label
+                                            htmlFor={paramName}
+                                            className="text-sm"
+                                          >
+                                            {paramName} :{" "}
+                                          </Label>
+                                          <ControlledInput
+                                            placeholder={`Enter ${paramName}`}
+                                            type="text"
+                                            control={hookForm.control}
+                                            containerClass="h-[40px]"
+                                            className="focus-visible:ring-0"
+                                            {...hookForm.register(
+                                              `strategys.${index}.parameters.${strategy.name} + ${paramName}`
+                                            )}
+                                            defaultValue={paramValue}
+                                          />
+                                        </div>
+                                      );
+                                    }
                                   )}
                                 </div>
                               </div>

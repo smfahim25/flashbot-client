@@ -34,16 +34,15 @@ const manarop = Manrope({
   subsets: ["vietnamese"],
 });
 export default function Page() {
-  const totalUsers = 20;
-  const pageLimit = 10;
-  const page = 1;
-  const pageCount = Math.ceil(totalUsers / pageLimit);
   const { backtestData, isLoading, getBacktest } = useBacktestStore();
   useEffect(() => {
     getBacktest();
   }, [getBacktest]);
-  console.log(backtestData);
 
+  const totalUsers = 20;
+  const pageLimit = 25;
+  const page = 1;
+  const pageCount = Math.ceil(backtestData?.jobs.length / pageLimit);
   return (
     <div>
       <ScrollArea className="h-full">

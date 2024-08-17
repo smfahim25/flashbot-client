@@ -49,7 +49,6 @@ const Page = () => {
     if (res.ok && user?.access_token) {
       login(user.access_token);
       router.push("/dashboard");
-      setLoading(false);
     }
     if (!res.ok) {
       toast({

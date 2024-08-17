@@ -183,6 +183,7 @@ export type backtestType = {
 
 export type dataState = {
   data: any[];
+  total_count: number;
   executors?: any[];
   isLoading: boolean;
   error: string | null;
@@ -199,6 +200,7 @@ export type dataState = {
 };
 export type dataSymbol = {
   data: any[];
+  loaded: boolean;
   executors?: any[];
   isLoading: boolean;
   error: string | null;

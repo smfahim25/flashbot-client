@@ -10,8 +10,9 @@ import { ExecutorTable } from "../../../../components/executors/executors-table"
 import { Lexend, Manrope } from "next/font/google";
 import Link from "next/link";
 import useExecutorStore from "@/app/store/useExecutorStore";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Loader from "@/components/ui/loader";
+import { toast } from "react-toastify";
 interface Executor {
   id: number;
   name: string;
@@ -36,15 +37,91 @@ const manarop = Manrope({
   subsets: ["vietnamese"],
 });
 export default function Page() {
-  const { data: executorData, isLoading, error, getData } = useExecutorStore();
+  const fileInputRef = useRef<any>(null);
+  const {
+    data: executorData,
+    total_count,
+    isLoading,
+    error,
+    getData,
+  } = useExecutorStore();
+  const { createExecutor, isLoading: addExLoader } = useExecutorStore();
+
   useEffect(() => {
     getData();
   }, [getData]);
-  const totalUsers = 20;
-  const pageLimit = 10;
-  const page = 1;
-  const pageCount = Math.ceil(totalUsers / pageLimit);
 
+  const totalUsers = 20;
+  const pageLimit = 50;
+  const page = 0;
+  const pageCount = Math.ceil(total_count / pageLimit);
+
+  const handleImport = () => {
+    fileInputRef.current.click();
+  };
+
+  const reviver = (ke: any, value: any) => {
+    if (typeof value === "object" && value !== null) {
+      const seen = new WeakSet();
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+
+  const readFileContent = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        resolve(event.target.result);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsText(file);
+    });
+  };
+
+  const handleFileChange = async (e: any) => {
+    const file = e.target.files[0];
+
+    const fileContent: any = await readFileContent(file);
+    const jsonData = JSON.parse(fileContent, reviver);
+    try {
+      const obj = {
+        close_mode: jsonData.close_mode,
+        consensus_treshold: jsonData.consensus_treshold,
+        leverage: jsonData.leverage,
+        name: jsonData.name,
+        paused: jsonData.paused,
+        quantity: jsonData.quantity,
+        quantity_mode: jsonData.quantity_mode,
+        start_mode: jsonData.start_mode,
+        stop_loss: jsonData.stop_loss,
+        symbol: jsonData.symbol,
+        take_profit: jsonData.take_profit,
+        strategys: jsonData?.strategys?.map((strategy: any) => {
+          return {
+            name: strategy.name,
+            parameters: strategy.parameters,
+            timeframe: strategy.timeframe,
+            is_custom: strategy.is_custom,
+          };
+        }),
+      };
+      if (obj.name === undefined) {
+        toast.error("Error uploading file, recheck file content");
+      } else {
+        const response = await createExecutor(obj);
+        toast.success("Successfully imported executor");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.error("Error uploading file, recheck file content");
+    }
+  };
   return (
     <ScrollArea className="h-full relative">
       {isLoading && (
@@ -63,11 +140,17 @@ export default function Page() {
             <Breadcrumbs items={breadcrumbItems} />
           </div>
           <div className="">
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
             <Button
               className="mr-4 text-[16px] bg-[#FFE6FC] hover:bg-[#f4c4ef] text-[#FE0FE2]
 dark:bg-[#3D0135]"
+              onClick={handleImport}
             >
-              {" "}
               <span className="px-2">
                 <TfiImport size={18} />
               </span>

@@ -50,7 +50,6 @@ interface CellActionProps {
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [cloneMode, setCloneMode] = useState<string>("");
-  const [viewOpen, setViewOpen] = useState(false);
   const [viewMore, setViewMore] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openExport, setOpenExport] = useState(false);
@@ -375,31 +374,41 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 ? "Strategies Assigned"
                 : "No Strategies Assigned"}
             </h2>
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full p-4 bg-[#F2F2F3] dark:bg-[#252628] rounded-md"
-            >
-              {data?.strategys?.map((strategy: any) => (
-                <AccordionItem value="item-1" key={strategy.id}>
-                  <AccordionTrigger className=" px-4 rounded-lg py-2 bg-[white] dark:text-white dark:bg-[#3E3F42]">
-                    {strategy.name}
-                  </AccordionTrigger>
-                  <AccordionContent className="p-4">
-                    {strategy.parameters &&
-                      Object.entries(strategy.parameters).map(
-                        ([key, value]) => (
-                          <p key={key}>
-                            {key} : {String(value)}
-                          </p>
-                        )
-                      )}
+            {data?.strategys?.length > 0 && (
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full p-4 bg-[#F2F2F3] dark:bg-[#252628] rounded-md"
+              >
+                {data?.strategys?.map((strategy: any) => (
+                  <AccordionItem
+                    value={`item-${strategy.id}-${Math.random()}-${Date.now()}`}
+                    key={`item-${strategy.id}-${
+                      data.id
+                    }-${Math.random()}-${Date.now()}`}
+                    className="mb-5"
+                  >
+                    <AccordionTrigger className=" px-4 rounded-lg py-2 bg-[white] dark:text-white dark:bg-[#3E3F42]">
+                      {strategy.name}
+                    </AccordionTrigger>
+                    <AccordionContent className="p-4">
+                      {strategy.parameters &&
+                        Object.entries(strategy.parameters).map(
+                          ([key, value]) => {
+                            return (
+                              <p key={`${strategy.id}-${key}`}>
+                                {key} : {String(value)}
+                              </p>
+                            );
+                          }
+                        )}
 
-                    <div className=""> {strategy.timeframe}</div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+                      <div className=""> {strategy.timeframe}</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            )}
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>

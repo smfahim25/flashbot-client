@@ -257,7 +257,7 @@ function Page() {
         return newCustomStrategy;
       }
     });
-
+    console.log(strategies);
     if (executorData.strategys.length > 0) {
       if (strategys.length > executorData.strategys.length) {
         strategys.pop();
@@ -284,6 +284,7 @@ function Page() {
       paused: state.paused === "paused",
       last_change: new Date().toISOString(),
     };
+    console.log(bodyData);
     try {
       const res = await createExecutor(bodyData);
       toast.success("Executor cloned successfully");
@@ -579,146 +580,138 @@ function Page() {
             <ScrollArea className="h-[70vh]">
               <div className="w-full dark:bg-darkbg-1 px-8 py-3 rounded-lg mt-2">
                 {/* <Card> */}
-                {arrayFields.fields.map((field, index) => (
-                  <Card key={field.id} className="mb-5 p-5">
-                    {strategies.map((strategy, index) => {
-                      if (strategy && strategy.name) {
-                        const [name, id] = strategy.name.split(":");
-                        return (
-                          <Fragment key={index}>
-                            {name && (
-                              <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
-                                <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
-                                  {name}
-                                </h2>
-                              </div>
-                            )}
-                          </Fragment>
-                        );
-                      }
-                      return null; // return null when strategy or strategy.name is not defined
-                    })}
-                    <div className="flex flex-col mb-5">
-                      <Label htmlFor="" className="text-sm mb-2">
-                        Add Strategy
-                      </Label>
-                      <select
-                        {...hookForm.register(`strategys.${index}.name`)}
-                        className="border-2 py-2 rounded-md text-sm"
-                      >
-                        <option value="">Select Strategy</option>
-                        {availableStrategiesData.map(
-                          (strategy: StrategyDescription) => (
-                            <option key={strategy.name} value={strategy.name}>
-                              {
-                                (strategy.description ||
-                                  strategy.name) as string
-                              }
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
-                    {/* Render fields based on selected strategy */}
-                    {strategies[index]?.name &&
-                      strategies[index]?.name !== "Select Strategy" && (
-                        <>
-                          {updatedStrategies.data.strategies &&
-                            updatedStrategies.data.strategies.map(
-                              (strategy: StrategyDescription) => (
-                                <div
-                                  key={strategy.name}
-                                  style={{
-                                    display:
-                                      strategies[index].name.split(":")[0] ===
-                                      strategy.name
-                                        ? "block"
-                                        : "none",
-                                  }}
-                                >
-                                  {/* Render fields based on strategy */}
-                                  <div className="grid grid-cols-2 gap-5">
-                                    {Object.entries(strategy.parameters).map(
-                                      ([paramName, paramValue]) => (
-                                        <div
-                                          key={paramName}
-                                          className="col-span-1 flex flex-col"
-                                        >
-                                          <Label
-                                            htmlFor={paramName}
-                                            className="text-sm"
-                                          >
-                                            {paramName} :{" "}
-                                          </Label>
-                                          <ControlledInput
-                                            placeholder={`Enter ${paramName}`}
-                                            type="text"
-                                            control={hookForm.control}
-                                            containerClass="h-[40px]"
-                                            className="focus-visible:ring-0"
-                                            {...hookForm.register(
-                                              `strategys.${index}.parameters.${paramName}`
-                                            )}
-                                            defaultValue={paramValue}
-                                          />
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
-                                </div>
-                              )
-                            )}
-                          <div className="flex flex-col mt-5">
-                            <Label htmlFor="" className="dtext-sm">
-                              Timeframe
-                            </Label>
-                            <select
-                              className="border-2 py-2 rounded-md text-sm"
-                              {...hookForm.register(
-                                `strategys.${index}.timeframe`,
-                                { required: true }
-                              )}
-                            >
-                              <option value="" disabled={true}>
-                                Select Timeframe
-                              </option>
-                              {timeFrame.map((timeFrame) => (
-                                <option
-                                  key={timeFrame.id}
-                                  value={timeFrame.value}
-                                >
-                                  {timeFrame.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </>
-                      )}
-
-                    {/* Add/remove strategy fields */}
-                    <div className="flex gap-5 justify-end mt-10 mb-2">
-                      {strategies.length === index + 1 && (
-                        <Button
-                          onClick={handleAddStrategy}
-                          className="w-[125px] bg-[#2DD2CE]"
+                {arrayFields.fields.map((field, index) => {
+                  const name =
+                    strategies[index]?.name?.split(":")[0] ?? "Default";
+                  return (
+                    <Card key={field.id} className="mb-5 p-5">
+                      <div className="bg-[#CDF4F3] dark:bg-[#0B3231] w-[59px] h-[32px] flex justify-center my-4 rounded-sm">
+                        <h2 className="text-[#28B9B5] dark:text-[#28B9B5] text-center pt-1">
+                          {name}
+                        </h2>
+                      </div>
+                      <div className="flex flex-col mb-5">
+                        <Label htmlFor="" className="text-sm mb-2">
+                          Add Strategy
+                        </Label>
+                        <select
+                          {...hookForm.register(`strategys.${index}.name`)}
+                          className="border-2 py-2 rounded-md text-sm"
                         >
-                          Add
+                          <option value="">Select Strategy</option>
+                          {availableStrategiesData.map(
+                            (strategy: StrategyDescription) => (
+                              <option key={strategy.name} value={strategy.name}>
+                                {
+                                  (strategy.description ||
+                                    strategy.name) as string
+                                }
+                              </option>
+                            )
+                          )}
+                        </select>
+                      </div>
+                      {/* Render fields based on selected strategy */}
+                      {strategies[index]?.name &&
+                        strategies[index]?.name !== "Select Strategy" && (
+                          <>
+                            {updatedStrategies.data.strategies &&
+                              updatedStrategies.data.strategies.map(
+                                (strategy: StrategyDescription) => (
+                                  <div
+                                    key={strategy.name}
+                                    style={{
+                                      display:
+                                        strategies[index].name.split(":")[0] ===
+                                        strategy.name
+                                          ? "block"
+                                          : "none",
+                                    }}
+                                  >
+                                    {/* Render fields based on strategy */}
+                                    <div className="grid grid-cols-2 gap-5">
+                                      {Object.entries(strategy.parameters).map(
+                                        ([paramName, paramValue]) => (
+                                          <div
+                                            key={paramName}
+                                            className="col-span-1 flex flex-col"
+                                          >
+                                            <Label
+                                              htmlFor={paramName}
+                                              className="text-sm"
+                                            >
+                                              {paramName} :{" "}
+                                            </Label>
+                                            <ControlledInput
+                                              placeholder={`Enter ${paramName}`}
+                                              type="text"
+                                              control={hookForm.control}
+                                              containerClass="h-[40px]"
+                                              className="focus-visible:ring-0"
+                                              {...hookForm.register(
+                                                `strategys.${index}.parameters.${strategy.name} + ${paramName}`
+                                              )}
+                                              defaultValue={paramValue}
+                                            />
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                )
+                              )}
+                            <div className="flex flex-col mt-5">
+                              <Label htmlFor="" className="dtext-sm">
+                                Timeframe
+                              </Label>
+                              <select
+                                className="border-2 py-2 rounded-md text-sm"
+                                {...hookForm.register(
+                                  `strategys.${index}.timeframe`,
+                                  { required: true }
+                                )}
+                              >
+                                <option value="" disabled={true}>
+                                  Select Timeframe
+                                </option>
+                                {timeFrame.map((timeFrame) => (
+                                  <option
+                                    key={timeFrame.id}
+                                    value={timeFrame.value}
+                                  >
+                                    {timeFrame.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </>
+                        )}
+
+                      {/* Add/remove strategy fields */}
+                      <div className="flex gap-5 justify-end mt-10 mb-2">
+                        {strategies.length === index + 1 && (
+                          <Button
+                            onClick={handleAddStrategy}
+                            className="w-[125px] bg-[#2DD2CE]"
+                          >
+                            Add
+                          </Button>
+                        )}
+                        <Button
+                          type="button"
+                          onClick={() =>
+                            arrayFields.fields.length > 1 &&
+                            arrayFields.remove(index)
+                          }
+                          variant={"ghost"}
+                          className="border-2 px-12 w-[125px] bg-white dark:bg-[#252628]"
+                        >
+                          Remove
                         </Button>
-                      )}
-                      <Button
-                        type="button"
-                        onClick={() =>
-                          arrayFields.fields.length > 1 &&
-                          arrayFields.remove(index)
-                        }
-                        variant={"ghost"}
-                        className="border-2 px-12 w-[125px] bg-white dark:bg-[#252628]"
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  </Card>
-                ))}
+                      </div>
+                    </Card>
+                  );
+                })}
               </div>
             </ScrollArea>
           </div>

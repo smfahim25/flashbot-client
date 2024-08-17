@@ -5,13 +5,18 @@ import { create } from "zustand";
 
 const useExecutorStore = create<dataState>((set, get) => ({
   data: [],
+  total_count: 0,
   isLoading: false,
   error: null,
   getData: async () => {
     set({ isLoading: true, error: null });
     try {
       const response = await axiosClient.get("/user/executers");
-      set({ data: response.data?.executors, isLoading: false });
+      set({
+        data: response.data?.executors,
+        total_count: response.data?.executors_count,
+        isLoading: false,
+      });
     } catch (error) {
       set({
         error: (error as any).detail || "Unknown error",
@@ -61,7 +66,7 @@ const useExecutorStore = create<dataState>((set, get) => ({
       set({ isLoading: false });
     } catch (error) {
       set({
-        error: (error as any).detail || "Unknown error",
+        error: (error as any).response.status || "Unknown error",
         isLoading: false,
       });
     }

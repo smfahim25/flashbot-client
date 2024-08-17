@@ -39,7 +39,7 @@ export const columns: ColumnDef<UserJob>[] = [
   {
     id: "rowNumber",
     header: "No",
-    cell: ({ row }) => <div className="w-10">{row.index + 1}</div>,
+    cell: ({ row }) => <div>{row.index + 1}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -47,9 +47,7 @@ export const columns: ColumnDef<UserJob>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => (
-      <div className="w-40">
-        {row?.original.metadata?.backtest_metadata.executor_copy.name}
-      </div>
+      <div>{row?.original.metadata?.backtest_metadata.executor_copy.name}</div>
     ),
   },
   {
@@ -65,7 +63,7 @@ export const columns: ColumnDef<UserJob>[] = [
     accessorKey: "quantity",
     header: "Size",
     cell: ({ row }) => (
-      <div className="capitalize w-16">
+      <div className="capitalize">
         {row?.original?.metadata?.backtest_metadata?.executor_copy?.quantity}
       </div>
     ),
@@ -74,7 +72,7 @@ export const columns: ColumnDef<UserJob>[] = [
     accessorKey: "SLTP",
     header: "TP/SL",
     cell: ({ row }) => (
-      <div className="w-20">
+      <div>
         {row?.original.metadata?.backtest_metadata.executor_copy.take_profit}:{" "}
         {row?.original.metadata?.backtest_metadata.executor_copy.stop_loss}
       </div>
@@ -93,7 +91,7 @@ export const columns: ColumnDef<UserJob>[] = [
     accessorKey: "strategyName",
     header: "Strategy Name",
     cell: ({ row }) => (
-      <div className="capitalize w-28">
+      <div className="capitalize">
         {
           row?.original.metadata?.backtest_metadata?.executor_copy?.strategys[0]
             ?.name
@@ -105,7 +103,7 @@ export const columns: ColumnDef<UserJob>[] = [
     accessorKey: "created_date",
     header: "Created Date",
     cell: ({ row }) => (
-      <div className="capitalize w-20">
+      <div className="capitalize">
         {new Date(row?.original?.created_date).toLocaleDateString()}
       </div>
     ),
@@ -114,7 +112,7 @@ export const columns: ColumnDef<UserJob>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <div className="capitalize w-20">{row?.original?.progress?.status}</div>
+      <div className="capitalize">{row?.original?.progress?.status}</div>
     ),
   },
   {

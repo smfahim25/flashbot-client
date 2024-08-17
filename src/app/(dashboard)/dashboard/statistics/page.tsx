@@ -24,29 +24,8 @@ const lexend = Lexend({
   weight: "600",
   subsets: ["vietnamese"],
 });
-const jakarta = Plus_Jakarta_Sans({
-  weight: "600",
-  subsets: ["vietnamese"],
-});
 
 export default function Page() {
-  const router = useRouter();
-  useEffect(() => {
-    const checkToken = () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // Redirect to login if token doesn't exist
-        router.push("/auth/login");
-      }
-    };
-    // Set an interval to check the token every 5 seconds
-    const intervalId = setInterval(checkToken, 2000);
-
-    checkToken();
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [router]);
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">

@@ -191,9 +191,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
               {data?.metadata?.backtest_metadata?.executor_copy?.strategys?.map(
                 (strategy: any) => (
                   <AccordionItem
-                    value="item-1"
-                    key={strategy.id}
-                    className="mb-10"
+                    value={`item-${strategy.id}-${Math.random()}-${Date.now()}`}
+                    key={`item-${strategy.id}-${
+                      data.id
+                    }-${Math.random()}-${Date.now()}`}
+                    className="mb-5"
                   >
                     <AccordionTrigger className=" px-4 rounded-lg py-2 bg-[white] dark:text-white dark:bg-[#3E3F42]">
                       {strategy.name}

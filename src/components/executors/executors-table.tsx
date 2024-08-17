@@ -66,7 +66,7 @@ export function ExecutorTable<Executor, TValue>({
   columns,
   data,
   pageCount,
-  pageSizeOptions = [10, 20, 30, 40, 50],
+  pageSizeOptions = [25, 30, 40, 50],
 }: DataTableProps<Executor, TValue>) {
   const [show, setShow] = useState(false);
   const btnRef = useRef<HTMLDivElement | null>(null);
@@ -74,11 +74,17 @@ export function ExecutorTable<Executor, TValue>({
   const table = useReactTable({
     data,
     columns,
-    pageCount: pageCount ?? -1,
+    pageCount: pageCount,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: true,
+    initialState: {
+      pagination: {
+        pageIndex: 0, //custom initial page index
+        pageSize: 50, //custom default page size
+      },
+    },
+    // manualPagination: true,
     manualFiltering: true,
     getSortedRowModel: getSortedRowModel(),
   });
@@ -241,8 +247,7 @@ export function ExecutorTable<Executor, TValue>({
       <div className="flex flex-col items-center justify-end gap-2 space-x-2 py-4 sm:flex-row">
         <div className="flex w-full items-center justify-between">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            Total {table.getFilteredRowModel().rows.length} row(s).
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
@@ -273,7 +278,7 @@ export function ExecutorTable<Executor, TValue>({
         </div>
         <div className="flex w-full items-center justify-between gap-2 sm:justify-end">
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            Page {table.getState().pagination.pageIndex} of{" "}
             {table.getPageCount()}
           </div>
           <div className="flex items-center space-x-2">
