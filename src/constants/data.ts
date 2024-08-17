@@ -206,6 +206,13 @@ export type dataSymbol = {
   error: string | null;
   getData: () => Promise<void>;
 };
+export type strategiesAvail = {
+  data: any[];
+  executors?: any[];
+  isLoading: boolean;
+  error: string | null;
+  getData: () => Promise<void>;
+};
 interface Metadata {
   backtest_metadata: {
     executor_copy: {
