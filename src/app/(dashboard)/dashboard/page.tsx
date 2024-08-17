@@ -208,7 +208,7 @@ export default function Page() {
               Bitcoin <span className="text-muted-foreground">BTC</span>
             </p>
           </div>
-          <div className="flex items-center gap-3 bg-[#FFFFFF] border-2 px-5 py-2 rounded-md">
+          <div className="flex items-center gap-3 bg-[#FFFFFF] dark:bg-black border-2 px-5 py-2 rounded-md">
             <LuSettings2 />
             <span>Filter</span>
           </div>
